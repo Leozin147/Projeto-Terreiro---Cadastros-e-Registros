@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sistema de Cadastro e Trabalhos</title>
+  <link rel="stylesheet" href="styles/main.css" />
+</head>
+<body>
+  <!-- menu de abas -->
+  <div id="menu_opt"></div>
+
+  <!-- aba Cadastro -->
+  <section id="cadastro-section">
+    <div class="card">
+      <h2>Cadastro</h2>
+      <input type="text" id="cadastro-nome" placeholder="Nome" />
+      <input type="text" id="cadastro-telefone" placeholder="Telefone" />
+      <button id="btn-cadastrar">Cadastrar</button>
+      <!-- container para exibir mensagens de erro/sucesso -->
+      <div id="cadastro-message" class="message"></div>
+    </div>
+  </section>
+
+  <!-- aba Trabalhos -->
+  <section id="trabalhos-section">
+    <div class="card">
+      <h2>Trabalhos</h2>
+      <input type="text" id="trabalhos-nome" placeholder="Nome" />
+      <input type="text" id="trabalhos-telefone" placeholder="Telefone" />
+
+      <div class="dropdown" id="dropdown-trabalhos">
+        <button type="button" class="dropbtn" id="dropbtn-trabalhos">
+          Selecione Trabalhos 
+        </button>
+        <div class="dropdown-content">
+          <label><input type="checkbox" value="Descarrego Dandalunda" /> Descarrego Dandalunda</label>
+          <label><input type="checkbox" value="Descarrego" /> Descarrego</label>
+          <label><input type="checkbox" value="Cura" /> Cura</label>
+          <label><input type="checkbox" value="Sacudimento" /> Sacudimento</label>
+          <label><input type="checkbox" value="Limpeza de flor de omolu" /> Limpeza de flor de omolu</label>
+          <label><input type="checkbox" value="Ebó" /> Ebó</label>
+        </div>
+      </div>
+
+      <button id="btn-registrar">Registrar Trabalho</button>
+    </div>
+    <div id="trabalhos-message"></div>
+  </section>
+
+  <!-- script de menu -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuContainer = document.getElementById('menu_opt');
+      const tabs = [
+        { label: 'Cadastro', sectionId: 'cadastro-section' },
+        { label: 'Trabalhos', sectionId: 'trabalhos-section' }
+      ];
+
+      tabs.forEach(tab => {
+        const btn = document.createElement('button');
+        btn.textContent = tab.label;
+        btn.addEventListener('click', () => {
+          menuContainer.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          document.querySelectorAll('body > section').forEach(sec => sec.style.display = 'none');
+          document.getElementById(tab.sectionId).style.display = 'block';
+        });
+        menuContainer.appendChild(btn);
+      });
+
+      menuContainer.style.visibility = 'visible';
+      menuContainer.querySelector('button').click();
+    });
+  </script>
+
+  <!-- seus JS separados -->
+  <script src="cadastro/cadastro.js"></script>
+  <script src="trabalhos/registro.js"></script>
+</body>
+</html>

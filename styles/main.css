@@ -1,0 +1,230 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.5;
+    padding: 20px;
+  }
+  
+  #menu_opt {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 30px 0;
+    visibility: hidden;
+  }
+  
+  #menu_opt button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    color: #555;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.3s ease;
+  }
+  
+  #menu_opt button:hover {
+    color: #000;
+  }
+  
+  #menu_opt button.active {
+    font-weight: bold;
+    color: #000;
+  }
+  
+  #menu_opt button.active::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 20%;
+    right: 20%;
+    height: 3px;
+    background-color: #000;
+    border-radius: 2px;
+  }
+  
+  body > section {
+    display: none;
+  }
+  
+  .card {
+    max-width: 500px;
+    margin: 0 auto 40px;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 50px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  }
+  
+  .card h2 {
+    font-size: 22px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+  }
+  
+  .card input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    border: 1px solid #ccd0d5;
+    border-radius: 6px;
+    outline: none;
+    transition: border-color 0.2s ease;
+  }
+  
+  .card input[type="text"]:focus {
+    border-color: #007bff;
+  }
+  
+  /* botoões principais */
+  .card button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .card button:hover {
+    background-color: #008000;
+  }
+  
+  /* Checklist */
+  .dropdown {
+    position: relative;
+    margin-bottom: 16px;
+    width: 100%;
+  }
+  
+  .dropbtn {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    text-align: left;
+    border: 1px solid #ccd0d5;
+    border-radius: 6px;
+    background-color: #fff;
+    cursor: pointer;
+    display: inline-block;
+  }
+  
+  .dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    width: 100%;
+    max-height: 180px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccd0d5;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+    padding: 8px 0;
+  }
+  
+  .dropdown.open .dropdown-content {
+    display: block;
+  }
+  
+  .dropdown-content label {
+    display: block;
+    padding: 8px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  
+  .dropdown-content label input[type="checkbox"] {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+  
+  .dropdown-content label:hover {
+    background-color: #f0f2f5;
+  }
+  
+/* container de mensagem de cadastro*/
+.message {
+    margin-top: 30px;
+    font-size: 0.95rem;
+    text-align: center;
+    min-height: 1.2em;
+    transition: opacity 0.3s;
+    opacity: 1;
+  }
+  
+  .message.success {
+    color: #2e7d32;
+    font-weight: bold;
+  }
+  
+  .message.error {
+    color: #c62828;
+    font-weight: bold;
+  }
+  
+  .message.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+/* container de mensagem para “trabalhos” */
+.message-trabalhos {
+    margin-top: -75px;
+    font-size: 0.95rem;
+    text-align: center;
+    min-height: 1.2em;                  
+    transition: opacity 0.3s, visibility 0.3s;
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .message-trabalhos.success {
+    color: #2e7d32;
+    font-weight: bold;
+  }
+  
+  .message-trabalhos.error {
+    color: #c62828;
+    font-weight: bold;
+  }
+  
+  .message-trabalhos.hide {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+.dropbtn {
+    position: relative;
+    padding-right: 2.5em;
+  }
+  
+  .dropbtn::after {
+    content: "▼";             
+    position: absolute;
+    right: 1em;               
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;     
+    font-size: 0.9em;        
+    color: #fff;              
+  }
+  
+  .dropbtn:hover {
+    background-color: #000 !important;
+  }
