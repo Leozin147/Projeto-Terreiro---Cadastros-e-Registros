@@ -339,3 +339,83 @@ header .site-title {
   display: block;
   margin: 0 auto 30px;
 }
+
+#relatorio-section > #relatorio-tabela-container {
+  max-width: none;        /* permite largura 100% */
+  width: 100%;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  overflow-x: auto;       /* rolagem horizontal se necessário */
+  display: none;
+}
+
+/* Estilização básica da tabela */
+#relatorio-tabela-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+
+}
+
+#relatorio-tabela-container th,
+#relatorio-tabela-container td {
+  padding: 8px 12px;
+  border: 1px solid #000;
+  text-align: center;
+  font-weight: bold;
+  
+}
+
+#relatorio-tabela-container thead {
+  background-color: #fff;
+}
+
+/*Filtros relatório*/
+
+.filtros-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 100%;
+  margin: 0 auto 16px;
+}
+
+.filtros-container > div {
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+}
+
+.filtros-container label {
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.filtros-container select {
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccd0d5;
+  font-size: 0.9rem;
+}
+.btn-aplicar-filtros{
+  display:none;
+  margin-top: 10px;
+
+}
+
+.btn-aplicar-filtros:hover{
+  background-color: #000 !important;
+}
+
+.btn-limpar-filtros{
+  display:none;
+  margin-top: 10px;
+
+}
+
+.btn-limpar-filtros:hover{
+  background-color: #000 !important;
+}

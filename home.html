@@ -44,7 +44,6 @@
           <label for="trabalhos-telefone">Telefone*</label>
         </div>
         
-        <!-- Coloque o dropdown fora dos input-container -->
         <div class="dropdown" id="dropdown-trabalhos">
           <button type="button" class="dropbtn" id="dropbtn-trabalhos">
             Selecione Trabalhos
@@ -64,17 +63,22 @@
       <div id="trabalhos-message"></div>
     </section>
 
+    <!--Seção de Relatório de Trabalhos-->
     <section id="relatorio-section">
       <div class="card">
         <h2>Relatório de Trabalhos</h2>
         <div class="data-container">
           <label for="relatorio-data">Data da Consulta</label>
-          <input type="date" id="relatorio-data" />
+          <input type="date" id="relatorio-data" min="1900-01-01" max="9999-12-31" />
         </div>
         <button id="btn-buscar-relatorio">Buscar</button>
-        <div id="relatorio-tabela-container"></div>
         <div id="relatorio-message" class="message"></div>
+        <div id="relatorio-filtros" class="filtros-container"></div>
+        <button id="btn-aplicar-filtros" class = "btn-aplicar-filtros">Filtrar</button>
+          <button id="btn-limpar-filtro" class = "btn-limpar-filtros";>Restaurar</button>
+    
       </div>
+      <div id="relatorio-tabela-container"></div>
     </section>
 
     <!-- script de menu -->
