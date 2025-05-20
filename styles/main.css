@@ -24,7 +24,7 @@ body {
   background: none;
   border: none;
   padding: 10px 20px;
-  font-size: 16px;
+  font-size: 20px;
   color: #555;
   cursor: pointer;
   position: relative;
@@ -66,10 +66,11 @@ body > section {
 }
 
 .card h2 {
-  font-size: 22px;
+  font-size: 30px;
   margin-bottom: 20px;
   text-align: center;
-  color: #333;
+  color: #000;
+  font-weight: bold;
 }
 
 .card input[type="text"] {
@@ -251,21 +252,21 @@ header .site-title {
   visibility: visible; 
   padding-bottom: 15px; 
   margin-bottom: 50px; 
-  border-top: 1px solid #333; 
-  margin-top: 50px;
+  margin-top: 80px;
 }
 .site-title{
   text-align: center;
   font-weight: bold;
   color: #000;
-  margin-top: -90px;
+  margin-top: -105px;
   text-shadow: 0.5px 0.5px 0.5px #000;
+  margin-left: 50px;
 }
-.logo{           
-    display: block;       
-    max-height: 140px;
-    margin-left: 20px;
-    margin-top: 10px;     
+.logo{             
+    max-height: 200px;
+    margin-left: 450px;
+    margin-top: 50px;  
+    width: 10%;   
 }
 
 .input-container-title {
@@ -305,4 +306,36 @@ header .site-title {
   top: 0px;
   font-size: 12px;
   color: #007bff;
+}
+
+#relatorio-section .card > div.data-container {
+  max-width: 300px;
+  margin: 0 auto 20px;
+  text-align: left;
+}
+
+#relatorio-section label[for="relatorio-data"] {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: block;
+}
+
+#relatorio-data {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccd0d5;
+  box-sizing: border-box;
+}
+
+#btn-buscar-relatorio {
+  max-width: 300px;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  display: block;
+  margin: 0 auto 30px;
 }

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    <img src="https://i.ibb.co/mr9zPJwg/logo740x740.jpg" alt="Logo" class="logo" />
+    <img src="https://i.ibb.co/fGrgrb7r/ancora-baba-fe.jpg" alt="Logo" class="logo" />
     <h1 class="site-title">Cadastro de Consulentes e Trabalhos</h1>
 
     <!-- menu de abas -->
@@ -64,13 +64,27 @@
       <div id="trabalhos-message"></div>
     </section>
 
+    <section id="relatorio-section">
+      <div class="card">
+        <h2>Relatório de Trabalhos</h2>
+        <div class="data-container">
+          <label for="relatorio-data">Data da Consulta</label>
+          <input type="date" id="relatorio-data" />
+        </div>
+        <button id="btn-buscar-relatorio">Buscar</button>
+        <div id="relatorio-tabela-container"></div>
+        <div id="relatorio-message" class="message"></div>
+      </div>
+    </section>
+
     <!-- script de menu -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const menuContainer = document.getElementById("menu_opt");
         const tabs = [
           { label: "Cadastro", sectionId: "cadastro-section" },
-          { label: "Trabalhos", sectionId: "trabalhos-section" },
+          { label: "Registro Trabalhos", sectionId: "trabalhos-section" },
+          { label: "Relatório Trabalhos", sectionId: "relatorio-section" },
         ];
 
         tabs.forEach((tab) => {
@@ -97,5 +111,6 @@
     <!-- seus JS separados -->
     <script src="cadastro/cadastro.js"></script>
     <script src="trabalhos/registro.js"></script>
+    <script src="trabalhos/consulta.js"></script>
   </body>
 </html>
