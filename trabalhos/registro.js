@@ -33,15 +33,38 @@ document.addEventListener('DOMContentLoaded', function() {
     this.value = formatted;
   });
 
+  // toggle dropdown open/close
   dropbtn.addEventListener('click', e => {
     e.stopPropagation();
     dropdown.classList.toggle('open');
-  });
-  dropdownContent.addEventListener('click', e => e.stopPropagation());
-  document.addEventListener('click', e => {
-    if (!dropdown.contains(e.target)) dropdown.classList.remove('open');
+    const expanded = dropdown.classList.contains('open');
+    dropbtn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+    if (expanded) {
+      dropdownContent.focus();
+    }
   });
 
+  // evitar fechar dropdown ao clicar dentro do conteúdo
+  dropdownContent.addEventListener('click', e => e.stopPropagation());
+
+  // fechar dropdown clicando fora
+  document.addEventListener('click', e => {
+    if (!dropdown.contains(e.target)) {
+      dropdown.classList.remove('open');
+      dropbtn.setAttribute('aria-expanded', 'false');
+    }
+  });
+
+  // fechar dropdown com ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && dropdown.classList.contains('open')) {
+      dropdown.classList.remove('open');
+      dropbtn.setAttribute('aria-expanded', 'false');
+      dropbtn.focus();
+    }
+  });
+
+  // submit do formulário
   btnRegistrar.addEventListener('click', function() {
     const nome         = nomeInput.value.trim();
     const telefoneRaw  = phoneInput.value.replace(/\D/g, '');
@@ -80,6 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
           .querySelectorAll('input[type="checkbox"]')
           .forEach(cb => cb.checked = false);
         dropdown.classList.remove('open');
+        dropbtn.setAttribute('aria-expanded', 'false');
       } else {
         showMessage('Falha ao enviar o registro de trabalho.', 'error');
       }

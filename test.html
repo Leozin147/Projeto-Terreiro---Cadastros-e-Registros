@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Dropdown Checklist Teste</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+  }
+  .dropdown {
+    position: relative;
+    width: 300px;
+    margin-bottom: 20px;
+  }
+  .dropbtn {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 15px;
+    text-align: left;
+    border: 1px solid #ccd0d5;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    cursor: pointer;
+    position: relative;
+    padding-right: 2.5em;
+  }
+  .dropbtn::after {
+    content: "▼";
+    position: absolute;
+    right: 1em;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 0.9em;
+    color: #666;
+  }
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccd0d5;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    padding: 8px 0;
+    box-sizing: border-box;
+    z-index: 1000;
+  }
+  .dropdown.open .dropdown-content {
+    display: block;
+  }
+  .dropdown-content label {
+    display: block;
+    padding: 8px 16px;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #333;
+  }
+  .dropdown-content label:hover {
+    background-color: #f0f2f5;
+  }
+  .dropdown-content input[type="checkbox"] {
+    margin-right: 8px;
+    vertical-align: middle;
+  }
+</style>
+</head>
+<body>
+
+<div class="dropdown" id="dropdown-trabalhos">
+  <button type="button" class="dropbtn" id="dropbtn-trabalhos" aria-haspopup="true" aria-expanded="false">
+    Selecione Trabalhos
+  </button>
+  <div class="dropdown-content" role="menu">
+    <label><input type="checkbox" value="Descarrego Dandalunda"> Descarrego Dandalunda</label>
+    <label><input type="checkbox" value="Descarrego"> Descarrego</label>
+    <label><input type="checkbox" value="Cura"> Cura</label>
+    <label><input type="checkbox" value="Sacudimento"> Sacudimento</label>
+    <label><input type="checkbox" value="Limpeza de flor de omolu"> Limpeza de flor de omolu</label>
+    <label><input type="checkbox" value="Ebó"> Ebó</label>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const dropdown = document.getElementById('dropdown-trabalhos');
+    const dropbtn = document.getElementById('dropbtn-trabalhos');
+
+    dropbtn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdown.classList.toggle('open');
+      const expanded = dropdown.classList.contains('open');
+      dropbtn.setAttribute('aria-expanded', expanded);
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!dropdown.contains(e.target)) {
+        dropdown.classList.remove('open');
+        dropbtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  });
+</script>
+
+</body>
+</html>

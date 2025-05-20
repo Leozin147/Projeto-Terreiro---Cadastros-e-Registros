@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    <img src="logo.png" alt="Logo" class="logo" />
+    <img src="https://i.ibb.co/mr9zPJwg/logo740x740.jpg" alt="Logo" class="logo" />
     <h1 class="site-title">Cadastro de Consulentes e Trabalhos</h1>
 
     <!-- menu de abas -->
@@ -17,8 +17,14 @@
     <section id="cadastro-section">
       <div class="card">
         <h2>Cadastro</h2>
-        <input type="text" id="cadastro-nome" placeholder="Nome" />
-        <input type="text" id="cadastro-telefone" placeholder="Telefone" />
+        <div class="input-container-title">
+          <input type="text" id="cadastro-nome" placeholder=" " required />
+          <label for="cadastro-nome">Nome*</label>
+        </div>
+        <div class="input-container-title">
+          <input type="text" id="cadastro-telefone" placeholder=" " required />
+          <label for="cadastro-telefone">Telefone*</label>
+        </div>
         <button id="btn-cadastrar">Cadastrar</button>
         <!-- container para exibir mensagens de erro/sucesso -->
         <div id="cadastro-message" class="message"></div>
@@ -29,29 +35,26 @@
     <section id="trabalhos-section">
       <div class="card">
         <h2>Trabalhos</h2>
-        <input type="text" id="trabalhos-nome" placeholder="Nome" />
-        <input type="text" id="trabalhos-telefone" placeholder="Telefone" />
-
+        <div class="input-container-title">
+          <input type="text" id="trabalhos-nome" placeholder=" " required />
+          <label for="trabalhos-nome">Nome*</label>
+        </div>
+        <div class="input-container-title">
+          <input type="text" id="trabalhos-telefone" placeholder=" " required />
+          <label for="trabalhos-telefone">Telefone*</label>
+        </div>
+        
+        <!-- Coloque o dropdown fora dos input-container -->
         <div class="dropdown" id="dropdown-trabalhos">
           <button type="button" class="dropbtn" id="dropbtn-trabalhos">
             Selecione Trabalhos
           </button>
           <div class="dropdown-content">
-            <label
-              ><input type="checkbox" value="Descarrego Dandalunda" />
-              Descarrego Dandalunda</label
-            >
-            <label
-              ><input type="checkbox" value="Descarrego" /> Descarrego</label
-            >
+            <label><input type="checkbox" value="Descarrego Dandalunda" /> Descarrego Dandalunda</label>
+            <label><input type="checkbox" value="Descarrego" /> Descarrego</label>
             <label><input type="checkbox" value="Cura" /> Cura</label>
-            <label
-              ><input type="checkbox" value="Sacudimento" /> Sacudimento</label
-            >
-            <label
-              ><input type="checkbox" value="Limpeza de flor de omolu" />
-              Limpeza de flor de omolu</label
-            >
+            <label><input type="checkbox" value="Sacudimento" /> Sacudimento</label>
+            <label><input type="checkbox" value="Limpeza de flor de omolu" /> Limpeza de flor de omolu</label>
             <label><input type="checkbox" value="Ebó" /> Ebó</label>
           </div>
         </div>
