@@ -1,0 +1,837 @@
+{
+  "name": "teste (api)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e2bc5e4b-0ac6-4b8d-962b-67a872301a93",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        0
+      ],
+      "id": "4b8e83bc-6ddc-4682-98fb-8159a2173ad0",
+      "name": "Webhook",
+      "webhookId": "e2bc5e4b-0ac6-4b8d-962b-67a872301a93"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY",
+          "mode": "list",
+          "cachedResultName": "Teste para automação",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 49325889,
+          "mode": "list",
+          "cachedResultName": "Página29",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY/edit#gid=49325889"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "data",
+              "lookupValue": "={{ $json.body.data.toDateTime().format('dd/MM/yyyy') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        220,
+        0
+      ],
+      "id": "8724f169-a061-4930-a816-2e9f4c3c48fb",
+      "name": "Google Sheets",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6icHxmsMJIy7rt01",
+          "name": "Leonardo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        660,
+        0
+      ],
+      "id": "d20046fd-f558-4562-9f91-8022f9919dd9",
+      "name": "Respond to Webhook"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9f0169c9-9e28-495a-a27e-ce01bbff4167",
+              "name": "Data",
+              "value": "={{ $json.data }}",
+              "type": "string"
+            },
+            {
+              "id": "c253d2ae-8e6b-4ebc-bd2e-1aaf809f51e4",
+              "name": "Consulente",
+              "value": "={{ $json.consulente }}",
+              "type": "string"
+            },
+            {
+              "id": "d3963783-e86a-483b-8ef9-b065bd2204f7",
+              "name": "Telefone",
+              "value": "={{ $json.telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "21b6a791-4bdd-4e92-8b8e-2de527e76972",
+              "name": "Descarrego",
+              "value": "={{ $json.descarrego }}",
+              "type": "string"
+            },
+            {
+              "id": "bf6e2186-d727-444f-bbfa-93e71afbba8b",
+              "name": "Cura",
+              "value": "={{ $json.cura }}",
+              "type": "string"
+            },
+            {
+              "id": "a0587c35-b9eb-408b-a1cb-25116b5c69c2",
+              "name": "Sacudimento",
+              "value": "={{ $json.sacudimento }}",
+              "type": "string"
+            },
+            {
+              "id": "13867638-66cb-4660-9744-9880c83d99f0",
+              "name": "Ebó",
+              "value": "={{ $json['ebó'] }}",
+              "type": "string"
+            },
+            {
+              "id": "15599eea-50d6-4519-9b2d-c3c35ef9084a",
+              "name": "Limpeza de Flor de Omolu",
+              "value": "={{ $json['limpeza de flor de omolu'] }}",
+              "type": "string"
+            },
+            {
+              "id": "371f070e-3019-4e6a-8032-a973c3e8b145",
+              "name": "Saída de Fogo",
+              "value": "={{ $json['saída de fogo'] }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        440,
+        0
+      ],
+      "id": "f70561f7-14c4-478f-802b-11360b46327d",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "content": "Relatório de Trabalhos\n",
+        "height": 300,
+        "width": 1020
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        -100
+      ],
+      "id": "38623728-df1e-4e9b-b62d-8cb681447584",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Cadastro \n",
+        "height": 400,
+        "width": 1320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        240
+      ],
+      "id": "95e978f1-a4bb-42f1-979f-61a136fbc908",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "7ad39782-6b2d-44d1-86b7-01fe6ec6fd18",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -120,
+        360
+      ],
+      "id": "d208d96a-2672-4e20-b8ac-f2ce2982ea86",
+      "name": "Webhook1",
+      "webhookId": "7ad39782-6b2d-44d1-86b7-01fe6ec6fd18"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY",
+          "mode": "list",
+          "cachedResultName": "Teste para automação",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 448345391,
+          "mode": "list",
+          "cachedResultName": "cadastro",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY/edit#gid=448345391"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "nome",
+              "lookupValue": "={{ $json.body.nome }}"
+            },
+            {
+              "lookupColumn": "telefone",
+              "lookupValue": "={{ $json.body.telefone }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        100,
+        360
+      ],
+      "id": "4d1dd2dc-6267-49ee-b32a-e3606b556c5e",
+      "name": "Google Sheets1",
+      "alwaysOutputData": true,
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6icHxmsMJIy7rt01",
+          "name": "Leonardo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d8c3e57d-2a82-4f17-ac80-d307de965b26",
+              "name": "status",
+              "value": "cadastrado",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        640,
+        280
+      ],
+      "id": "39879a4b-c68a-43f6-b5f6-34fbbb3acb7d",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        960,
+        360
+      ],
+      "id": "12944d05-4051-4208-85c6-b86bc9f76d09",
+      "name": "Respond to Webhook1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ae7c9539-bb14-4138-8d73-35844ccc21c9",
+              "leftValue": "={{ $json.nome }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        320,
+        360
+      ],
+      "id": "35d16275-ba81-4fbe-a47b-3a9516677fd3",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY",
+          "mode": "list",
+          "cachedResultName": "Teste para automação",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 448345391,
+          "mode": "list",
+          "cachedResultName": "cadastro",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY/edit#gid=448345391"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "nome": "={{ $('Webhook1').item.json.body.nome }}",
+            "telefone": "={{ $('Webhook1').item.json.body.telefone }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "nome",
+              "displayName": "nome",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        540,
+        460
+      ],
+      "id": "1a391f7a-6d3f-4b2e-b2b2-c77293cfdc1c",
+      "name": "Google Sheets2",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6icHxmsMJIy7rt01",
+          "name": "Leonardo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5e867179-b4d0-4cc2-809a-42b0bc3ac352",
+              "name": "status",
+              "value": "realizado",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        460
+      ],
+      "id": "52bbe905-5c4e-4114-b653-d1add75c410e",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "content": "Registrar Trabalhos",
+        "height": 280,
+        "width": 1420
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -160,
+        680
+      ],
+      "id": "17c7a053-0fe4-42fb-b8ad-e4ad0fb1b45f",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "e61c7123-fb6c-4176-9d63-b32545a956fd",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -100,
+        760
+      ],
+      "id": "b2bdad49-d82e-4d9f-884f-76993c5cf24b",
+      "name": "Webhook2",
+      "webhookId": "e61c7123-fb6c-4176-9d63-b32545a956fd"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY",
+          "mode": "list",
+          "cachedResultName": "Teste para automação",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 49325889,
+          "mode": "list",
+          "cachedResultName": "Página29",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1kjDkwmkvzna6c9DaiJwS8CdWO5LafD4xmwilWDD38pY/edit#gid=49325889"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "data": "={{ $json['Data da Consulta'] }}",
+            "consulente": "={{ $json.Consulente }}",
+            "telefone": "={{ $json.Telefone }}",
+            "descarrego": "={{ $json.Descarrego }}",
+            "cura": "={{ $json.Cura }}",
+            "sacudimento": "={{ $json.Sacudimento }}",
+            "ebó": "={{ $json['Ebó'] }}",
+            "saída de fogo": "={{ $json['Saída de Fogo'] }}",
+            "limpeza de flor de omolu": "={{ $json['Limpeza de Flor de Omolu'] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "data",
+              "displayName": "data",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "consulente",
+              "displayName": "consulente",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "telefone",
+              "displayName": "telefone",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "descarrego",
+              "displayName": "descarrego",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "sacudimento",
+              "displayName": "sacudimento",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cura",
+              "displayName": "cura",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "saída de fogo",
+              "displayName": "saída de fogo",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "limpeza de flor de omolu",
+              "displayName": "limpeza de flor de omolu",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "ebó",
+              "displayName": "ebó",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        800,
+        760
+      ],
+      "id": "4121bd9a-3434-436c-8673-fb11471541ec",
+      "name": "Google Sheets3",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "6icHxmsMJIy7rt01",
+          "name": "Leonardo"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "body.trabalhos",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        120,
+        760
+      ],
+      "id": "1538b70a-a07e-4479-abe9-dbcb79b44e4e",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 1. pega todos os itens de entrada\nconst inputItems = items;\n\n// 1.1. pega nome e telefone do Webhook2 (supondo que ele só tenha um item)\nconst webhookBody = $node[\"Webhook2\"].json.body;\nconst nome     = webhookBody.nome     ?? '';\nconst telefone = webhookBody.telefone ?? '';\nconst dataInput = webhookBody.data ?? '';\n\n// 2. extrai só as strings de trabalhos\nconst trabalhos = inputItems\n  .map(item => item.json['body.trabalhos'])\n  .filter(t => typeof t === 'string');\n\n// 3. define suas categorias\nconst categories = [\n  { key: 'Descarrego',               match: 'Descarrego' },\n  { key: 'Sacudimento',              match: 'Sacudimento' },\n  { key: 'Limpeza de Flor de Omolu', match: 'Limpeza de Flor de Omolu' },\n  { key: 'Cura',                     match: 'Cura' },\n  { key: 'Ebó',                      match: 'Ebó' },\n  { key: 'Saída de Fogo',            match: 'Fogo' },\n];\n\n// 4. monta o objeto de saída\nconst output = {};\ncategories.forEach(cat => {\n  const encontrados = trabalhos.filter(t =>\n    t.toLowerCase().includes(cat.match.toLowerCase())\n  );\n  output[cat.key] = encontrados.length\n    ? encontrados.join(', ')\n    : '';\n});\n\n// 5. adiciona Nome e Telefone\noutput.Nome     = nome;\noutput.Telefone = telefone;\noutput.dataConsulta = dataInput;\n\n// 6. retorna um único item JSON com todos os campos agrupados\nreturn [\n  { json: output }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        760
+      ],
+      "id": "136b6a18-419f-4ccc-b070-d0afb84afa8e",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "87dbc3c2-aac9-4088-ae4e-f8ddc7683d7a",
+              "name": "Descarrego",
+              "value": "={{ $json.Descarrego }}",
+              "type": "string"
+            },
+            {
+              "id": "a6aceb20-4f95-4121-8507-259b70491837",
+              "name": "Sacudimento",
+              "value": "={{ $json.Sacudimento ? 'Sim' : 'Não' }}",
+              "type": "string"
+            },
+            {
+              "id": "db493691-ecfd-4850-8189-93c6b55c851a",
+              "name": "Limpeza de Flor de Omolu",
+              "value": "={{ $json['Limpeza de Flor de Omolu'] ? 'Sim' : 'Não' }}",
+              "type": "string"
+            },
+            {
+              "id": "e6de3dfb-be52-4269-b749-9b15358736af",
+              "name": "Cura",
+              "value": "={{ \n  $json.Cura\n    .split(', ')\n    .filter(item => item.trim() !== 'Cura')\n    .join(', ') ?  $json.Cura\n    .split(', ')\n    .filter(item => item.trim() !== 'Cura')\n    .join(', ') : 'Não' }}",
+              "type": "string"
+            },
+            {
+              "id": "59a13685-a444-489f-9888-e2cc009139e7",
+              "name": "Saída de Fogo",
+              "value": "={{    $json['Saída de Fogo']\n     .split(', ')     .filter(item => item.trim() !== 'Saída de Fogo')     .join(', ') ?  $json['Saída de Fogo']\n     .split(', ')     .filter(item => item.trim() !== 'Saída de Fogo')     .join(', ') : 'Não' }}",
+              "type": "string"
+            },
+            {
+              "id": "327ccb97-4736-4370-84d3-f10a3f77c263",
+              "name": "Ebó",
+              "value": "={{    $json['Ebó']      .split(', ')     .filter(item => item.trim() !== 'Ebó')     .join(', ') ?  $json['Ebó']      .split(', ')     .filter(item => item.trim() !== 'Ebó')     .join(', ') : 'Não' }}",
+              "type": "string"
+            },
+            {
+              "id": "88b17f96-9fda-4339-b256-21ba0d41ef2e",
+              "name": "Consulente",
+              "value": "={{ $json.Nome }}",
+              "type": "string"
+            },
+            {
+              "id": "7efdd0af-c814-498a-a06d-d747b023fca7",
+              "name": "Telefone",
+              "value": "={{ $json.Telefone }}",
+              "type": "string"
+            },
+            {
+              "id": "68d59cfd-e80f-40f6-8874-eb977afeb428",
+              "name": "Data da Consulta",
+              "value": "={{ $json.dataConsulta.toDateTime().format('dd/MM/yyyy') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        560,
+        760
+      ],
+      "id": "d525ff28-3135-408d-8af9-c8da5d6724e6",
+      "name": "Edit Fields3"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Respond to Webhook": {
+      "main": [
+        []
+      ]
+    },
+    "Webhook1": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets1": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook2": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets3": {
+      "main": [
+        []
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields3": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "09112546-cf03-490f-9e15-5f0b24d857fb",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4b70c2a65af867f4bde05d432dc95b8eb3e804750210884f7b8f2121aa0c5564"
+  },
+  "id": "KkhQjgdgbIOEcgGM",
+  "tags": []
+}
