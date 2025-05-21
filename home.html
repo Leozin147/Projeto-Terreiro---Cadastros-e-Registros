@@ -7,8 +7,14 @@
     <link rel="stylesheet" href="styles/main.css" />
   </head>
   <body>
-    <img src="https://i.ibb.co/fGrgrb7r/ancora-baba-fe.jpg" alt="Logo" class="logo" />
-    <h1 class="site-title">Cadastro de Consulentes e Trabalhos</h1>
+    <header class="site-header">
+      <img
+        src="https://i.ibb.co/fGrgrb7r/ancora-baba-fe.jpg"
+        alt="Logo CEUNSC"
+        class="logo"
+      />
+      <h1 class="site-title">Cadastro de Consulentes e Trabalhos</h1>
+    </header>
 
     <!-- menu de abas -->
     <div id="menu_opt"></div>
@@ -26,12 +32,11 @@
           <label for="cadastro-telefone">Telefone*</label>
         </div>
         <button id="btn-cadastrar">Cadastrar</button>
-        <!-- container para exibir mensagens de erro/sucesso -->
         <div id="cadastro-message" class="message"></div>
       </div>
     </section>
 
-    <!-- aba Trabalhos -->
+    <!-- container de registro de trabalhos-->
     <section id="trabalhos-section">
       <div class="card">
         <h2>Trabalhos</h2>
@@ -43,40 +48,280 @@
           <input type="text" id="trabalhos-telefone" placeholder=" " required />
           <label for="trabalhos-telefone">Telefone*</label>
         </div>
-        
+        <div class="trabalho-data-container">
+          <label for="trabalhos-data">Data da Consulta</label>
+          <input
+            type="date"
+            id="trabalhos-data"
+            min="1900-01-01"
+            max="9999-12-31"
+          />
+        </div>
+
+        <!-- Dropdown Principal -->
         <div class="dropdown" id="dropdown-trabalhos">
-          <button type="button" class="dropbtn" id="dropbtn-trabalhos">
+          <button
+            type="button"
+            class="dropbtn"
+            id="dropbtn-trabalhos"
+            aria-expanded="false"
+          >
             Selecione Trabalhos
           </button>
           <div class="dropdown-content">
-            <label><input type="checkbox" value="Descarrego Dandalunda" /> Descarrego Dandalunda</label>
-            <label><input type="checkbox" value="Descarrego" /> Descarrego</label>
-            <label><input type="checkbox" value="Cura" /> Cura</label>
-            <label><input type="checkbox" value="Sacudimento" /> Sacudimento</label>
-            <label><input type="checkbox" value="Limpeza de flor de omolu" /> Limpeza de flor de omolu</label>
-            <label><input type="checkbox" value="Ebó" /> Ebó</label>
+            <label
+              ><input type="checkbox" value="Descarrego Dandalunda" />
+              Descarrego Dandalunda</label
+            >
+            <label
+              ><input type="checkbox" value="Descarrego" /> Descarrego</label
+            >
+            <label
+              ><input type="checkbox" value="Sacudimento" /> Sacudimento</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                id="checkbox-fogo"
+                value="Saída de Fogo"
+              />
+              Saída de Fogo</label
+            >
+            <label
+              ><input type="checkbox" value="Limpeza de flor de omolu" />
+              Limpeza de flor de omolu</label
+            >
+            <label
+              ><input type="checkbox" id="checkbox-cura" value="Cura" />
+              Cura</label
+            >
+            <label
+              ><input type="checkbox" id="checkbox-ebo" value="Ebó" />
+              Ebó</label
+            >
+          </div>
+        </div>
+
+        <!-- Sub-Dropdown Saída de Fogo -->
+        <div class="dropdown sub-dropdown hide" id="dropdown-fogo">
+          <button
+            type="button"
+            class="dropbtn"
+            id="dropbtn-fogo"
+            aria-expanded="false"
+          >
+            Selecione Tipo de Saída de Fogo
+          </button>
+          <div class="dropdown-content">
+            <label
+              ><input type="checkbox" value="Fogo Exu Encruzilhada" /> Fogo Exu
+              Encruzilhada</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Exu Calunga" /> Fogo Exu
+              Calunga</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Pomba-gira Encruzilhada" />
+              Fogo Pomba-gira Encruzilhada</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Pomba-gira Calunga" /> Fogo
+              Pomba-gira Calunga</label
+            >
+            <label><input type="checkbox" value="Fogo Ogum" /> Fogo Ogum</label>
+            <label
+              ><input type="checkbox" value="Fogo Xangô" /> Fogo Xangô</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Oxossi" /> Fogo Oxossi</label
+            >
+            <label><input type="checkbox" value="Fogo Oxum" /> Fogo Oxum</label>
+            <label><input type="checkbox" value="Fogo Nanã" /> Fogo Nanã</label>
+            <label
+              ><input type="checkbox" value="Fogo Iemanjá" /> Fogo
+              Iemanjá</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Iansã" /> Fogo Iansã</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Ibeijada" /> Fogo
+              Ibeijada</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Preto Velho" /> Fogo Preto
+              Velho</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Círculo de Fogo" /> Fogo
+              Círculo de Fogo</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Círculo de Fogo Pequeno" />
+              Fogo Círculo de Fogo Pequeno</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Descarrego de Pé" /> Fogo
+              Descarrego de Pé</label
+            >
+            <label
+              ><input type="checkbox" value="Fogo Descarrego de Mão" /> Fogo
+              Descarrego de Mão</label
+            >
+          </div>
+        </div>
+
+        <!-- Sub-Dropdown Cura (inicialmente oculto) -->
+        <div class="dropdown sub-dropdown hide" id="dropdown-cura">
+          <button
+            type="button"
+            class="dropbtn"
+            id="dropbtn-cura"
+            aria-expanded="false"
+          >
+            Selecione Tipo de Cura
+          </button>
+          <div class="dropdown-content">
+            <label
+              ><input type="checkbox" value="Cura Ori Protocolo 1" /> Cura Ori
+              Protocolo 1</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Ori Protocolo 2" /> Cura Ori
+              Protocolo 2</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Ori Protocolo 3" /> Cura Ori
+              Protocolo 3</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Emoções Protocolo 1" /> Cura
+              Emoções Protocolo 1</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Emoções Protocolo 2" /> Cura
+              Emoções Protocolo 2</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Emoções Protocolo 3" /> Cura
+              Emoções Protocolo 3</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Prosperidade Protocolo 1" />
+              Cura Prosperidade Protocolo 1</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Prosperidade Protocolo 2" />
+              Cura Prosperidade Protocolo 2</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Prosperidade Protocolo 3" />
+              Cura Prosperidade Protocolo 3</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Saúde Protocolo 1" /> Cura
+              Saúde Protocolo 1</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Saúde Protocolo 2" /> Cura
+              Saúde Protocolo 2</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Saúde Protocolo 3" /> Cura
+              Saúde Protocolo 3</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Vicío Protocolo 1" /> Cura
+              Vicío Protocolo 1</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Vicío Protocolo 2" /> Cura
+              Vicío Protocolo 2</label
+            >
+            <label
+              ><input type="checkbox" value="Cura Vicío Protocolo 3" /> Cura
+              Vicío Protocolo 3</label
+            >
+          </div>
+        </div>
+
+        <!-- Sub-Dropdown Ebó (inicialmente oculto) -->
+        <div class="dropdown sub-dropdown hide" id="dropdown-ebo">
+          <button
+            type="button"
+            class="dropbtn"
+            id="dropbtn-ebo"
+            aria-expanded="false"
+          >
+            Selecione Tipo de Ebó
+          </button>
+          <div class="dropdown-content">
+            <label
+              ><input type="checkbox" value="Ebó Exu Encruzilhada" /> Ebó Exu
+              Encruzilhada</label
+            >
+            <label
+              ><input type="checkbox" value="Ebó Exu Calunga" /> Ebó Exu
+              Calunga</label
+            >
+            <label
+              ><input type="checkbox" value="Ebó Pomba-gira Encruzilhada" /> Ebó
+              Pomba-gira Encruzilhada</label
+            >
+            <label
+              ><input type="checkbox" value="Ebó Pomba-gira Calunga" /> Ebó
+              Pomba-gira Calunga</label
+            >
+            <label><input type="checkbox" value="Ebó Ogum" /> Ebó Ogum</label>
+            <label><input type="checkbox" value="Ebó Xangô" /> Ebó Xangô</label>
+            <label
+              ><input type="checkbox" value="Ebó Oxossi" /> Ebó Oxossi</label
+            >
+            <label><input type="checkbox" value="Ebó Oxum" /> Ebó Oxum</label>
+            <label><input type="checkbox" value="Ebó Nanã" /> Ebó Nanã</label>
+            <label
+              ><input type="checkbox" value="Ebó Iemanjá" /> Ebó Iemanjá</label
+            >
+            <label><input type="checkbox" value="Ebó Iansã" /> Ebó Iansã</label>
+            <label
+              ><input type="checkbox" value="Ebó Ibeijada" /> Ebó
+              Ibeijada</label
+            >
+            <label
+              ><input type="checkbox" value="Ebó Preto Velho" /> Ebó Preto
+              Velho</label
+            >
           </div>
         </div>
 
         <button id="btn-registrar">Registrar Trabalho</button>
       </div>
-      <div id="trabalhos-message"></div>
+      <div id="trabalhos-message" class="message-trabalhos hide"></div>
     </section>
 
-    <!--Seção de Relatório de Trabalhos-->
+    <!-- Seção de Relatório de Trabalhos -->
     <section id="relatorio-section">
       <div class="card">
         <h2>Relatório de Trabalhos</h2>
         <div class="data-container">
-          <label for="relatorio-data">Data da Consulta</label>
-          <input type="date" id="relatorio-data" min="1900-01-01" max="9999-12-31" />
+          <label for="relatorio-data">Data da Consulta Realizada</label>
+          <input
+            type="date"
+            id="relatorio-data"
+            min="1900-01-01"
+            max="9999-12-31"
+          />
         </div>
         <button id="btn-buscar-relatorio">Buscar</button>
         <div id="relatorio-message" class="message"></div>
         <div id="relatorio-filtros" class="filtros-container"></div>
-        <button id="btn-aplicar-filtros" class = "btn-aplicar-filtros">Filtrar</button>
-          <button id="btn-limpar-filtro" class = "btn-limpar-filtros";>Restaurar</button>
-    
+        <button id="btn-aplicar-filtros" class="btn-aplicar-filtros">
+          Filtrar
+        </button>
+        <button id="btn-limpar-filtro" class="btn-limpar-filtros">
+          Restaurar
+        </button>
       </div>
       <div id="relatorio-tabela-container"></div>
     </section>

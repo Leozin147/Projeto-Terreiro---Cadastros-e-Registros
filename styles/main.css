@@ -233,6 +233,34 @@ body > section {
   background-color: #000 !important;
 }
 
+.trabalho-data-container {
+  margin-bottom: 16px;
+}
+
+.trabalho-data-container label {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+.trabalho-data-container input[type="date"] {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  outline: none;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.trabalho-data-container input[type="date"]:focus {
+  border-color: #007bff;
+}
+
+/*titulos e menu opt */
+
 header {
   display: flex;
   align-items: center;
@@ -254,24 +282,32 @@ header .site-title {
   margin-bottom: 50px; 
   margin-top: 80px;
 }
-.site-title{
-  text-align: center;
+.site-header {
+  display: flex;             
+  align-items: center;      
+  justify-content: center;   
+  gap: 1.5rem;               
+  padding: 1rem 0;           
+}
+
+
+.site-header .logo {
+  max-width: 120px;
+  height: auto;
+  flex-shrink: 0;
+}
+
+.site-header .site-title {
+  margin: 0;                
   font-weight: bold;
   color: #000;
-  margin-top: -105px;
   text-shadow: 0.5px 0.5px 0.5px #000;
-  margin-left: 50px;
-}
-.logo{             
-    max-height: 200px;
-    margin-left: 450px;
-    margin-top: 50px;  
-    width: 10%;   
+  text-align: left;         
 }
 
 .input-container-title {
   position: relative;
-  margin-bottom: 16px;
+  margin-bottom: 8px;
 }
 
 .input-container-title input[type="text"] {
@@ -345,7 +381,7 @@ header .site-title {
   width: 100%;
   margin: 20px auto;
   padding: 20px;
-  background: #fff;
+  background: #f5f7fa90;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow-x: auto;       /* rolagem horizontal se necessário */
@@ -370,23 +406,24 @@ header .site-title {
 }
 
 #relatorio-tabela-container thead {
-  background-color: #fff;
+ background-color: #616161;
+ color: #fff;
+ font-weight: bold;
 }
 
 /*Filtros relatório*/
 
 .filtros-container {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  max-width: 100%;
+  flex-direction: column;
+  flex-wrap: wrap;  
+  gap: 16px;               
+  max-width: 400px;        
   margin: 0 auto 16px;
 }
 
 .filtros-container > div {
-  display: flex;
-  flex-direction: column;
-  min-width: 180px;
+width: 100%;
 }
 
 .filtros-container label {
@@ -399,6 +436,8 @@ header .site-title {
   border-radius: 6px;
   border: 1px solid #ccd0d5;
   font-size: 0.9rem;
+  width: 100%;
+  box-sizing: border-box;
 }
 .btn-aplicar-filtros{
   display:none;
@@ -419,3 +458,14 @@ header .site-title {
 .btn-limpar-filtros:hover{
   background-color: #000 !important;
 }
+
+
+.hide {
+  display: none;
+}
+
+
+.sub-dropdown {
+  margin-top: 0.5em;
+}
+

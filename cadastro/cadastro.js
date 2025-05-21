@@ -4,13 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
   const messageEl    = document.getElementById('cadastro-message');
   const btnCadastrar = document.getElementById('btn-cadastrar');
 
-  // já começamos com a mensagem oculta
+  nameInput.setAttribute('autocomplete', 'off');
+  phoneInput.setAttribute('autocomplete', 'off');
+
+  // inicia com a mensagem oculta
   messageEl.classList.add('hide');
 
   // máscara de telefone (00) 00000-0000
   phoneInput.addEventListener('input', function() {
     const raw = this.value.replace(/\D/g, '').slice(0, 11);
     let formatted = '';
+
     if (raw.length <= 2) {
       formatted = raw;
     } else if (raw.length <= 7) {
@@ -18,20 +22,23 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
       formatted = `(${raw.slice(0, 2)}) ${raw.slice(2, 7)}-${raw.slice(7)}`;
     }
+
     this.value = formatted;
   });
 
   function showMessage(text, type) {
     messageEl.textContent = text;
-    messageEl.className = `message ${type}`; 
+    messageEl.className   = `message ${type}`;
+    // mostra a mensagem
     setTimeout(() => messageEl.classList.remove('hide'), 10);
-    //esconde msg em 5 segundos
+    // esconde em 5 segundos
     setTimeout(() => messageEl.classList.add('hide'), 5000);
   }
 
+
   btnCadastrar.addEventListener('click', function() {
-    const nome         = nameInput.value.trim();
-    const telefoneRaw  = phoneInput.value.replace(/\D/g, '').trim();
+    const nome        = nameInput.value.trim();
+    const telefoneRaw = phoneInput.value.replace(/\D/g, '').trim();
 
     // validações
     if (!nome && !telefoneRaw) {
@@ -44,20 +51,37 @@ document.addEventListener('DOMContentLoaded', function() {
       return showMessage('Por favor preencha o telefone', 'error');
     }
 
-    // envio
-    fetch('https://webhook-test.com/32f62d2f0aa19c1ebefc0b7beafa453f', {
+    // envio ao webhook
+    fetch('https://marcofassa.app.n8n.cloud/webhook/7ad39782-6b2d-44d1-86b7-01fe6ec6fd18', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome, telefone: telefoneRaw })
     })
     .then(res => {
-      if (res.ok) {
-        showMessage('Cadastro enviado com sucesso!', 'success');
-        // limpando os campos
+      if (!res.ok) {
+        throw new Error(`Erro de rede: ${res.status}`);
+      }
+      return res.json();
+    })
+    .then(data => {
+      // data vem como array: [{ status: 'cadastrado' | 'realizado' }]
+      let status;
+      if (Array.isArray(data) && data.length > 0 && data[0].status) {
+        status = data[0].status;
+      }
+
+      if (status === 'cadastrado') {
+        showMessage('Usuário já cadastrado', 'error');
+        nameInput.value = '';
+        phoneInput.value = '';
+      } else if (status === 'realizado') {
+        showMessage('Usuário cadastrado com sucesso!', 'success');
+        // limpa apenas no sucesso
         nameInput.value  = '';
         phoneInput.value = '';
       } else {
-        showMessage('Erro ao enviar cadastro.', 'error');
+        // status inesperado ou formato inválido
+        showMessage('Erro ao processar resposta do servidor.', 'error');
       }
     })
     .catch(err => {
