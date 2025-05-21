@@ -27,7 +27,6 @@ const filterFields = [
   { key: 'Saída de Fogo', label: 'Saída de Fogo' },
 ];
 
-// Função para mostrar mensagens
 function showMessage(text, type = 'error') {
   messageEl.textContent = text;
   messageEl.className = `message ${type}`;
@@ -42,7 +41,6 @@ function showMensagem(text, type = 'error') {
   setTimeout(() => mensagem.classList.add('hide'), 5000);
 }
 
-// Função que busca dados do webhook e atualiza tabela e filtros
 async function buscarDados(dataInicial, dataFinal) {
   filtrosContainer.innerHTML = '';
   tabelaContainer.innerHTML = '';
@@ -76,6 +74,13 @@ async function buscarDados(dataInicial, dataFinal) {
       return;
     }
 
+    // Nova validação para registro feito x não feito
+    const registrosNaoFeitos = dados.filter(item => item.Status !== 'Feito');
+    if (registrosNaoFeitos.length === 0 && !pegarFeitosCheckbox.checked) {
+      showMessage('Todos os trabalhos das datas selecionadas foram feitos', 'error');
+      return;
+    }
+
     dadosOriginais = dados;
     populateFilters(dadosOriginais);
     montarTabela(dadosOriginais);
@@ -89,7 +94,6 @@ async function buscarDados(dataInicial, dataFinal) {
   }
 }
 
-// Atualiza filtros dinamicamente
 function populateFilters(data, filtrosAtivos = {}) {
   filtrosContainer.innerHTML = '';
   filterFields.forEach(({ key, label }) => {
@@ -128,7 +132,6 @@ function populateFilters(data, filtrosAtivos = {}) {
   btnRestaurar.style.display = 'inline-block';
 }
 
-// Monta tabela e recria botão refresh com evento
 function montarTabela(data, filtros = {}) {
   const incluirFeitos = pegarFeitosCheckbox.checked;
 
@@ -149,14 +152,12 @@ function montarTabela(data, filtros = {}) {
   tabelaContainer.innerHTML = '';
   tabelaContainer.style.display = 'block';
 
-  // Recria o botão refresh
   const btnRefreshLocal = document.createElement('button');
   btnRefreshLocal.id = 'btn-refresh';
   btnRefreshLocal.title = 'Atualizar dados';
   btnRefreshLocal.textContent = '🔄';
   tabelaContainer.appendChild(btnRefreshLocal);
 
-  // Evento click do botão refresh recriado
   btnRefreshLocal.addEventListener('click', () => {
     if (!dataUltimaBuscaInicial || !dataUltimaBuscaFinal) {
       showMessage('Nenhuma busca anterior encontrada. Por favor, faça uma busca primeiro.', 'error');
@@ -166,7 +167,6 @@ function montarTabela(data, filtros = {}) {
     showMessage('Atualizando dados...', 'success');
   });
 
-  // Monta colunas da tabela
   const colunas = Object.keys(filtrado[0]);
   if (!colunas.includes('Status')) {
     colunas.push('Status');
@@ -182,7 +182,6 @@ function montarTabela(data, filtros = {}) {
     trHead.appendChild(th);
   });
 
-  // Colunas extras
   const thFeito = document.createElement('th');
   thFeito.textContent = 'Feito';
   trHead.appendChild(thFeito);
@@ -204,7 +203,6 @@ function montarTabela(data, filtros = {}) {
       tr.appendChild(td);
     });
 
-    // Checkbox "Feito"
     const tdFeito = document.createElement('td');
     const cbFeito = document.createElement('input');
     cbFeito.type = 'checkbox';
@@ -215,7 +213,6 @@ function montarTabela(data, filtros = {}) {
     tdFeito.appendChild(cbFeito);
     tr.appendChild(tdFeito);
 
-    // Checkbox "Não Compareceu"
     const tdNao = document.createElement('td');
     const cbNao = document.createElement('input');
     cbNao.type = 'checkbox';
@@ -232,8 +229,6 @@ function montarTabela(data, filtros = {}) {
   table.appendChild(tbody);
   tabelaContainer.appendChild(table);
 }
-
-// Eventos
 
 btnBuscar.addEventListener('click', () => {
   if (!startDate.value || !endDate.value) {
@@ -275,7 +270,7 @@ tabelaContainer.addEventListener('change', e => {
     cb.closest('tr').querySelector('.cb-nao').checked = false;
   }
   if (cb.matches('.cb-nao') && cb.checked) {
-    status = 'nao_fez';
+    status = 'Não Compareceu';
     cb.closest('tr').querySelector('.cb-feito').checked = false;
   }
   if (!status) return;
