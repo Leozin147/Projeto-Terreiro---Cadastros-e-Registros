@@ -1,5 +1,5 @@
-const RELATORIO_URL = 'https://marcofassa.app.n8n.cloud/webhook/e2bc5e4b-0ac6-4b8d-962b-67a872301a93';
-const WEBHOOK_URL = 'https://marcofassa.app.n8n.cloud/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29';
+const RELATORIO_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e2bc5e4b-0ac6-4b8d-962b-67a872301a93';
+const WEBHOOK_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29';
 
 const filtrosContainer = document.getElementById('relatorio-filtros');
 const tabelaContainer = document.getElementById('relatorio-tabela-container');

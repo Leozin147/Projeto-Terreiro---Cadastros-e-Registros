@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     fetch(
-      "https://marcofassa.app.n8n.cloud/webhook/e61c7123-fb6c-4176-9d63-b32545a956fd",
+      "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e61c7123-fb6c-4176-9d63-b32545a956fd",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
