@@ -304,14 +304,25 @@
     <section id="relatorio-section">
       <div class="card">
         <h2>Relatório de Trabalhos</h2>
+        <h3>Selecione as datas da consulta</h3>
         <div class="data-container">
-          <label for="relatorio-data">Data da Consulta Realizada</label>
+          <label for="relatorio-data">Data Inicial</label>
           <input
             type="date"
             id="relatorio-data"
             min="1900-01-01"
             max="9999-12-31"
           />
+          <label for="relatorio-data-final">Data Final</label>
+          <input
+            type="date"
+            id="relatorio-data-final"
+            min="1900-01-01"
+            max="9999-12-31"/>
+          <label style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+            <input type="checkbox" id="checkbox-pegar-feitos" />
+            Pegar feitos
+          </label>
         </div>
         <button id="btn-buscar-relatorio">Buscar</button>
         <div id="relatorio-message" class="message"></div>
@@ -320,12 +331,68 @@
           Filtrar
         </button>
         <button id="btn-limpar-filtro" class="btn-limpar-filtros">
-          Restaurar
+          Restaurar Filtros
         </button>
+        <div id="relatorio-mensagem" class="mensagem"></div>
       </div>
-      <div id="relatorio-tabela-container"></div>
+    
+      <div id="relatorio-tabela-container">
+        <table>
+          <thead>
+            <tr>
+              <!-- EXISTENTES: -->
+              <th>Data</th>
+              <th>Consulente</th>
+              <th>Telefone</th>
+              <th>Descarrego</th>
+              <th>Cura</th>
+              <th>Sacudimento</th>
+              <th>Ebó</th>
+              <th>Limpeza de Flor de Omolu</th>
+              <th>Saída de Fogo</th>
+    
+              <!-- Novas colunas de Feito e Não Compareceu -->
+              <th>Feito</th>
+              <th>Não Compareceu</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- As linhas de dados serão geradas dinamicamente pelo JS -->
+            <tr>
+              <td>21/05/2025</td>
+              <td>Teste</td>
+              <td>13974057602</td>
+              <td>Descarrego Dandalunda</td>
+              <td>Cura Ori Protocolo 1, Cura Ori Protocolo 2, Cura Ori Protocolo 3</td>
+              <td>Sim</td>
+              <td>Ebó Exu Encruzilhada, Ebó Exu Calunga, Ebó Pomba-gira Encruzilhada</td>
+              <td>Sim</td>
+              <td>Fogo Exu Encruzilhada, Fogo Exu Calunga, Fogo Pomba-gira Encruzilhada</td>
+              <td>Feito</td>
+              
+              <!-- Checkboxes de Feito e Não Compareceu -->
+              <td><input type="checkbox" class="cb-feito" /></td>
+              <td><input type="checkbox" class="cb-nao" /></td>
+            </tr>
+            <tr>
+              <td>21/05/2025</td>
+              <td>Ronaldo</td>
+              <td>13974034811</td>
+              <td>Descarrego</td>
+              <td>Cura Ori Protocolo 3</td>
+              <td>Não</td>
+              <td>Não</td>
+              <td>Não</td>
+              
+              <!-- Checkboxes de Feito e Não Compareceu -->
+              <td><input type="checkbox" class="cb-feito" /></td>
+              <td><input type="checkbox" class="cb-nao" /></td>
+            </tr>
+            <!-- Mais linhas serão geradas dinamicamente -->
+          </tbody>
+        </table>
+      </div>
     </section>
-
     <!-- script de menu -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
