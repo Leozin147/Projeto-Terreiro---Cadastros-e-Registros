@@ -10,9 +10,12 @@ const btnFiltrar = document.getElementById('btn-aplicar-filtros');
 const btnRestaurar = document.getElementById('btn-limpar-filtro');
 const mensagem = document.getElementById('relatorio-mensagem');
 const pegarFeitosCheckbox = document.getElementById('checkbox-pegar-feitos');
-const endDate = document.getElementById ('relatorio-data-final');
+const endDate = document.getElementById('relatorio-data-final');
+const btnRefresh = document.getElementById('btn-refresh');
 
 let dadosOriginais = [];
+let dataUltimaBuscaInicial = '';
+let dataUltimaBuscaFinal = '';
 
 const filterFields = [
   { key: 'Consulente', label: 'Consulente' },
@@ -24,6 +27,7 @@ const filterFields = [
   { key: 'Saída de Fogo', label: 'Saída de Fogo' },
 ];
 
+// Função para mostrar mensagens
 function showMessage(text, type = 'error') {
   messageEl.textContent = text;
   messageEl.className = `message ${type}`;
@@ -36,9 +40,56 @@ function showMensagem(text, type = 'error') {
   mensagem.className = `mensagem ${type}`;
   mensagem.classList.remove('hide');
   setTimeout(() => mensagem.classList.add('hide'), 5000);
-
 }
 
+// Função que busca dados do webhook e atualiza tabela e filtros
+async function buscarDados(dataInicial, dataFinal) {
+  filtrosContainer.innerHTML = '';
+  tabelaContainer.innerHTML = '';
+  tabelaContainer.style.display = 'none';
+  messageEl.className = 'message';
+  messageEl.textContent = '';
+  btnFiltrar.style.display = 'none';
+  btnRestaurar.style.display = 'none';
+
+  if (!dataInicial) {
+    showMessage('Por favor, selecione uma data inicial', 'error');
+    return;
+  }
+  if (!dataFinal) {
+    showMessage('Por favor, selecione uma data final', 'error');
+    return;
+  }
+
+  showMessage('Buscando dados...', '');
+
+  try {
+    const res = await fetch(RELATORIO_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ dataSel: dataInicial, dataselend: dataFinal }),
+    });
+    if (!res.ok) throw new Error(res.statusText);
+    const dados = await res.json();
+    if (!dados.length) {
+      showMessage('Nenhum dado encontrado para o intervalo selecionado', 'error');
+      return;
+    }
+
+    dadosOriginais = dados;
+    populateFilters(dadosOriginais);
+    montarTabela(dadosOriginais);
+    showMessage('Dados carregados com sucesso.', 'success');
+    startDate.value = '';
+    endDate.value = '';
+
+  } catch (err) {
+    console.error(err);
+    showMessage('Erro ao buscar dados: ' + err.message, 'error');
+  }
+}
+
+// Atualiza filtros dinamicamente
 function populateFilters(data, filtrosAtivos = {}) {
   filtrosContainer.innerHTML = '';
   filterFields.forEach(({ key, label }) => {
@@ -77,12 +128,11 @@ function populateFilters(data, filtrosAtivos = {}) {
   btnRestaurar.style.display = 'inline-block';
 }
 
-// Monta a tabela com colunas dinâmicas + checkboxes e coluna Status
+// Monta tabela e recria botão refresh com evento
 function montarTabela(data, filtros = {}) {
   const incluirFeitos = pegarFeitosCheckbox.checked;
 
   const filtrado = data.filter(item => {
-    // Aplica filtros dinâmicos e também filtro do status "Feito"
     if (!incluirFeitos && item['Status'] === 'Feito') {
       return false;
     }
@@ -99,7 +149,24 @@ function montarTabela(data, filtros = {}) {
   tabelaContainer.innerHTML = '';
   tabelaContainer.style.display = 'block';
 
-  // Inclui "Status" na lista de colunas, se ainda não existir
+  // Recria o botão refresh
+  const btnRefreshLocal = document.createElement('button');
+  btnRefreshLocal.id = 'btn-refresh';
+  btnRefreshLocal.title = 'Atualizar dados';
+  btnRefreshLocal.textContent = '🔄';
+  tabelaContainer.appendChild(btnRefreshLocal);
+
+  // Evento click do botão refresh recriado
+  btnRefreshLocal.addEventListener('click', () => {
+    if (!dataUltimaBuscaInicial || !dataUltimaBuscaFinal) {
+      showMessage('Nenhuma busca anterior encontrada. Por favor, faça uma busca primeiro.', 'error');
+      return;
+    }
+    buscarDados(dataUltimaBuscaInicial, dataUltimaBuscaFinal);
+    showMessage('Atualizando dados...', 'success');
+  });
+
+  // Monta colunas da tabela
   const colunas = Object.keys(filtrado[0]);
   if (!colunas.includes('Status')) {
     colunas.push('Status');
@@ -168,58 +235,14 @@ function montarTabela(data, filtros = {}) {
 
 // Eventos
 
-btnBuscar.addEventListener('click', async () => {
-  filtrosContainer.innerHTML = '';
-  tabelaContainer.innerHTML = '';
-  tabelaContainer.style.display = 'none';
-  messageEl.className = 'message';
-  messageEl.textContent = '';
-  btnFiltrar.style.display = 'none';
-  btnRestaurar.style.display = 'none';
-
-  const dataSel = startDate.value;
-  const data_sel_end = endDate.value;
-  if (!dataSel) {
-    showMessage('Por favor, selecione uma data inicial', 'error');
+btnBuscar.addEventListener('click', () => {
+  if (!startDate.value || !endDate.value) {
+    showMessage('Selecione as datas para buscar.', 'error');
     return;
   }
-
-  if (!data_sel_end) {
-    showMessage('Por favor, selecione uma data final', 'error');
-    return;
-  }
-
-  if (!data_sel_end && !dataSel){
-    showMessage ('Por favor, selecione uma data inicial e uma data final', 'error');
-    return;
-  }
-
-  showMessage('Buscando dados...', '');
-
-  try {
-    const res = await fetch(RELATORIO_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dataSel, dataselend: data_sel_end }),
-    });
-    if (!res.ok) throw new Error(res.statusText);
-    const dados = await res.json();
-    if (!dados.length) {
-      showMessage('Nenhum dado encontrado para o intervalo selecionado', 'error');
-      return;
-    }
-
-    dadosOriginais = dados;
-    populateFilters(dadosOriginais);
-    montarTabela(dadosOriginais);
-    showMessage('Dados carregados com sucesso.', 'success');
-    startDate.value = '';
-    endDate.value = '';
-
-  } catch (err) {
-    console.error(err);
-    showMessage('Erro ao buscar dados: ' + err.message, 'error');
-  }
+  dataUltimaBuscaInicial = startDate.value;
+  dataUltimaBuscaFinal = endDate.value;
+  buscarDados(dataUltimaBuscaInicial, dataUltimaBuscaFinal);
 });
 
 btnFiltrar.addEventListener('click', () => {
@@ -238,7 +261,6 @@ btnRestaurar.addEventListener('click', () => {
   btnRestaurar.style.display = 'none';
 });
 
-// Atualiza tabela ao mudar checkbox pegar feitos
 pegarFeitosCheckbox.addEventListener('change', () => {
   montarTabela(dadosOriginais);
 });
@@ -253,7 +275,7 @@ tabelaContainer.addEventListener('change', e => {
     cb.closest('tr').querySelector('.cb-nao').checked = false;
   }
   if (cb.matches('.cb-nao') && cb.checked) {
-    status = 'Não Compareceu';
+    status = 'nao_fez';
     cb.closest('tr').querySelector('.cb-feito').checked = false;
   }
   if (!status) return;

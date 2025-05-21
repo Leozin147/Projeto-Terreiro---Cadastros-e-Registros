@@ -409,6 +409,27 @@ header .site-title {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   overflow-x: auto;       /* rolagem horizontal se necessário */
   display: none;
+  position: relative;
+}
+
+#btn-refresh {
+  position: top;
+  left: 30px;
+  background-color: #555;
+  color: #fff;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  z-index: 20;
+  transition: background-color 0.3s ease;
+  margin-left: 1780px;
+  margin-bottom: 10px;
+}
+
+#btn-refresh:hover {
+  background-color: #008000;
 }
 
 /* Estilização básica da tabela */
