@@ -1,5 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-  // Inputs principais
   const nomeInput = document.getElementById("trabalhos-nome");
   const telefoneInput = document.getElementById("trabalhos-telefone");
   const dateInput = document.getElementById("trabalhos-data");
@@ -41,6 +40,25 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => messageEl.classList.add("hide"), 5000);
   }
 
+  // Função para validar sub-dropdowns
+  function validarSubDropdowns() {
+    const tipos = [
+      { nome: "Cura", container: document.getElementById("dropdown-cura"), toggleOn: document.getElementById("checkbox-cura") },
+      { nome: "Ebó", container: document.getElementById("dropdown-ebo"), toggleOn: document.getElementById("checkbox-ebo") },
+      { nome: "Saída de Fogo", container: document.getElementById("dropdown-fogo"), toggleOn: document.getElementById("checkbox-fogo") },
+    ];
+
+    for (const tipo of tipos) {
+      if (tipo.toggleOn && tipo.toggleOn.checked) {
+        const checkboxesMarcados = tipo.container.querySelectorAll('input[type="checkbox"]:checked');
+        if (checkboxesMarcados.length === 0) {
+          return `Preencha pelo menos 1 tipo de ${tipo.nome}`;
+        }
+      }
+    }
+    return null;
+  }
+
   // Máscara de telefone
   telefoneInput.addEventListener("input", () => {
     const raw = telefoneInput.value.replace(/\D/g, "").slice(0, 11);
@@ -55,6 +73,16 @@ document.addEventListener("DOMContentLoaded", () => {
   dropdowns.forEach(({ btn, container }) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
+
+      // Fecha todas as dropdowns, exceto a que está sendo clicada
+      dropdowns.forEach(({ container: c, btn: b }) => {
+        if (c !== container) {
+          c.classList.remove("open");
+          b.setAttribute("aria-expanded", "false");
+        }
+      });
+
+      // Alterna o estado da dropdown clicada
       container.classList.toggle("open");
       const isOpen = container.classList.contains("open");
       btn.setAttribute("aria-expanded", isOpen);
@@ -115,6 +143,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     if (!dataConsulta) {
       return showMessage("Por favor selecione a data da consulta.", "error");
+    }
+
+    // validação sub-dropdowns
+    const erroSubDropdown = validarSubDropdowns();
+    if (erroSubDropdown) {
+      return showMessage(erroSubDropdown, "error");
     }
 
     // coleta todos os checkboxes marcados
