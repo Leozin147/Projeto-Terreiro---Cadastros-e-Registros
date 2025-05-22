@@ -739,7 +739,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* Container de filtros iniciais */
-#relatorio-cura-section .relatorio-cura-card .data-container {
+#relatorio-cura-section .relatorio-cura-card .data-container-cura {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -747,7 +747,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* Input de texto (consulente) e checkbox */
-#relatorio-cura-section .relatorio-cura-card input[type="text"] {
+#relatorio-cura-section .relatorio-cura-card input[type="text"],
+#relatorio-cura-section .relatorio-cura-card input[type="date"] {
   width: 100%;
   padding: 12px 14px;
   font-size: 15px;
@@ -755,8 +756,10 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-radius: 6px;
   outline: none;
   transition: border-color 0.2s ease;
+  box-sizing: border-box;
 }
-#relatorio-cura-section .relatorio-cura-card input[type="text"]:focus {
+#relatorio-cura-section .relatorio-cura-card input[type="text"]:focus,
+#relatorio-cura-section .relatorio-cura-card input[type="date"]:focus {
   border-color: #007bff;
 }
 #relatorio-cura-section .relatorio-cura-card label[for="checkbox-pegar-feitos-cura"] {
@@ -766,7 +769,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* Botão Buscar */
-#relatorio-cura-section .relatorio-cura-card button#btn-buscar-relatorio-cura {
+#relatorio-cura-section .relatorio-cura-card button#btn-buscar-relatorio-cura,
+#relatorio-cura-section #btn-aplicar-filtros-cura,
+#relatorio-cura-section #btn-limpar-filtro-cura,
+#relatorio-cura-section #btn-refresh-cura,
+#relatorio-cura-section .btn-cadastrar-retirada {
   width: 100%;
   padding: 12px;
   font-size: 16px;
@@ -775,18 +782,29 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  margin-top: 10px;
   transition: background-color 0.2s ease;
 }
+#relatorio-cura-section .btn-cadastrar-retirada:hover,
+#relatorio-cura-section #btn-aplicar-filtros-cura:hover,
+#relatorio-cura-section #btn-limpar-filtro-cura:hover,
+#relatorio-cura-section #btn-refresh-cura:hover,
 #relatorio-cura-section .relatorio-cura-card button#btn-buscar-relatorio-cura:hover {
   background-color: #008000;
 }
 
-
 /* Mensagem de feedback */
-#relatorio-cura-section .relatorio-cura-card .message {
+#relatorio-cura-section .relatorio-cura-card .message-cura {
   margin-top: 16px;
   font-size: 0.95rem;
   text-align: center;
+  font-weight: bold;
+}
+#relatorio-cura-section .relatorio-cura-card .message-cura.success {
+  color: #008000;
+}
+#relatorio-cura-section .relatorio-cura-card .message-cura.error {
+  color: #c62828;
 }
 
 /* Tabela de resultados */
@@ -810,62 +828,71 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #fff;
 }
 
-/* Filtros avançados (inicialmente ocultos) */
-#relatorio-cura-section .filtros-container {
-  display: none;
-  flex-direction: column;
-  gap: 12px;
-  margin-top: 15px;
-}
-/* Quando precisar mostrar: */
- #relatorio-cura-section .filtros-container.active {
-   display: flex;
- }
-
-/* Botões de filtro e refresh ocultos por padrão */
-#relatorio-cura-section .btn-aplicar-filtros,
-#relatorio-cura-section .btn-limpar-filtros,
-#relatorio-cura-section #btn-refresh-cura {
-  display: none;
-  margin-top: 10px;
-}
-#relatorio-cura-section .btn-aplicar-filtros:hover,
-#relatorio-cura-section .btn-limpar-filtros:hover,
-#relatorio-cura-section #btn-refresh-cura:hover {
-  background-color: #000 !important;
-}
-.data-container-cura  {
-  display: block;
-  margin-bottom: 6px;
-  font-weight: bold;
-  color: #333;
-}
-
+/* Filtros avançados */
 #relatorio-cura-section .filtros-container-cura {
-  /* a estrutura de grid só “ligará” quando JS fizer 
-     display: grid/none dinamicamente */
   margin-top: 15px;
   gap: 12px;
   grid-template-columns: repeat(4, 1fr);
   display: grid;
 }
-
-#btn-aplicar-filtros-cura,
-#btn-limpar-filtro-cura,
-#btn-refresh-cura {
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  background-color: #000;
-  color: #fff;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
-  margin-top: 10px;
-  transition: background-color 0.2s ease;
+#relatorio-cura-section .filtros-container-cura label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  display: block;
 }
-#btn-aplicar-filtros-cura:hover,
-#btn-limpar-filtro-cura:hover,
-#btn-refresh-cura:hover {
-  background-color: #008000;
+#relatorio-cura-section .filtros-container-cura input[type="text"] {
+  width: 100%;
+  padding: 8px 10px;
+  border-radius: 6px;
+  border: 1px solid #ccd0d5;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+}
+
+/* Container Retirada */
+#relatorio-cura-section #retirada-container {
+  margin-top: 20px;
+  max-width: 600px;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  padding: 15px 20px;
+  background-color: #fafafa;
+}
+
+/* Cabeçalho retirada */
+#relatorio-cura-section #retirada-container h4 {
+  margin-bottom: 12px;
+  color: #000;
+  font-weight: bold;
+}
+
+/* Checklist retirada */
+#relatorio-cura-section #checklist-retirada {
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  padding: 10px;
+  margin-bottom: 12px;
+  background-color: #fff;
+}
+
+#relatorio-cura-section #checklist-retirada > div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+#relatorio-cura-section #checklist-retirada label {
+  cursor: pointer;
+  font-weight: normal;
+  user-select: none;
+}
+
+/* Pequeno espaçamento entre label e input */
+#relatorio-cura-section label {
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
 }

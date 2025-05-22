@@ -348,22 +348,70 @@
         Tipo de Oração:
         <input type="text" id="filtro-tipo-oracao" placeholder="Filtrar por tipo de oração" />
       </label>
-      <label><input type="checkbox" id="filtro-agua" /> AGUA</label>
-      <label><input type="checkbox" id="filtro-cha" /> CHÁ</label>
-      <label><input type="checkbox" id="filtro-banho" /> BANHO</label>
-      <label><input type="checkbox" id="filtro-bastao" /> BASTÃO</label>
-      <label><input type="checkbox" id="filtro-canjica" /> CANJICA</label>
-      <label><input type="checkbox" id="filtro-ebo-prosperidade" /> EBÓ PROSPERIDADE</label>
-      <label><input type="checkbox" id="filtro-imersao" /> IMERSÃO</label>
-      <label><input type="checkbox" id="filtro-remedio-vicio" /> REMÉDIO VÍCIO</label>
-      <label><input type="checkbox" id="filtro-material-arreada-exu" /> MATERIAL ARREADA EXU</label>
-      <label><input type="checkbox" id="filtro-espada-sao-jorge" /> ESPADA SÃO JORGE</label>
+      <label>
+        Água:
+        <input type="text" id="filtro-agua" placeholder="Filtrar por Água" />
+      </label>
+      
+      <label>
+        Chá:
+        <input type="text" id="filtro-cha" placeholder="Filtrar por Chá" />
+      </label>
+      
+      <label>
+        Banho:
+        <input type="text" id="filtro-banho" placeholder="Filtrar por Banho" />
+      </label>
+      
+      <label>
+        Bastão:
+        <input type="text" id="filtro-bastao" placeholder="Filtrar por Bastão" />
+      </label>
+      
+      <label>
+        Canjica:
+        <input type="text" id="filtro-canjica" placeholder="Filtrar por Canjica" />
+      </label>
+      
+      <label>
+        Ebó Prosperidade:
+        <input type="text" id="filtro-ebo-prosperidade" placeholder="Filtrar por Ebó Prosperidade" />
+      </label>
+      
+      <label>
+        Espada São Jorge:
+        <input type="text" id="filtro-espada-sao-jorge" placeholder="Filtrar por Espada São Jorge" />
+      </label>
+      
+      <label>
+        Material Arreada Exu:
+        <input type="text" id="filtro-material-arreada-exu" placeholder="Filtrar por Material Arreada Exu" />
+      </label>
+      
+      <label>
+        Remédio Vício:
+        <input type="text" id="filtro-remedio-vicio" placeholder="Filtrar por Remédio Vício" />
+      </label>
+      
+      <label>
+        Imersão:
+        <input type="text" id="filtro-imersao" placeholder="Filtrar por Imersão" />
+      </label>
     </div>
 
     <!-- Botões ocultos para resetar filtros e atualizar tabela -->
     <button id="btn-aplicar-filtros-cura" class="btn-aplicar-filtros-cura" style="display:none;">Filtrar</button>
     <button id="btn-limpar-filtro-cura" class="btn-limpar-filtros-cura" style="display:none;">Restaurar Filtros</button>
     <button id="btn-refresh-cura" class="btn-limpar-filtros-cura" style="display:none;">Atualizar Tabela</button>
+    <div id="retirada-container" class="retirada-container">
+      <h4>Retirada:</h4>
+      <label>Itens para Retirada:</label>
+      <div id="checklist-retirada" class="checklist-retirada">
+        <!-- checkboxes gerados aqui -->
+      </div>
+    
+      <button id="btn-cadastrar-retirada" class="btn-cadastrar-retirada">Cadastrar Retirada</button>
+    </div>
   </div>
 
   <div id="relatorio-cura-tabela-container" style="margin-top:20px;">
