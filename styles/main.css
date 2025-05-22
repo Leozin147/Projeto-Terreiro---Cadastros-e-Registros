@@ -17,7 +17,11 @@ body {
   justify-content: center;
   gap: 20px;
   margin: 30px 0;
-  visibility: hidden;
+  visibility: visible; 
+  padding-bottom: 15px; 
+  margin-bottom: 50px; 
+  margin-top: 80px;
+
 }
 
 #menu_opt button {
@@ -701,4 +705,167 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   transform: translateY(-50%);
   opacity: 0.6;
   cursor: pointer;
+}
+
+
+/* Seção Relatório de Curas */
+#relatorio-cura-section {
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+
+/* Card específico dentro da seção */
+#relatorio-cura-section .relatorio-cura-card {
+  max-width: 600px;
+  margin: 0 auto;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 40px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Títulos */
+#relatorio-cura-section .relatorio-cura-card h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  text-align: center;
+  color: #000;
+}
+#relatorio-cura-section .relatorio-cura-card h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #c62828;
+}
+
+/* Container de filtros iniciais */
+#relatorio-cura-section .relatorio-cura-card .data-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Input de texto (consulente) e checkbox */
+#relatorio-cura-section .relatorio-cura-card input[type="text"] {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+#relatorio-cura-section .relatorio-cura-card input[type="text"]:focus {
+  border-color: #007bff;
+}
+#relatorio-cura-section .relatorio-cura-card label[for="checkbox-pegar-feitos-cura"] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botão Buscar */
+#relatorio-cura-section .relatorio-cura-card button#btn-buscar-relatorio-cura {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+#relatorio-cura-section .relatorio-cura-card button#btn-buscar-relatorio-cura:hover {
+  background-color: #008000;
+}
+
+
+/* Mensagem de feedback */
+#relatorio-cura-section .relatorio-cura-card .message {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  text-align: center;
+}
+
+/* Tabela de resultados */
+#relatorio-cura-section #relatorio-cura-tabela-container {
+  margin-top: 20px;
+  overflow-x: auto;
+  display: none;
+}
+#relatorio-cura-section #relatorio-cura-tabela-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+#relatorio-cura-section #relatorio-cura-tabela-container th,
+#relatorio-cura-section #relatorio-cura-tabela-container td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+#relatorio-cura-section #relatorio-cura-tabela-container thead {
+  background-color: #616161;
+  color: #fff;
+}
+
+/* Filtros avançados (inicialmente ocultos) */
+#relatorio-cura-section .filtros-container {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 15px;
+}
+/* Quando precisar mostrar: */
+ #relatorio-cura-section .filtros-container.active {
+   display: flex;
+ }
+
+/* Botões de filtro e refresh ocultos por padrão */
+#relatorio-cura-section .btn-aplicar-filtros,
+#relatorio-cura-section .btn-limpar-filtros,
+#relatorio-cura-section #btn-refresh-cura {
+  display: none;
+  margin-top: 10px;
+}
+#relatorio-cura-section .btn-aplicar-filtros:hover,
+#relatorio-cura-section .btn-limpar-filtros:hover,
+#relatorio-cura-section #btn-refresh-cura:hover {
+  background-color: #000 !important;
+}
+.data-container-cura  {
+  display: block;
+  margin-bottom: 6px;
+  font-weight: bold;
+  color: #333;
+}
+
+#relatorio-cura-section .filtros-container-cura {
+  /* a estrutura de grid só “ligará” quando JS fizer 
+     display: grid/none dinamicamente */
+  margin-top: 15px;
+  gap: 12px;
+  grid-template-columns: repeat(4, 1fr);
+  display: grid;
+}
+
+#btn-aplicar-filtros-cura,
+#btn-limpar-filtro-cura,
+#btn-refresh-cura {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+#btn-aplicar-filtros-cura:hover,
+#btn-limpar-filtro-cura:hover,
+#btn-refresh-cura:hover {
+  background-color: #008000;
 }

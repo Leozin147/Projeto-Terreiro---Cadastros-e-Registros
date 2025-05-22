@@ -1,224 +1,187 @@
-const RELATORIO_CURA_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e2bc5e4b-0ac6-4b8d-962b-67a872301a93';
-const WEBHOOK_CURA_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29';
+window.addEventListener('DOMContentLoaded', () => {
+  const RELATORIO_CURA_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e2bc5e4b-0ac6-4b8d-962b-67a872301a93';
 
-const filtrosCuraContainer = document.getElementById('relatorio-cura-filtros');
-const tabelaCuraContainer = document.getElementById('relatorio-cura-tabela-container');
-const messageCuraEl = document.getElementById('relatorio-cura-message');
-const startDateCura = document.getElementById('relatorio-cura-data-inicial');
-const endDateCura = document.getElementById('relatorio-cura-data-final');
-const btnBuscarCura = document.getElementById('btn-buscar-relatorio-cura');
-const btnFiltrarCura = document.getElementById('btn-aplicar-filtros-cura');
-const btnRestaurarCura = document.getElementById('btn-limpar-filtro-cura');
-const btnRefreshCura = document.getElementById('btn-refresh-cura');
+  // ──────────────────────────────────────────────
+  // 1) Elementos do DOM
+  // ──────────────────────────────────────────────
+  const filtroIniCons = document.getElementById('filtro-inicial-consulente');
+  const pegarFeitosCb = document.getElementById('checkbox-pegar-feitos-cura');
+  const btnBuscar     = document.getElementById('btn-buscar-relatorio-cura');
+  const msgEl         = document.getElementById('relatorio-cura-message');
+  const filtrosEl     = document.getElementById('relatorio-cura-filtros');
+  const btnFiltrar    = document.getElementById('btn-aplicar-filtros-cura');
+  const btnReset      = document.getElementById('btn-limpar-filtro-cura');
+  const btnRefresh    = document.getElementById('btn-refresh-cura');
+  const containerTbl  = document.getElementById('relatorio-cura-tabela-container');
+  const tableEl       = containerTbl.querySelector('table');
+  const theadEl       = tableEl.querySelector('thead');
+  const tbodyEl       = tableEl.querySelector('tbody');
 
-let dadosOriginaisCura = [];
-let dataUltimaBuscaInicialCura = '';
-let dataUltimaBuscaFinalCura = '';
+  // filtros “avançados” (já existem no HTML)
+  const filtroConsulenteAv = document.getElementById('filtro-consulente');
+  const filtroTipoOracao   = document.getElementById('filtro-tipo-oracao');
+  const filterFieldsCura = [
+    { slug: 'agua',             key: 'AGUA' },
+    { slug: 'cha',              key: 'CHÁ' },
+    { slug: 'banho',            key: 'BANHO' },
+    { slug: 'bastao',           key: 'BASTÃO' },
+    { slug: 'canjica',          key: 'CANJICA' },
+    { slug: 'ebo-prosperidade', key: 'EBÓ PROSPERIDADE' },
+    { slug: 'imersao',          key: 'IMERSÃO' },
+    { slug: 'remedio-vicio',    key: 'REMÉDIO VÍCIO' },
+    { slug: 'material-arreada-exu', key: 'MATERIAL ARREADA EXU' },
+    { slug: 'espada-sao-jorge', key: 'ESPADA SÃO JORGE' },
+  ];
 
-const filterFieldsCura = [
-  { key: 'Consulente', label: 'Consulente', type: 'text' },
-  { key: 'Tipo de Oração', label: 'Tipo de Oração', type: 'text' },
-  { key: 'AGUA', label: 'AGUA', type: 'checkbox' },
-  { key: 'CHÁ', label: 'CHÁ', type: 'checkbox' },
-  { key: 'BANHO', label: 'BANHO', type: 'checkbox' },
-  { key: 'BASTÃO', label: 'BASTÃO', type: 'checkbox' },
-  { key: 'CANJICA', label: 'CANJICA', type: 'checkbox' },
-  { key: 'EBÓ PROSPERIDADE', label: 'EBÓ PROSPERIDADE', type: 'checkbox' },
-  { key: 'IMERSÃO', label: 'IMERSÃO', type: 'checkbox' },
-  { key: 'REMÉDIO VÍCIO', label: 'REMÉDIO VÍCIO', type: 'checkbox' },
-  { key: 'MATERIAL ARREADA EXU', label: 'MATERIAL ARREADA EXU', type: 'checkbox' },
-  { key: 'ESPADA SÃO JORGE', label: 'ESPADA SÃO JORGE', type: 'checkbox' },
-];
+  let dadosOriginais = [];
+  let lastConsulente = '';
+  let lastPegarFeitos = false;
 
-function showMessageCura(text, type = 'error') {
-  messageCuraEl.textContent = text;
-  messageCuraEl.className = `message ${type}`;
-  messageCuraEl.classList.remove('hide');
-  setTimeout(() => messageCuraEl.classList.add('hide'), 5000);
-}
+  // esconder tudo no load
+  [msgEl, filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl]
+    .forEach(el => el.style.display = 'none');
 
-async function buscarDadosCura(dataInicial, dataFinal) {
-  filtrosCuraContainer.style.display = 'none';
-  filtrosCuraContainer.innerHTML = '';
-  tabelaCuraContainer.innerHTML = '';
-  tabelaCuraContainer.style.display = 'none';
-  messageCuraEl.className = 'message';
-  messageCuraEl.textContent = '';
-  btnFiltrarCura.style.display = 'none';
-  btnRestaurarCura.style.display = 'none';
-  btnRefreshCura.style.display = 'none';
-
-  if (!dataInicial) {
-    showMessageCura('Por favor, selecione uma data inicial', 'error');
-    return;
-  }
-  if (!dataFinal) {
-    showMessageCura('Por favor, selecione uma data final', 'error');
-    return;
+  // ──────────────────────────────────────────────
+  // helper de mensagem
+  // ──────────────────────────────────────────────
+  function showMessage(text, type = 'error') {
+    msgEl.textContent = text;
+    msgEl.className = `message-cura ${type}`;
+    msgEl.style.display = 'block';
+    setTimeout(() => msgEl.style.display = 'none', 5000);
   }
 
-  showMessageCura('Buscando dados...', '');
+  // ──────────────────────────────────────────────
+  // Buscar dados
+  // ──────────────────────────────────────────────
+  async function buscarDados(consulente, pegarFeitos) {
+    // reset UI
+    [filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl].forEach(el => el.style.display = 'none');
+    tbodyEl.innerHTML = '';
+    theadEl.innerHTML = '';
 
-  try {
-    const res = await fetch(RELATORIO_CURA_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ dataSel: dataInicial, dataselend: dataFinal }),
+    showMessage('Buscando dados...', '');
+
+    try {
+      const res = await fetch(RELATORIO_CURA_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ consulente, pegarFeitos })
+      });
+      if (!res.ok) throw new Error(res.statusText);
+
+      const dados = await res.json();
+      // Se não houver NENHUM item com Cura preenchido:
+      if (!dados.length || !dados.some(x => x.Cura)) {
+        showMessage('Nenhum registro em aberto encontrado para esse consulente', 'error');
+        return;
+      }
+
+      dadosOriginais = dados;
+      montarTabela(dadosOriginais);
+      showMessage('Dados carregados com sucesso.', 'success');
+
+      // mostra filtros e botões
+      filtrosEl.style.display  = 'grid';      // ativa nosso CSS em grid
+      btnFiltrar.style.display = 'block';
+      btnReset.style.display   = 'block';
+      btnRefresh.style.display = 'block';
+    }
+    catch(err) {
+      console.error(err);
+      showMessage('Erro ao buscar dados: ' + err.message, 'error');
+    }
+  }
+
+  // ──────────────────────────────────────────────
+  // Montar tabela dinâmica
+  // ──────────────────────────────────────────────
+  function montarTabela(data) {
+    // 1) Cabeçalho
+    theadEl.innerHTML = '';
+    const trHead = document.createElement('tr');
+    // colunas fixas + colunas de filtro
+    const cols = ['Data','Consulente','Cura', ...filterFieldsCura.map(f=>f.key)];
+    cols.forEach(col => {
+      const th = document.createElement('th');
+      th.textContent = col;
+      trHead.appendChild(th);
     });
-    if (!res.ok) throw new Error(res.statusText);
+    theadEl.appendChild(trHead);
 
-    const dados = await res.json();
+    // 2) Aplicar filtros avançados
+    let filtrado = data.slice();
+    const c1 = filtroConsulenteAv.value.trim().toLowerCase();
+    if (c1) filtrado = filtrado.filter(x=> x.Consulente?.toLowerCase().includes(c1));
+    const c2 = filtroTipoOracao.value.trim().toLowerCase();
+    if (c2) filtrado = filtrado.filter(x=> x['Tipo de Oração']?.toLowerCase().includes(c2));
+    filterFieldsCura.forEach(({slug,key})=>{
+      const cb = document.getElementById(`filtro-${slug}`);
+      if (cb?.checked) filtrado = filtrado.filter(x=> Boolean(x[key]));
+    });
 
-    if (!dados.length || !dados.some(item => item.Consulente != null && item.Consulente !== '')) {
-      showMessageCura('Nenhum dado encontrado para o intervalo selecionado', 'error');
+    // 3) Linhas
+    tbodyEl.innerHTML = '';
+    if (!filtrado.length) {
+      containerTbl.style.display = 'none';
       return;
     }
-
-    dadosOriginaisCura = dados;
-    populateFiltersCura();
-    montarTabelaCura(dadosOriginaisCura);
-    showMessageCura('Dados carregados com sucesso.', 'success');
-    startDateCura.value = '';
-    endDateCura.value = '';
-
-    filtrosCuraContainer.style.display = 'flex';
-    btnFiltrarCura.style.display = 'inline-block';
-    btnRestaurarCura.style.display = 'inline-block';
-    btnRefreshCura.style.display = 'inline-block';
-
-  } catch (err) {
-    console.error(err);
-    showMessageCura('Erro ao buscar dados: ' + err.message, 'error');
-  }
-}
-
-function populateFiltersCura() {
-  filtrosCuraContainer.innerHTML = '';
-
-  filterFieldsCura.forEach(({ key, label, type }) => {
-    const wrapper = document.createElement('div');
-    wrapper.style.marginBottom = '6px';
-
-    if (type === 'text') {
-      const labelEl = document.createElement('label');
-      labelEl.textContent = label + ': ';
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.id = `filtro-${key.toLowerCase().replace(/\s+/g, '-')}`;
-      input.placeholder = `Filtrar por ${label}`;
-      wrapper.appendChild(labelEl);
-      wrapper.appendChild(input);
-    } else if (type === 'checkbox') {
-      const input = document.createElement('input');
-      input.type = 'checkbox';
-      input.id = `filtro-${key.toLowerCase().replace(/\s+/g, '-')}`;
-      const labelEl = document.createElement('label');
-      labelEl.htmlFor = input.id;
-      labelEl.textContent = label;
-      labelEl.style.marginLeft = '6px';
-      wrapper.appendChild(input);
-      wrapper.appendChild(labelEl);
-    }
-
-    filtrosCuraContainer.appendChild(wrapper);
-  });
-}
-
-function montarTabelaCura(data) {
-  tabelaCuraContainer.innerHTML = '';
-  tabelaCuraContainer.style.display = 'block';
-
-  const filtrosAtivos = {};
-
-  filterFieldsCura.forEach(({ key, type }) => {
-    const el = document.getElementById(`filtro-${key.toLowerCase().replace(/\s+/g, '-')}`);
-    if (!el) return;
-    if (type === 'text' && el.value.trim()) {
-      filtrosAtivos[key] = el.value.trim();
-    } else if (type === 'checkbox' && el.checked) {
-      filtrosAtivos[key] = true;
-    }
-  });
-
-  const filtrado = data.filter(item => {
-    return Object.entries(filtrosAtivos).every(([field, val]) => {
-      if (typeof val === 'boolean') {
-        return Boolean(item[field]) === val;
-      } else {
-        if (!item[field]) return false;
-        return item[field].toLowerCase().includes(val.toLowerCase());
-      }
+    filtrado.forEach(item => {
+      const tr = document.createElement('tr');
+      cols.forEach(col => {
+        const td = document.createElement('td');
+        // colunas fixas
+        if (['Data','Consulente','Cura'].includes(col)) {
+          td.textContent = item[col] ?? '';
+        } else {
+          // colunas de flag → ✓ / vazio
+          td.textContent = item[col] ? '✓' : '';
+          td.style.textAlign = 'center';
+        }
+        tr.appendChild(td);
+      });
+      tbodyEl.appendChild(tr);
     });
-  });
-
-  if (!filtrado.length) {
-    tabelaCuraContainer.style.display = 'none';
-    return;
+    containerTbl.style.display = 'block';
   }
 
-  const table = document.createElement('table');
-  const thead = document.createElement('thead');
-  const trHead = document.createElement('tr');
-  ['Data', 'Consulente', 'Cura'].forEach(titulo => {
-    const th = document.createElement('th');
-    th.textContent = titulo;
-    trHead.appendChild(th);
+  // ──────────────────────────────────────────────
+  // Eventos dos botões
+  // ──────────────────────────────────────────────
+  btnBuscar.addEventListener('click', () => {
+    const nome = filtroIniCons.value.trim();
+    if (!nome) {
+      showMessage('Por favor, digite o nome do consulente', 'error');
+      return;
+    }
+    lastConsulente   = nome;
+    lastPegarFeitos  = pegarFeitosCb.checked;
+    buscarDados(lastConsulente, lastPegarFeitos);
   });
-  thead.appendChild(trHead);
-  table.appendChild(thead);
 
-  const tbody = document.createElement('tbody');
-
-  filtrado.forEach(item => {
-    const tr = document.createElement('tr');
-
-    ['Data', 'Consulente', 'Cura'].forEach(c => {
-      const td = document.createElement('td');
-      td.textContent = item[c] ?? '';
-      tr.appendChild(td);
+  btnFiltrar.addEventListener('click', () => montarTabela(dadosOriginais));
+  btnReset.addEventListener('click', () => {
+    // limpa todos os inputs/checkbox
+    filtroConsulenteAv.value = '';
+    filtroTipoOracao.value   = '';
+    filterFieldsCura.forEach(f=> {
+      const cb = document.getElementById(`filtro-${f.slug}`);
+      if (cb) cb.checked = false;
     });
-
-    tbody.appendChild(tr);
+    montarTabela(dadosOriginais);
+    btnReset.style.display = 'none';
+  });
+  btnRefresh.addEventListener('click', () => {
+    if (!lastConsulente) {
+      showMessage('Nenhuma busca anterior encontrada. Busque primeiro.', 'error');
+      return;
+    }
+    buscarDados(lastConsulente, lastPegarFeitos);
+    showMessage('Atualizando dados...', 'success');
   });
 
-  table.appendChild(tbody);
-  tabelaCuraContainer.appendChild(table);
-}
-
-btnBuscarCura.addEventListener('click', () => {
-  if (!startDateCura.value || !endDateCura.value) {
-    showMessageCura('Selecione as datas para buscar.', 'error');
-    return;
-  }
-  dataUltimaBuscaInicialCura = startDateCura.value;
-  dataUltimaBuscaFinalCura = endDateCura.value;
-  buscarDadosCura(dataUltimaBuscaInicialCura, dataUltimaBuscaFinalCura);
-});
-
-btnFiltrarCura.addEventListener('click', () => {
-  montarTabelaCura(dadosOriginaisCura);
-});
-
-btnRestaurarCura.addEventListener('click', () => {
-  filterFieldsCura.forEach(({ key, type }) => {
-    const el = document.getElementById(`filtro-${key.toLowerCase().replace(/\s+/g, '-')}`);
-    if (!el) return;
-    if (type === 'text') el.value = '';
-    else if (type === 'checkbox') el.checked = false;
+  // sempre que mexer em qualquer filtro, mostra “Restaurar filtros”
+  filtrosEl.addEventListener('input', () => {
+    btnReset.style.display = 'block';
   });
-  montarTabelaCura(dadosOriginaisCura);
-  btnRestaurarCura.style.display = 'none';
-});
-
-btnRefreshCura.addEventListener('click', () => {
-  if (!dataUltimaBuscaInicialCura || !dataUltimaBuscaFinalCura) {
-    showMessageCura('Nenhuma busca anterior encontrada. Por favor, faça uma busca primeiro.', 'error');
-    return;
-  }
-  buscarDadosCura(dataUltimaBuscaInicialCura, dataUltimaBuscaFinalCura);
-  showMessageCura('Atualizando dados...', 'success');
-});
-
-filtrosCuraContainer.addEventListener('input', () => {
-  btnRestaurarCura.style.display = 'inline-block';
 });
