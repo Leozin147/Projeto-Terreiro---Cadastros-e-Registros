@@ -1,5 +1,5 @@
-const RELATORIO_URL = 'https://marcofassa.app.n8n.cloud/webhook/e2bc5e4b-0ac6-4b8d-962b-67a872301a93';
-const WEBHOOK_URL = 'https://marcofassa.app.n8n.cloud/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29';
+const RELATORIO_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e2bc5e4b-0ac6-4b8d-962b-67a872301a93';
+const WEBHOOK_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29';
 
 const filtrosContainer = document.getElementById('relatorio-filtros');
 const tabelaContainer = document.getElementById('relatorio-tabela-container');
@@ -20,7 +20,6 @@ let dataUltimaBuscaFinal = '';
 const filterFields = [
   { key: 'Consulente', label: 'Consulente' },
   { key: 'Descarrego', label: 'Descarrego' },
-  { key: 'Cura', label: 'Cura' },
   { key: 'Sacudimento', label: 'Sacudimento' },
   { key: 'Ebó', label: 'Ebó' },
   { key: 'Limpeza de Flor de Omolu', label: 'Limpeza de Flor de Omolu' },
@@ -49,6 +48,7 @@ async function buscarDados(dataInicial, dataFinal) {
   messageEl.textContent = '';
   btnFiltrar.style.display = 'none';
   btnRestaurar.style.display = 'none';
+  btnRefresh.style.display = 'none';
 
   if (!dataInicial) {
     showMessage('Por favor, selecione uma data inicial', 'error');
@@ -68,8 +68,14 @@ async function buscarDados(dataInicial, dataFinal) {
       body: JSON.stringify({ dataSel: dataInicial, dataselend: dataFinal }),
     });
     if (!res.ok) throw new Error(res.statusText);
+
     const dados = await res.json();
-    if (!dados.length) {
+
+    // Verifica se não tem dados ou se todos os Consulente estão vazios/null
+    if (
+      !dados.length ||
+      !dados.some(item => item.Consulente != null && item.Consulente !== '')
+    ) {
       showMessage('Nenhum dado encontrado para o intervalo selecionado', 'error');
       return;
     }
@@ -81,7 +87,13 @@ async function buscarDados(dataInicial, dataFinal) {
       return;
     }
 
-    dadosOriginais = dados;
+    // Filtra e remove campo Cura dos dados (por segurança)
+    const dadosSemCura = dados.map(item => {
+      const { Cura, ...rest } = item;
+      return rest;
+    });
+
+    dadosOriginais = dadosSemCura;
     populateFilters(dadosOriginais);
     montarTabela(dadosOriginais);
     showMessage('Dados carregados com sucesso.', 'success');
@@ -133,6 +145,7 @@ function populateFilters(data, filtrosAtivos = {}) {
 }
 
 function montarTabela(data, filtros = {}) {
+  btnRefresh.style.display = 'none';
   const incluirFeitos = pegarFeitosCheckbox.checked;
 
   const filtrado = data.filter(item => {
@@ -155,8 +168,6 @@ function montarTabela(data, filtros = {}) {
   const btnRefreshLocal = document.createElement('button');
   btnRefreshLocal.id = 'btn-refresh';
   btnRefreshLocal.title = 'Atualizar dados';
-  btnRefreshLocal.textContent = '🔄';
-  tabelaContainer.appendChild(btnRefreshLocal);
 
   btnRefreshLocal.addEventListener('click', () => {
     if (!dataUltimaBuscaInicial || !dataUltimaBuscaFinal) {
@@ -228,6 +239,8 @@ function montarTabela(data, filtros = {}) {
 
   table.appendChild(tbody);
   tabelaContainer.appendChild(table);
+
+  btnRefresh.style.display = 'inline-block';
 }
 
 btnBuscar.addEventListener('click', () => {
@@ -258,6 +271,18 @@ btnRestaurar.addEventListener('click', () => {
 
 pegarFeitosCheckbox.addEventListener('change', () => {
   montarTabela(dadosOriginais);
+});
+
+btnRefresh.addEventListener('click', () => {
+  if (!dataUltimaBuscaInicial || !dataUltimaBuscaFinal) {
+    showMessage(
+      'Nenhuma busca anterior encontrada. Por favor, faça uma busca primeiro.',
+      'error'
+    );
+    return;
+  }
+  buscarDados(dataUltimaBuscaInicial, dataUltimaBuscaFinal);
+  showMessage('Atualizando dados...', 'success');
 });
 
 tabelaContainer.addEventListener('change', e => {

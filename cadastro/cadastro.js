@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // envio ao webhook
-    fetch('https://marcofassa.app.n8n.cloud/webhook/7ad39782-6b2d-44d1-86b7-01fe6ec6fd18', {
+    fetch('https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/7ad39782-6b2d-44d1-86b7-01fe6ec6fd18', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ nome, telefone: telefoneRaw })
