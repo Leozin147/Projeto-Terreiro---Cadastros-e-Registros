@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Sistema de Cadastro e Trabalhos</title>
     <link rel="stylesheet" href="styles/main.css" />
+    <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+  />
   </head>
   <body>
     <header class="site-header">
@@ -113,46 +117,56 @@
             Selecione Tipo de Saída de Fogo
           </button>
           <div class="dropdown-content">
-            <label
-              ><input type="checkbox" value="Fogo Exu Encruzilhada" /> Fogo Exu
-              Encruzilhada</label
-            >
-            <label
-              ><input type="checkbox" value="Fogo Exu Calunga" /> Fogo Exu
-              Calunga</label
-            >
-            <label
-              ><input type="checkbox" value="Fogo Pomba-gira Encruzilhada" />
-              Fogo Pomba-gira Encruzilhada</label
-            >
-            <label
-              ><input type="checkbox" value="Fogo Pomba-gira Calunga" /> Fogo
-              Pomba-gira Calunga</label
-            >
-            <label><input type="checkbox" value="Fogo Ogum" /> Fogo Ogum</label>
-            <label
-              ><input type="checkbox" value="Fogo Xangô" /> Fogo Xangô</label
-            >
-            <label
-              ><input type="checkbox" value="Fogo Oxossi" /> Fogo Oxossi</label
-            >
-            <label><input type="checkbox" value="Fogo Oxum" /> Fogo Oxum</label>
-            <label><input type="checkbox" value="Fogo Nanã" /> Fogo Nanã</label>
-            <label
-              ><input type="checkbox" value="Fogo Iemanjá" /> Fogo
-              Iemanjá</label
-            >
-            <label
-              ><input type="checkbox" value="Fogo Iansã" /> Fogo Iansã</label
-            >
-            <label
-              ><input type="checkbox" value="Fogo Ibeijada" /> Fogo
-              Ibeijada</label
-            >
-            <label
-              ><input type="checkbox" value="Fogo Preto Velho" /> Fogo Preto
-              Velho</label
-            >
+            <label><input type="checkbox" value="Fogo Exu Encruzilhada Simples" /> Fogo Exu Encruzilhada Simples</label>
+            <label><input type="checkbox" value="Fogo Exu Encruzilhada Na Pesada" /> Fogo Exu Encruzilhada Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Exu Calunga Simples" /> Fogo Exu Calunga Simples</label>
+            <label><input type="checkbox" value="Fogo Exu Calunga Na Pesada" /> Fogo Exu Calunga Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Pomba-gira Encruzilhada Simples" /> Fogo Pomba-gira Encruzilhada Simples</label>
+            <label><input type="checkbox" value="Fogo Pomba-gira Encruzilhada Na Pesada" /> Fogo Pomba-gira Encruzilhada Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Pomba-gira Calunga Simples" /> Fogo Pomba-gira Calunga Simples</label>
+            <label><input type="checkbox" value="Fogo Pomba-gira Calunga Na Pesada" /> Fogo Pomba-gira Calunga Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Ogum Simples" /> Fogo Ogum Simples</label>
+            <label><input type="checkbox" value="Fogo Ogum Na Pesada" /> Fogo Ogum Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Xangô Simples" /> Fogo Xangô Simples</label>
+            <label><input type="checkbox" value="Fogo Xangô Na Pesada" /> Fogo Xangô Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Oxossi Simples" /> Fogo Oxossi Simples</label>
+            <label><input type="checkbox" value="Fogo Oxossi Na Pesada" /> Fogo Oxossi Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Oxum Simples" /> Fogo Oxum Simples</label>
+            <label><input type="checkbox" value="Fogo Oxum Na Pesada" /> Fogo Oxum Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Nanã Simples" /> Fogo Nanã Simples</label>
+            <label><input type="checkbox" value="Fogo Nanã Na Pesada" /> Fogo Nanã Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Iemanjá Simples" /> Fogo Iemanjá Simples</label>
+            <label><input type="checkbox" value="Fogo Iemanjá Na Pesada" /> Fogo Iemanjá Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Iansã Simples" /> Fogo Iansã Simples</label>
+            <label><input type="checkbox" value="Fogo Iansã Na Pesada" /> Fogo Iansã Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Beijada Simples" /> Fogo Beijada Simples</label>
+            <label><input type="checkbox" value="Fogo Beijada Na Pesada" /> Fogo Beijada Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Preto Velho Mineiro Simples" /> Fogo Preto Velho Mineiro Simples</label>
+            <label><input type="checkbox" value="Fogo Preto Velho Mineiro Na Pesada" /> Fogo Preto Velho Mineiro Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Preto Velho Angola Simples" /> Fogo Preto Velho Angola Simples</label>
+            <label><input type="checkbox" value="Fogo Preto Velho Angola Na Pesada" /> Fogo Preto Velho Angola Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Preto Velho Congo Simples" /> Fogo Preto Velho Congo Simples</label>
+            <label><input type="checkbox" value="Fogo Preto Velho Congo Na Pesada" /> Fogo Preto Velho Congo Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Preto Velho Bahia Simples" /> Fogo Preto Velho Bahia Simples</label>
+            <label><input type="checkbox" value="Fogo Preto Velho Bahia Na Pesada" /> Fogo Preto Velho Bahia Na Pesada</label>
+            
+            <label><input type="checkbox" value="Fogo Preto Velho Bahiano Simples" /> Fogo Preto Velho Bahiano Simples</label>
+            <label><input type="checkbox" value="Fogo Preto Velho Bahiano Na Pesada" /> Fogo Preto Velho Bahiano Na Pesada</label>
             <label
               ><input type="checkbox" value="Fogo Círculo de Fogo" /> Fogo
               Círculo de Fogo</label
@@ -183,66 +197,25 @@
             Selecione Tipo de Cura
           </button>
           <div class="dropdown-content">
-            <label
-              ><input type="checkbox" value="Cura Ori Protocolo 1" /> Cura Ori
-              Protocolo 1</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Ori Protocolo 2" /> Cura Ori
-              Protocolo 2</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Ori Protocolo 3" /> Cura Ori
-              Protocolo 3</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Emoções Protocolo 1" /> Cura
-              Emoções Protocolo 1</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Emoções Protocolo 2" /> Cura
-              Emoções Protocolo 2</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Emoções Protocolo 3" /> Cura
-              Emoções Protocolo 3</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Prosperidade Protocolo 1" />
-              Cura Prosperidade Protocolo 1</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Prosperidade Protocolo 2" />
-              Cura Prosperidade Protocolo 2</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Prosperidade Protocolo 3" />
-              Cura Prosperidade Protocolo 3</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Saúde Protocolo 1" /> Cura
-              Saúde Protocolo 1</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Saúde Protocolo 2" /> Cura
-              Saúde Protocolo 2</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Saúde Protocolo 3" /> Cura
-              Saúde Protocolo 3</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Vicío Protocolo 1" /> Cura
-              Vicío Protocolo 1</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Vicío Protocolo 2" /> Cura
-              Vicío Protocolo 2</label
-            >
-            <label
-              ><input type="checkbox" value="Cura Vicío Protocolo 3" /> Cura
-              Vicío Protocolo 3</label
-            >
+            <label><input type="checkbox" value="Cura Ori 1" /> Cura Ori 1</label>
+            <label><input type="checkbox" value="Cura Ori 2" /> Cura Ori 2</label>
+            <label><input type="checkbox" value="Cura Ori 3" /> Cura Ori 3</label>
+            
+            <label><input type="checkbox" value="Cura Emoções 1" /> Cura Emoções 1</label>
+            <label><input type="checkbox" value="Cura Emoções 2" /> Cura Emoções 2</label>
+            <label><input type="checkbox" value="Cura Emoções 3" /> Cura Emoções 3</label>
+            
+            <label><input type="checkbox" value="Cura Prosperidade 1" /> Cura Prosperidade 1</label>
+            <label><input type="checkbox" value="Cura Prosperidade 2" /> Cura Prosperidade 2</label>
+            <label><input type="checkbox" value="Cura Prosperidade 3" /> Cura Prosperidade 3</label>
+            
+            <label><input type="checkbox" value="Cura Saúde 1" /> Cura Saúde 1</label>
+            <label><input type="checkbox" value="Cura Saúde 2" /> Cura Saúde 2</label>
+            <label><input type="checkbox" value="Cura Saúde 3" /> Cura Saúde 3</label>
+            
+            <label><input type="checkbox" value="Cura Vicío 1" /> Cura Vicío 1</label>
+            <label><input type="checkbox" value="Cura Vicío 2" /> Cura Vicío 2</label>
+            <label><input type="checkbox" value="Cura Vicío 3" /> Cura Vicío 3</label>
           </div>
         </div>
 
@@ -257,41 +230,22 @@
             Selecione Tipo de Ebó
           </button>
           <div class="dropdown-content">
-            <label
-              ><input type="checkbox" value="Ebó Exu Encruzilhada" /> Ebó Exu
-              Encruzilhada</label
-            >
-            <label
-              ><input type="checkbox" value="Ebó Exu Calunga" /> Ebó Exu
-              Calunga</label
-            >
-            <label
-              ><input type="checkbox" value="Ebó Pomba-gira Encruzilhada" /> Ebó
-              Pomba-gira Encruzilhada</label
-            >
-            <label
-              ><input type="checkbox" value="Ebó Pomba-gira Calunga" /> Ebó
-              Pomba-gira Calunga</label
-            >
+            <label><input type="checkbox" value="Ebó Exu Encruzilhada" /> Ebó Exu Encruzilhada</label>
+            <label><input type="checkbox" value="Ebó Exu Calunga" /> Ebó Exu Calunga</label>
+            <label><input type="checkbox" value="Ebó Pomba-gira Encruzilhada" /> Ebó Pomba-gira Encruzilhada</label>
+            <label><input type="checkbox" value="Ebó Pomba-gira Calunga" /> Ebó Pomba-gira Calunga</label>
             <label><input type="checkbox" value="Ebó Ogum" /> Ebó Ogum</label>
             <label><input type="checkbox" value="Ebó Xangô" /> Ebó Xangô</label>
-            <label
-              ><input type="checkbox" value="Ebó Oxossi" /> Ebó Oxossi</label
-            >
+            <label><input type="checkbox" value="Ebó Oxossi" /> Ebó Oxossi</label>
             <label><input type="checkbox" value="Ebó Oxum" /> Ebó Oxum</label>
             <label><input type="checkbox" value="Ebó Nanã" /> Ebó Nanã</label>
-            <label
-              ><input type="checkbox" value="Ebó Iemanjá" /> Ebó Iemanjá</label
-            >
+            <label><input type="checkbox" value="Ebó Iemanjá" /> Ebó Iemanjá</label>
             <label><input type="checkbox" value="Ebó Iansã" /> Ebó Iansã</label>
-            <label
-              ><input type="checkbox" value="Ebó Ibeijada" /> Ebó
-              Ibeijada</label
-            >
-            <label
-              ><input type="checkbox" value="Ebó Preto Velho" /> Ebó Preto
-              Velho</label
-            >
+            <label><input type="checkbox" value="Ebó Beijada" /> Ebó Beijada</label>
+            <label><input type="checkbox" value="Ebó Preto Velho Mineiro" /> Ebó Preto Velho Mineiro</label>
+            <label><input type="checkbox" value="Ebó Preto Velho Congo" /> Ebó Preto Velho Congo</label>
+            <label><input type="checkbox" value="Ebó Preto Velho Angola" /> Ebó Preto Velho Angola</label>
+            <label><input type="checkbox" value="Ebó Preto Velho Bahia" /> Ebó Preto Velho Bahia</label>
           </div>
         </div>
 
@@ -318,7 +272,8 @@
             type="date"
             id="relatorio-data-final"
             min="1900-01-01"
-            max="9999-12-31"/>
+            max="9999-12-31"
+          />
           <label style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
             <input type="checkbox" id="checkbox-pegar-feitos" />
             Pegar feitos
@@ -333,67 +288,106 @@
         <button id="btn-limpar-filtro" class="btn-limpar-filtros">
           Restaurar Filtros
         </button>
+        <button id="btn-refresh" class="btn-limpar-filtros">Atualizar Tabela</button>
         <div id="relatorio-mensagem" class="mensagem"></div>
       </div>
     
       <div id="relatorio-tabela-container">
-        <button id="btn-refresh" title="Atualizar dados">🔄</button>
         <table>
           <thead>
             <tr>
-              <!-- EXISTENTES: -->
               <th>Data</th>
               <th>Consulente</th>
               <th>Telefone</th>
               <th>Descarrego</th>
-              <th>Cura</th>
               <th>Sacudimento</th>
               <th>Ebó</th>
               <th>Limpeza de Flor de Omolu</th>
               <th>Saída de Fogo</th>
-    
               <!-- Novas colunas de Feito e Não Compareceu -->
               <th>Feito</th>
               <th>Não Compareceu</th>
             </tr>
           </thead>
           <tbody>
-            <!-- As linhas de dados serão geradas dinamicamente pelo JS -->
-            <tr>
-              <td>21/05/2025</td>
-              <td>Teste</td>
-              <td>13974057602</td>
-              <td>Descarrego Dandalunda</td>
-              <td>Cura Ori Protocolo 1, Cura Ori Protocolo 2, Cura Ori Protocolo 3</td>
-              <td>Sim</td>
-              <td>Ebó Exu Encruzilhada, Ebó Exu Calunga, Ebó Pomba-gira Encruzilhada</td>
-              <td>Sim</td>
-              <td>Fogo Exu Encruzilhada, Fogo Exu Calunga, Fogo Pomba-gira Encruzilhada</td>
-              <td>Feito</td>
-              
-              <!-- Checkboxes de Feito e Não Compareceu -->
-              <td><input type="checkbox" class="cb-feito" /></td>
-              <td><input type="checkbox" class="cb-nao" /></td>
-            </tr>
-            <tr>
-              <td>21/05/2025</td>
-              <td>Ronaldo</td>
-              <td>13974034811</td>
-              <td>Descarrego</td>
-              <td>Cura Ori Protocolo 3</td>
-              <td>Não</td>
-              <td>Não</td>
-              <td>Não</td>
-              
-              <!-- Checkboxes de Feito e Não Compareceu -->
-              <td><input type="checkbox" class="cb-feito" /></td>
-              <td><input type="checkbox" class="cb-nao" /></td>
-            </tr>
-            <!-- Mais linhas serão geradas dinamicamente -->
+            <!-- Linhas de dados serão geradas dinamicamente pelo JS -->
           </tbody>
         </table>
       </div>
     </section>
+
+    <!-- Seção de Relatório de Curas -->
+<section id="relatorio-cura-section">
+  <div class="card">
+    <h2>Relatório de Curas</h2>
+    <h3>Selecione as datas da consulta</h3>
+    <div class="data-container">
+      <label for="relatorio-cura-data-inicial">Data Inicial</label>
+      <input
+        type="date"
+        id="relatorio-cura-data-inicial"
+        min="1900-01-01"
+        max="9999-12-31"
+      />
+      <label for="relatorio-cura-data-final">Data Final</label>
+      <input
+        type="date"
+        id="relatorio-cura-data-final"
+        min="1900-01-01"
+        max="9999-12-31"
+      />
+      <label style="display: flex; align-items: center; gap: 10px; margin-top: 10px;">
+        <input type="checkbox" id="checkbox-pegar-feitos-cura" />
+        Pegar feitos
+      </label>
+    </div>
+    <button id="btn-buscar-relatorio-cura">Buscar</button>
+    <div id="relatorio-cura-message" class="message"></div>
+
+    <!-- Filtros ocultos, aparecem após o relatório ser gerado -->
+    <div id="relatorio-cura-filtros" class="filtros-container" style="display:none; margin-top:15px;">
+      <label>
+        Consulente:
+        <input type="text" id="filtro-consulente" placeholder="Filtrar por consulente" />
+      </label>
+      <label>
+        Tipo de Oração:
+        <input type="text" id="filtro-tipo-oracao" placeholder="Filtrar por tipo de oração" />
+      </label>
+      <label><input type="checkbox" id="filtro-agua" /> AGUA</label>
+      <label><input type="checkbox" id="filtro-cha" /> CHÁ</label>
+      <label><input type="checkbox" id="filtro-banho" /> BANHO</label>
+      <label><input type="checkbox" id="filtro-bastao" /> BASTÃO</label>
+      <label><input type="checkbox" id="filtro-canjica" /> CANJICA</label>
+      <label><input type="checkbox" id="filtro-ebo-prosperidade" /> EBÓ PROSPERIDADE</label>
+      <label><input type="checkbox" id="filtro-imersao" /> IMERSÃO</label>
+      <label><input type="checkbox" id="filtro-remedio-vicio" /> REMÉDIO VÍCIO</label>
+      <label><input type="checkbox" id="filtro-material-arreada-exu" /> MATERIAL ARREADA EXU</label>
+      <label><input type="checkbox" id="filtro-espada-sao-jorge" /> ESPADA SÃO JORGE</label>
+    </div>
+
+    <!-- Botões ocultos para resetar filtros e atualizar tabela -->
+    <button id="btn-aplicar-filtros-cura" class="btn-aplicar-filtros" style="display:none;">Filtrar</button>
+    <button id="btn-limpar-filtro-cura" class="btn-limpar-filtros" style="display:none;">Restaurar Filtros</button>
+    <button id="btn-refresh-cura" class="btn-limpar-filtros" style="display:none;">Atualizar Tabela</button>
+  </div>
+
+  <div id="relatorio-cura-tabela-container" style="margin-top:20px;">
+    <table>
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th>Consulente</th>
+          <th>Cura</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Linhas de dados geradas dinamicamente -->
+      </tbody>
+    </table>
+  </div>
+</section>
+
     <!-- script de menu -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -402,6 +396,7 @@
           { label: "Cadastro", sectionId: "cadastro-section" },
           { label: "Registro Trabalhos", sectionId: "trabalhos-section" },
           { label: "Relatório Trabalhos", sectionId: "relatorio-section" },
+          { label: "Relatório de Cura", sectionId: "relatorio-cura"},
         ];
 
         tabs.forEach((tab) => {
@@ -425,9 +420,26 @@
       });
     </script>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // testa suporte nativo
+    const test = document.createElement("input");
+    test.type = "date";
+    if (test.type === "text") {
+      // não suporta nativo → inicializa Flatpickr em todos os date inputs
+      flatpickr("input[type=date]", {
+        dateFormat: "d/m/Y",
+        allowInput: true,
+      });
+    }
+  });
+</script>
+
     <!-- seus JS separados -->
     <script src="cadastro/cadastro.js"></script>
     <script src="trabalhos/registro.js"></script>
     <script src="trabalhos/consulta.js"></script>
+    <script src="trabalhos/relatorio-cura.js"></script>
   </body>
 </html>
