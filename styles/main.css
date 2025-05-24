@@ -57,6 +57,34 @@ body {
     position: relative; 
     z-index: 1;
   }
+  
+    input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 0.6em 1em;
+    padding-right: 2.5em;       
+    font-size: 1rem;
+    color: #000;
+  }
+
+  input[type="date"]::placeholder {
+    color: #999;
+    opacity: 1;                
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute;
+    top: 50%;
+    right: 1em;
+    width: 1.2em;
+    height: 1.2em;
+    transform: translateY(-50%);
+    pointer-events: none;
+    background: url('/assets/calendar.svg') no-repeat center / contain;
+  }
 }
 
 #menu_opt button {
