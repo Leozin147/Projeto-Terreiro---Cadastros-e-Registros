@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -16,17 +16,52 @@ body {
 #menu_opt {
   width: 100% !important;
   display: flex !important;
-  flex-direction: row !important;
   justify-content: space-around;
   gap: 20px !important;
   margin: 30px 0 !important;
-  visibility: visible !important; 
-  padding-bottom: 15px !important; 
-  margin-bottom: 50px !important; 
+  visibility: visible !important;
+  padding-bottom: 15px !important;
+  margin-bottom: 50px !important;
   margin-top: 80px !important;
 }
 
+@media (max-width: 768px) {
+
+  #menu_opt {
+    position: absolute;
+    top: 130px;        
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;          
+    z-index: 100;      
+  }
+
+  .card {
+    margin-top: 300px !important;   
+    position: relative; 
+    z-index: 1;
+  }
+
+  #menu_opt_button {
+    font-size: 16px;
+    text-align: center;
+    padding: 8px 16px;
+  }
+  #relatorio-cura-section .relatorio-cura-card{
+    margin-top: 300px !important;   
+    position: relative; 
+    z-index: 1;
+  }
+}
+
 #menu_opt button {
+  letter-spacing: 3px;
+  margin-left: 5px;
   text-align: center;
   width: 100%;
   background: none;
@@ -100,8 +135,6 @@ body > section {
   outline: none;
   transition: border-color 0.2s ease;
 }
-
-
 
 .card input[type="text"]:focus {
   border-color: #007bff;
@@ -283,7 +316,7 @@ header {
   align-items: center;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 50px; 
+  margin-bottom: 50px;
 }
 header .logo {
   height: 50px;
@@ -294,19 +327,18 @@ header .site-title {
 }
 
 #menu_opt {
-  visibility: visible; 
-  padding-bottom: 15px; 
-  margin-bottom: 50px; 
+  visibility: visible;
+  padding-bottom: 15px;
+  margin-bottom: 50px;
   margin-top: 80px;
 }
 .site-header {
-  display: flex;             
-  align-items: center;      
-  justify-content: center;   
-  gap: 1.5rem;               
-  padding: 1rem 0;           
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 0;
 }
-
 
 .site-header .logo {
   max-width: 120px;
@@ -315,11 +347,11 @@ header .site-title {
 }
 
 .site-header .site-title {
-  margin: 0;                
+  margin: 0;
   font-weight: bold;
   color: #000;
   text-shadow: 0.5px 0.5px 0.5px #000;
-  text-align: left;         
+  text-align: left;
 }
 
 .input-container-title {
@@ -360,7 +392,7 @@ header .site-title {
   font-size: 12px;
   color: #007bff;
 }
- /* Relatório de Trabalhos */
+/* Relatório de Trabalhos */
 #relatorio-section .card > div.data-container {
   max-width: 300px;
   margin: 0 auto 20px;
@@ -409,14 +441,14 @@ header .site-title {
 }
 
 #relatorio-section > #relatorio-tabela-container {
-  max-width: none;        /* permite largura 100% */
+  max-width: none; /* permite largura 100% */
   width: 100%;
   margin: 20px auto;
   padding: 20px;
   background: #f5f7fa90;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow-x: auto;       /* rolagem horizontal se necessário */
+  overflow-x: auto; /* rolagem horizontal se necessário */
   display: none;
   position: relative;
 }
@@ -464,14 +496,11 @@ header .site-title {
   visibility: hidden;
 }
 
-
-
 /* Estilização básica da tabela */
 #relatorio-tabela-container table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
-
 }
 
 #relatorio-tabela-container th,
@@ -480,19 +509,18 @@ header .site-title {
   border: 1px solid #000;
   text-align: center;
   font-weight: bold;
-  
 }
 
 #relatorio-tabela-container thead {
- background-color: #616161;
- color: #fff;
- font-weight: bold;
+  background-color: #616161;
+  color: #fff;
+  font-weight: bold;
 }
 
 /* === Ajustes nas colunas "Feito" e "Não Compareceu" === */
 #relatorio-tabela-container th:nth-last-child(2),
 #relatorio-tabela-container th:last-child {
-  width: 100px;              
+  width: 100px;
   text-align: center;
 }
 
@@ -517,14 +545,14 @@ header .site-title {
 .filtros-container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;  
-  gap: 16px;               
-  max-width: 400px;        
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 400px;
   margin: 0 auto 16px;
 }
 
 .filtros-container > div {
-width: 100%;
+  width: 100%;
 }
 
 .filtros-container label {
@@ -540,41 +568,36 @@ width: 100%;
   width: 100%;
   box-sizing: border-box;
 }
-.btn-aplicar-filtros{
-  display:none;
+.btn-aplicar-filtros {
+  display: none;
   margin-top: 10px;
-
 }
 
-.btn-aplicar-filtros:hover{
+.btn-aplicar-filtros:hover {
   background-color: #000 !important;
 }
 
-.btn-limpar-filtros{
-  display:none;
+.btn-limpar-filtros {
+  display: none;
   margin-top: 10px;
-
 }
 
-.btn-limpar-filtros:hover{
+.btn-limpar-filtros:hover {
   background-color: #000 !important;
 }
-
 
 .hide {
   display: none;
 }
-
 
 .sub-dropdown {
   margin-top: 0.5em;
 }
 
-
 /* === Ajustes nas colunas "Feito" e "Não Compareceu" === */
 #relatorio-tabela-container th:nth-last-child(2),
 #relatorio-tabela-container th:last-child {
-  width: 100px;              
+  width: 100px;
   text-align: center;
 }
 
@@ -599,14 +622,14 @@ width: 100%;
 .filtros-container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;  
-  gap: 16px;               
-  max-width: 400px;        
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 400px;
   margin: 0 auto 16px;
 }
 
 .filtros-container > div {
-width: 100%;
+  width: 100%;
 }
 
 .filtros-container label {
@@ -622,38 +645,34 @@ width: 100%;
   width: 100%;
   box-sizing: border-box;
 }
-.btn-aplicar-filtros{
-  display:none;
+.btn-aplicar-filtros {
+  display: none;
   margin-top: 10px;
-
 }
 
-.btn-aplicar-filtros:hover{
+.btn-aplicar-filtros:hover {
   background-color: #000 !important;
 }
 
-.btn-limpar-filtros{
-  display:none;
+.btn-limpar-filtros {
+  display: none;
   margin-top: 10px;
-
 }
 
-.btn-limpar-filtros:hover{
+.btn-limpar-filtros:hover {
   background-color: #000 !important;
 }
-
 
 .hide {
   display: none;
 }
-
 
 .sub-dropdown {
   margin-top: 0.5em;
 }
 
 /* Mensagem Relatório */
-.mensagem{
+.mensagem {
   margin-top: 30px;
   font-size: 0.95rem;
   text-align: center;
@@ -662,16 +681,15 @@ width: 100%;
   opacity: 1;
 }
 
-.mensagem.success{
+.mensagem.success {
   color: #2e7d32;
   font-weight: bold;
 }
 
-.mensagem.error{
+.mensagem.error {
   color: #c62828;
   font-weight: bold;
 }
-
 
 input[type="date"] {
   appearance: auto;
@@ -687,11 +705,11 @@ input[type="date"] {
 
 /*Formatar campos de data */
 input[type="date"]::-webkit-datetime-edit {
-  padding: 0;  
+  padding: 0;
 }
 
 input[type="date"]::-webkit-datetime-edit-field-wrapper {
-  gap: 0.25em; 
+  gap: 0.25em;
 }
 
 input[type="date"]::-webkit-datetime-edit-text,
@@ -710,7 +728,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   opacity: 0.6;
   cursor: pointer;
 }
-
 
 /* Seção Relatório de Curas */
 #relatorio-cura-section {
@@ -766,7 +783,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #relatorio-cura-section .relatorio-cura-card input[type="date"]:focus {
   border-color: #007bff;
 }
-#relatorio-cura-section .relatorio-cura-card label[for="checkbox-pegar-feitos-cura"] {
+#relatorio-cura-section
+  .relatorio-cura-card
+  label[for="checkbox-pegar-feitos-cura"] {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -793,7 +812,9 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #relatorio-cura-section #btn-aplicar-filtros-cura:hover,
 #relatorio-cura-section #btn-limpar-filtro-cura:hover,
 #relatorio-cura-section #btn-refresh-cura:hover,
-#relatorio-cura-section .relatorio-cura-card button#btn-buscar-relatorio-cura:hover {
+#relatorio-cura-section
+  .relatorio-cura-card
+  button#btn-buscar-relatorio-cura:hover {
   background-color: #008000;
 }
 
@@ -911,17 +932,17 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 /* 2) Estilo do select “limpinho” */
 .dropdown-cura-retirada .dropbtn-cura-retirada {
   -webkit-appearance: none;
-  -moz-appearance:    none;
-  appearance:         none;
-  width:             100%;
-  padding:           12px;
-  padding-right:     2em;       /* espaço pra seta custom */
-  font-size:         16px;
-  background-color:  #000;
-  color:             #fff;
-  border:            none;
-  border-radius:     6px;
-  cursor:            pointer;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 12px;
+  padding-right: 2em; /* espaço pra seta custom */
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 /* 3) Remove seta feia no IE/Edge */
@@ -931,20 +952,20 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /* 4) Nosso triângulo via wrapper */
 .dropdown-cura-retirada::after {
-  content:           "▼";
-  position:          absolute;
-  top:               50%;
-  right:             1em;
-  transform:         translateY(-50%);
-  pointer-events:    none;
-  font-size:         0.9em;
-  color:             #fff;
+  content: "▼";
+  position: absolute;
+  top: 50%;
+  right: 1em;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.9em;
+  color: #fff;
 }
 
 #tipo-cura-message {
   margin-top: 6px;
   font-size: 0.9em;
-  min-height: 1.2em;    
+  min-height: 1.2em;
 }
 
 /* sucesso = verde */
