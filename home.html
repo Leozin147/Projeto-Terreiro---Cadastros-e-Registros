@@ -9,6 +9,13 @@
     rel="stylesheet"
     href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
   />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+  href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap"
+  rel="stylesheet"
+/>
+
   </head>
   <body>
     <header class="site-header">
@@ -411,6 +418,15 @@
       </div>
     
       <button id="btn-cadastrar-retirada" class="btn-cadastrar-retirada">Cadastrar Retirada</button>
+            <label for="tipo-cura" style="margin-top: 16px; display: block; font-weight: bold; color: #fff;">
+        Tipo de Cura:
+      </label>
+      <div class="dropdown-cura-retirada">
+        <select id="tipo-cura" class="dropbtn-cura-retirada">
+          <option value="">Tipo da Cura</option>
+        </select>
+        <div id="tipo-cura-message"></div>
+      </div>
     </div>
   </div>
 
