@@ -296,17 +296,6 @@ body > section {
   padding-right: 2.5em;
 }
 
-.dropbtn::after {
-  content: "▼";
-  position: absolute;
-  right: 1em;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  font-size: 0.9em;
-  color: #fff;
-}
-
 .dropbtn:hover {
   background-color: #000 !important;
 }
@@ -758,6 +747,28 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 /* Seção Relatório de Curas */
+
+.dropbtn-status-cura {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  text-align: left;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.dropbtn {
+  position: relative;
+  padding-right: 2.5em;
+}
+
+.dropbtn:hover {
+  background-color: #000 !important;
+}
+
 #relatorio-cura-section {
   padding: 20px;
   background-color: #f5f7fa;
@@ -944,8 +955,61 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dropdown-cura-retirada {
   position: relative;
   width: 100%;
-  text-align: center;
+  display: inline-block;
   margin-top: -20px;
+  text-align: left;  
+}
+
+.dropdown-cura-retirada .dropbtn-status-cura {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  text-align: left;
+}
+
+
+.dropdown-cura-retirada .dropdown-content-cura {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  padding: 8px 0;
+}
+
+/* itens do menu */
+.dropdown-cura-retirada .dropdown-content-cura label {
+  display: block;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* checkbox dentro dos labels */
+.dropdown-cura-retirada .dropdown-content-cura label input[type="checkbox"] {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* hover nos itens */
+.dropdown-cura-retirada .dropdown-content-cura label:hover {
+  background-color: #f0f2f5;
 }
 
 .dropdown-cura-retirada .dropbtn-cura-retirada {
@@ -961,6 +1025,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: none;
   border-radius: 6px;
   cursor: pointer;
+  position: relative;
+}
+
+
+.dropdown-cura-retirada-content{
+  background-color: #fff;
 }
 
 .dropdown-cura-retirada .dropbtn-cura-retirada::-ms-expand {
@@ -970,7 +1040,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 .dropdown-cura-retirada::after {
   content: "▼";
   position: absolute;
-  top: 35%;
+  top: 20px;
   right: 1em;
   transform: translateY(-50%);
   pointer-events: none;
@@ -989,5 +1059,18 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 #tipo-cura-message.error {
+  color: #dc3545;
+}
+
+#status-cura-message {
+  font-size: 0.9em;
+  min-height: 1.2em;
+}
+
+#status-cura-message.success {
+  color: #28a745;
+}
+
+#status-cura-message.error {
   color: #dc3545;
 }

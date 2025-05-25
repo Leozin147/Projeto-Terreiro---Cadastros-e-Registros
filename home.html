@@ -77,7 +77,7 @@
             id="dropbtn-trabalhos"
             aria-expanded="false"
           >
-            Selecione Trabalhos
+            Selecionar Trabalhos
           </button>
           <div class="dropdown-content">
             <label
@@ -709,18 +709,56 @@
           <label
             for="tipo-cura"
             style="
-              margin-top: 16px;
+              margin-top: 30px;
               display: block;
               font-weight: bold;
               color: #fff;
+
             "
           >
-            Tipo de Cura:
+
           </label>
           <div class="dropdown-cura-retirada">
             <select id="tipo-cura" class="dropbtn-cura-retirada">
               <option value="">Tipo da Cura</option>
             </select>
+            <label
+              for="status-cura"
+              style="
+                margin-top: 16px;
+                display: block;
+                font-weight: bold;
+                color: #fff;
+              "
+            >
+            </label>
+
+            <div class="dropdown-cura-retirada">
+              <button
+                type="button"
+                class="dropbtn-status-cura"
+                id="dropbtn-cura-retirada"
+                aria-expanded="false"
+              >
+                Selecione o Status
+              </button>
+
+              <div id="status-cura" class="dropdown-content-cura">
+                <label>
+                  <input type="checkbox" value="iniciar" />
+                  Iniciar Cura
+                </label>
+                <label>
+                  <input type="checkbox" value="finalizar" />
+                  Finalizar Cura
+                </label>
+                <label>
+                  <input type="checkbox" value="pagamento_cura" />
+                  Comprou Protocolo
+                </label>
+              </div>
+            </div>
+             <div id="status-cura-message"></div>
             <div id="tipo-cura-message"></div>
           </div>
         </div>
