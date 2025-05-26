@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnRefresh           = document.getElementById('btn-refresh');
   const mensagem             = document.getElementById('relatorio-mensagem');
   const pegarFeitosCheckbox  = document.getElementById('checkbox-pegar-feitos');
+  const dateContainer = document.querySelector('input[type="date]');
 
   let dadosOriginais = [];
   let dataUltimaBuscaInicial = '';
@@ -38,6 +39,18 @@ document.addEventListener('DOMContentLoaded', () => {
     messageEl.classList.remove('hide');
     setTimeout(() => messageEl.classList.add('hide'), 5000);
   }
+
+dateInputs.forEach(input => {
+  input.addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+
+  dateContainer.addEventListener('click', (e) => {
+    if (!e.target.closest('input[type="date"]')) {
+      input.showPicker?.() || input.focus();
+    }
+  });
+});
 
   function showMensagem(text, type = 'error') {
     mensagem.textContent = text;

@@ -25,11 +25,10 @@ body {
   margin-top: 80px !important;
 }
 
-@media only screen and (max-width: 768px) {
-
+@media only screen and (max-width: 1200px) {
   #menu_opt {
     position: absolute;
-    top: 130px;        
+    top: 130px;
     left: 0;
     right: 0;
     margin: 0 auto;
@@ -37,13 +36,13 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 5px;          
-    z-index: 100;      
+    gap: 5px;
+    z-index: 100;
   }
 
   .card {
-    margin-top: 300px !important;   
-    position: relative; 
+    margin-top: 300px !important;
+    position: relative;
     z-index: 1;
   }
 
@@ -52,38 +51,77 @@ body {
     text-align: center;
     padding: 8px 16px;
   }
-  #relatorio-cura-section .relatorio-cura-card{
-    margin-top: 230px !important;   
-    position: relative; 
+  #relatorio-cura-section .relatorio-cura-card {
+    margin-top: 230px !important;
+    position: relative;
     z-index: 1;
   }
 
-    input[type="date"] {
+   .trabalho-data-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .trabalho-data-container input[type="date"] {
     -webkit-appearance: none;
     appearance: none;
-    background-color: #fff;
+    width: 100%;
+    padding: 0.6em 2.5em 0.6em 1em; 
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding: 0.6em 1em;
-    padding-right: 2.5em;       
     font-size: 1rem;
     color: #000;
+    background-color: #fff;
   }
 
-  input[type="date"]::placeholder {
+  .trabalho-data-container input[type="date"]::placeholder {
     color: #999;
-    opacity: 1;                
+    opacity: 1;
   }
 
-  input[type="date"]::-webkit-calendar-picker-indicator {
+  .trabalho-data-container::after {
     position: absolute;
     top: 50%;
-    right: 1em;
+    right: 0.8em;
     width: 1.2em;
     height: 1.2em;
     transform: translateY(-50%);
+    background: url("/assets/calendar.svg") no-repeat center / contain;
     pointer-events: none;
-    background: url('/assets/calendar.svg') no-repeat center / contain;
+  }
+
+  /*data relatorio*/
+    .data-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .data-container input[type="date"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    padding: 0.6em 2.5em 0.6em 1em; 
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    font-size: 1rem;
+    color: #000;
+    background-color: #fff;
+  }
+
+  .data-container input[type="date"]::placeholder {
+    color: #999;
+    opacity: 1;
+  }
+
+  .data-container::after {
+    position: absolute;
+    top: 50%;
+    right: 0.8em;
+    width: 1.2em;
+    height: 1.2em;
+    transform: translateY(-50%);
+    background: url("/assets/calendar.svg") no-repeat center / contain;
+    pointer-events: none;
   }
 }
 
@@ -190,7 +228,20 @@ body > section {
   position: relative;
   margin-bottom: 16px;
   width: 100%;
+  z-index: 2;
 }
+
+.dropdown::after {
+  content: "▼";
+  position: absolute;
+  top: 20px;
+  right: 1em;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.9em;
+  color: #fff;
+}
+
 
 .dropbtn {
   width: 100%;
@@ -267,7 +318,7 @@ body > section {
 
 /* container de mensagem para “trabalhos” */
 .message-trabalhos {
-  margin-top: -75px;
+  margin: 12px 0;
   font-size: 0.95rem;
   text-align: center;
   min-height: 1.2em;
@@ -957,7 +1008,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   width: 100%;
   display: inline-block;
   margin-top: -20px;
-  text-align: left;  
+  text-align: left;
 }
 
 .dropdown-cura-retirada .dropbtn-status-cura {
@@ -975,7 +1026,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: relative;
   text-align: left;
 }
-
 
 .dropdown-cura-retirada .dropdown-content-cura {
   display: none;
@@ -1018,7 +1068,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   appearance: none;
   width: 100%;
   padding: 12px;
-  padding-right: 2em; 
+  padding-right: 2em;
   font-size: 16px;
   background-color: #000;
   color: #fff;
@@ -1028,8 +1078,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: relative;
 }
 
-
-.dropdown-cura-retirada-content{
+.dropdown-cura-retirada-content {
   background-color: #fff;
 }
 
@@ -1074,3 +1123,4 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #status-cura-message.error {
   color: #dc3545;
 }
+
