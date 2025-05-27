@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
   const RELATORIO_CURA_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/9efd518f-fceb-4ff5-b20a-a319eb1667e5';
-  const WEBHOOK_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/9efd518f-fceb-4ff5-b20a-a319eb1667e5';
+  const WEBHOOK_URL = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/8f7c9bb2-1574-4a01-8b47-b0e87498ff6e';
 
   // Elementos do relatório Cura
   const filtroIniCons = document.getElementById('filtro-inicial-consulente');
