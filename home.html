@@ -31,7 +31,7 @@
     <div id="menu_opt"></div>
 
     <!-- aba Cadastro -->
-    <section id="cadastro-section">
+    <!--<section id="cadastro-section">
       <div class="card">
         <h2>Cadastro</h2>
         <div class="input-container-title">
@@ -45,7 +45,7 @@
         <button id="btn-cadastrar">Cadastrar</button>
         <div id="cadastro-message" class="message"></div>
       </div>
-    </section>
+    </section> -->
 
     <!-- container de registro de trabalhos-->
     <section id="trabalhos-section">
@@ -63,7 +63,6 @@
           <label for="trabalhos-data">Data da Consulta</label>
           <input
             type="date"
-            placeholder="dd/mm/yyyy"
             id="trabalhos-data"
             min="1900-01-01"
             max="9999-12-31"
@@ -715,10 +714,8 @@
               display: block;
               font-weight: bold;
               color: #fff;
-
             "
           >
-
           </label>
           <div class="dropdown-cura-retirada">
             <select id="tipo-cura" class="dropbtn-cura-retirada">
@@ -738,7 +735,7 @@
             <div class="dropdown-cura-retirada">
               <button
                 type="button"
-                class="dropbtn-status-cura"
+                class="dropbtn-cura-retirada"
                 id="dropbtn-cura-retirada"
                 aria-expanded="false"
               >
@@ -760,7 +757,7 @@
                 </label>
               </div>
             </div>
-             <div id="status-cura-message"></div>
+            <div id="status-cura-message"></div>
             <div id="tipo-cura-message"></div>
           </div>
         </div>
@@ -782,15 +779,121 @@
       </div>
     </section>
 
+
+      <!-- Seção de Relatório de Ebós -->
+    <section id="relatorio-ebo-section">
+      <div class="relatorio-ebo-card">
+        <h2>Relatório de Ebós</h2>
+        <h3>Filtrar por consulente</h3>
+        <div class="data-container-ebo">
+          <label for="filtro-inicial-consulente-ebo">Consulente</label>
+          <input
+            type="text"
+            id="filtro-inicial-consulente-ebo"
+            placeholder="Digite o nome do consulente"
+          />
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin-top: 10px;
+            "
+          >
+            <input type="checkbox" id="checkbox-pegar-feitos-ebo" />
+            Pegar feitos
+          </label>
+        </div>
+        <button id="btn-buscar-relatorio-ebo">Buscar</button>
+        <div id="relatorio-ebo-message" class="message-ebo"></div>
+
+        <button
+          id="btn-refresh-ebo"
+          class="btn-limpar-filtros-ebo"
+          style="display: none"
+        >
+          Atualizar Tabela
+        </button>
+        <div id="retirada-container" class="retirada-container">
+          <h4>Pagamento:</h4>
+          <label
+            for="tipo-ebo"
+            style="
+              margin-top: 30px;
+              display: block;
+              font-weight: bold;
+              color: #fff;
+            "
+          >
+          </label>
+          <div class="dropdown-ebo-retirada">
+            <select id="tipo-ebo" class="dropbtn-ebo-retirada">
+              <option value="">Tipo do Ebó</option>
+            </select>
+            <label
+              for="status-ebo"
+              style="
+                margin-top: 16px;
+                display: block;
+                font-weight: bold;
+                color: #fff;
+              "
+            >
+            </label>
+
+            <div class="dropdown-ebo-retirada">
+              <button
+                type="button"
+                class="dropbtn-status-ebo"
+                id="dropbtn-ebo-retirada"
+                aria-expanded="false"
+              >
+                Selecione o Status
+              </button>
+
+              <div id="status-ceb" class="dropdown-content-ebo">
+                <label>
+                  <input type="checkbox" value="finalizar" />
+                  Feito Ebó
+                </label>
+                <label>
+                  <input type="checkbox" value="pagamento_ebo" />
+                  Pagou o Ebó
+                </label>
+              </div>
+            </div>
+            <div id="status-ebo-message"></div>
+            <div id="tipo-ebo-message"></div>
+          </div>
+        </div>
+      </div>
+
+      <div id="relatorio-ebo-tabela-container" style="margin-top: 20px">
+        <table>
+          <thead>
+            <tr>
+              <th>Data</th>
+              <th>Consulente</th>
+              <th>Ebo</th>
+              <th>Status Ebó</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
     <!-- script de menu -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const menuContainer = document.getElementById("menu_opt");
         const tabs = [
-          { label: "Cadastro", sectionId: "cadastro-section" },
           { label: "Registro Trabalhos", sectionId: "trabalhos-section" },
           { label: "Relatório Trabalhos", sectionId: "relatorio-section" },
           { label: "Relatório de Cura", sectionId: "relatorio-cura-section" },
+          { label: "Relatório de Ebós", sectionId: "relatorio-ebo-section"},
+                   /* { label: "Cadastro", sectionId: "cadastro-section" }, */
         ];
 
         tabs.forEach((tab) => {
@@ -835,5 +938,6 @@
     <script src="trabalhos/registro.js"></script>
     <script src="trabalhos/consulta.js"></script>
     <script src="trabalhos/relatorio-cura.js"></script>
+    <script src="trabalhos/relatorio-ebo.js"></script>
   </body>
 </html>
