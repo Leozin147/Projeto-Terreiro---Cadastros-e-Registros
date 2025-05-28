@@ -61,12 +61,15 @@
         </div>
         <div class="trabalho-data-container">
           <label for="trabalhos-data">Data da Consulta</label>
+          <div id="wrapperDate" class="wrapperDate">
+            <label for="trabalhos-data">dd/mm/aaaa*</label>
           <input
             type="date"
             id="trabalhos-data"
             min="1900-01-01"
             max="9999-12-31"
           />
+          </div>
         </div>
 
         <!-- Dropdown Principal -->
@@ -471,6 +474,8 @@
         <h3>Selecione as datas da consulta</h3>
         <div class="data-container">
           <label for="relatorio-data">Data Inicial</label>
+            <div id="wrapperDate" class="wrapperDate">
+            <label for="trabalhos-data">dd/mm/aaaa*</label>
           <input
             type="date"
             placeholder="dd/mm/yyyy"
@@ -478,7 +483,10 @@
             min="1900-01-01"
             max="9999-12-31"
           />
+          </div>
           <label for="relatorio-data-final">Data Final</label>
+            <div id="wrapperDate" class="wrapperDate">
+            <label for="trabalhos-data">dd/mm/aaaa*</label>
           <input
             type="date"
             placeholder="dd/mm/yyyy"
@@ -486,6 +494,7 @@
             min="1900-01-01"
             max="9999-12-31"
           />
+          </div>
           <label
             style="
               display: flex;
