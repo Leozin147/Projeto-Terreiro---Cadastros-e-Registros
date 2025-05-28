@@ -27,116 +27,40 @@ body {
 
 @media only screen and (max-width: 1200px) {
   #menu_opt {
-    position: absolute;
-    top: 110px;
-    left: 0;
-    right: 0;
-    margin: 0 auto;
-    display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    z-index: 100;
   }
-
-  .card {
-    margin-top: 300px !important;
-    position: relative;
-    z-index: 1;
-  }
-
-  #menu_opt_button {
-    font-size: 16px;
-    text-align: center;
-    padding: 8px 16px;
-  }
-  #relatorio-cura-section .relatorio-cura-card {
-    margin-top: 230px !important;
-    position: relative;
-    z-index: 1;
-  }
-
-.trabalho-data-container {
+.wrapperDate{
   position: relative;
-  width: 100%;
-  max-width: 400px;     /* ajusta conforme seu layout */
-  box-sizing: border-box;
+  z-index: 1;
+  display: flex ;
+  align-items: center;
+}
+.wrapperDate>label{
+  position: absolute;
+  left: 15px;
+  top: 2px;
+  z-index: 2;
+  color: #A9A9AC  !important;
+  display: block !important;
+  opacity: 0.8 !important;
 }
 
-.trabalho-data-container input[type="date"] {
-  appearance: none;
-  width: 100%;
-  padding: 0.6em 2.5em 0.6em 1em;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 1rem;
-  box-sizing: border-box;
+.trabalho-data-container label {
+  margin-bottom: 8px !important;
+
 }
 
-  .trabalho-data-container input[type="date"]::placeholder {
-    color: #999;
-    opacity: 1;
-  }
-
-  .trabalho-data-container::before {
-  content: "dd/mm/yyyy";
-  position: absolute !important;
-  top: 60%;
-  left: 1em;
-  transform: translateY(-50%);
-  color: #999;
-  font-size: 1rem;
-  pointer-events: none;
+#relatorio-section label[for="relatorio-data-final"]{
+  margin-bottom: 2px !important;
 }
 
-.trabalho-data-container.has-value::before {
-  display: none;
+#relatorio-section label[for="relatorio-data"]{
+  margin-bottom: 2px !important;
+}
 }
 
-  /*data relatorio*/
-  .data-container {
-    position: relative !important;
-    width: 100% !important;
-    max-width: 400px !important;
-    box-sizing: border-box !important;
-  }
-
-  .data-container input[type="date"] {
-    -webkit-appearance: none !important;
-    appearance: none !important;
-    width: 100% !important;
-    padding: 0.6em 2.5em 0.6em 1em !important;
-    border: 1px solid #ccc !important;
-    border-radius: 15px !important;
-    font-size: 1rem !important;
-    color: #000 !important;
-    background-color: #fff !important;
-    box-sizing: border-box !important;
-    cursor: pointer !important;
-  }
-
-  .data-container input[type="date"]::-webkit-calendar-picker-indicator {
-    position: absolute !important;
-    top: 50% !important;
-    right: 0.8em !important;
-    width: 1.2em !important;
-    height: 1.2em !important;
-    transform: translateY(-50%) !important;
-    pointer-events: none !important;
-    opacity: 0.8 !important;
-  }
-
-  .data-container input[type="date"]::placeholder {
-    color: #999 !important;
-    opacity: 1 !important;
-  }
-
-  .data-container input[type="date"]:focus {
-    outline: none !important;
-    border-color: #888 !important;
-    box-shadow: 0 0 0 2px rgba(136, 136, 136, 0.3) !important;
-  }
+.wrapperDate > label{
+  opacity: 0;
 }
 
 #menu_opt button {
@@ -365,12 +289,12 @@ body > section {
 }
 
 .trabalho-data-container {
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
 
 .trabalho-data-container label {
   display: block;
-  margin-bottom: 6px;
+  margin-bottom: -8px;
   font-weight: bold;
   color: #333;
 }
@@ -482,7 +406,7 @@ header .site-title {
 
 #relatorio-section label[for="relatorio-data"] {
   font-weight: bold;
-  margin-bottom: 6px;
+  margin-bottom: -20px;
   display: block;
 }
 
@@ -497,7 +421,7 @@ header .site-title {
 
 #relatorio-section label[for="relatorio-data-final"] {
   font-weight: bold;
-  margin-bottom: 6px;
+  margin-bottom: -20px;
   display: block;
 }
 
@@ -1273,7 +1197,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #fff;
 }
 
-/* Container de retirada (status Ebó) */
 #relatorio-ebo-section #retirada-container {
   margin-top: 20px;
   max-width: 600px;

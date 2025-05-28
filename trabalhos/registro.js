@@ -5,6 +5,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const dateContainer = document.querySelector(".trabalho-data-container");
   const btnRegistrar = document.getElementById("btn-registrar");
   const messageEl = document.getElementById("trabalhos-message");
+  const wrapper   = document.getElementById("wrapperDate");
+  const label     = wrapper.querySelector("label");
 
   const dropdowns = [
     {
@@ -38,6 +40,12 @@ document.addEventListener("DOMContentLoaded", () => {
     messageEl.classList.remove("hide");
     setTimeout(() => messageEl.classList.add("hide"), 5000);
   }
+
+  //esconde sub-placeholder
+  dateInput.addEventListener("change", () => {
+    if (dateInput.value) label.style.display = "none";
+    else               label.style.display = "block";
+  });
 
   // Função para validar sub-dropdowns
   function validarSubDropdowns() {

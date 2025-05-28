@@ -307,7 +307,7 @@ async function buscarDados(consulente, pegarFeitos) {
       showMessage("Digite o nome do consulente.", "error");
       return;
     }
-    buscarDados(nome, pegarFeitosCb.checked);
+    buscarDados(nome, pegarFeitosCb.checked); 
   });
 
   btnFiltrar.addEventListener("click", () => {
