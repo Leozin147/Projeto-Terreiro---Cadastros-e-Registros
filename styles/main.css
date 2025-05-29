@@ -946,7 +946,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: relative;
   width: 100%;
   display: inline-block;
-  margin-top: -20px;
+  margin-top: 15px;
   text-align: left;
 }
 
@@ -1016,6 +1016,34 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
   position: relative;
 }
+
+.dropbtn-cura-consulente {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 12px;
+  padding-right: 2em;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+}
+
+.consulente-cura .dropbtn-cura-consulente::after{
+  content: "▼";
+  position: absolute;
+  right: 1em;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.9em;
+  color: #fff;
+  z-index: 1;
+}
+
 
 .dropdown-cura-retirada-content {
   background-color: #fff;

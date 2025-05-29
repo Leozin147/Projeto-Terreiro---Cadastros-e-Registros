@@ -32,6 +32,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const dropdownCuraContent = document.getElementById("status-cura");
   const msgStatusCura = document.getElementById("status-cura-message");
 
+  // NOVO: select consulente-cura para lista suspensa de consulentes
+  const selectConsulenteCura = document.getElementById("consulente-cura");
+
   dropdownCuraContent.style.display = "none";
   dropbtnCura.setAttribute("aria-expanded", "false");
 
@@ -49,6 +52,9 @@ window.addEventListener("DOMContentLoaded", () => {
   ];
   let dadosOriginais = [];
 
+  // Flag para saber se a busca foi feita com nome (true) ou sem (false)
+  let buscaPorNome = false;
+
   // Esconde elementos iniciais
   [
     msgEl,
@@ -58,6 +64,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btnRefresh,
     containerTbl,
     retiradaContainer,
+    selectConsulenteCura,
   ].forEach((el) => {
     if (el) el.style.display = "none";
   });
@@ -113,6 +120,23 @@ window.addEventListener("DOMContentLoaded", () => {
       opt.value = t;
       opt.text = t;
       selectTipoCura.appendChild(opt);
+    });
+  }
+
+  // NOVO: Popula a lista suspensa de consulentes com base em dadosOriginais
+  function popularConsulenteCura() {
+    if (!selectConsulenteCura) return;
+    selectConsulenteCura.innerHTML = '<option value="">Selecione o Consulente</option>';
+
+    const consulentes = Array.from(
+      new Set(dadosOriginais.map((item) => item.Consulente).filter(Boolean))
+    ).sort();
+
+    consulentes.forEach((nome) => {
+      const opt = document.createElement("option");
+      opt.value = nome;
+      opt.textContent = nome;
+      selectConsulenteCura.appendChild(opt);
     });
   }
 
@@ -239,10 +263,11 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Função genérica de busca por nome
   async function buscarDados(consulente, pegarFeitos) {
-    [filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl, retiradaContainer]
-      .forEach((el) => (el.style.display = "none"));
+    buscaPorNome = !!consulente; // true se busca com nome, false se vazio
+    [filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl, retiradaContainer, selectConsulenteCura].forEach(
+      (el) => (el.style.display = "none")
+    );
     theadEl.innerHTML = "";
     tbodyEl.innerHTML = "";
     showMessage("Buscando dados...", "");
@@ -263,15 +288,12 @@ window.addEventListener("DOMContentLoaded", () => {
           Object.values(item).every((v) => v === null || v === "")
         )
       ) {
-        showMessage(
-          "Nenhum registro encontrado para esse consulente.",
-          "error"
-        );
+        showMessage("Nenhum registro encontrado para esse consulente.", "error");
         return;
       }
 
-      if (!Array.isArray(todos) || todos.length === 0) {
-        showMessage("Nenhum registro retornado.", "error");
+      if (!Array.isArray(todos) || todos.length === 0 || todos.some(item => item.Cura === "Não") ) {
+        showMessage("Nenhum registro encontrado para esse consulente.", "error");
         return;
       }
 
@@ -292,6 +314,13 @@ window.addEventListener("DOMContentLoaded", () => {
       popularChecklistRetirada();
       populateTipoCuraOptions();
 
+      if (!buscaPorNome) {
+        popularConsulenteCura();
+        selectConsulenteCura.style.display = "inline-block";
+      } else {
+        selectConsulenteCura.style.display = "none";
+      }
+
       showMessage("Dados carregados com sucesso.", "success");
       filtrosEl.style.display = "block";
       btnFiltrar.style.display = "inline-block";
@@ -305,14 +334,15 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // Função para buscar e montar tabela ao enviar status "Em andamento"
   async function buscarStatusEmAndamento() {
-    [filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl, retiradaContainer]
-      .forEach((el) => (el.style.display = "none"));
+    buscaPorNome = false;
+    [filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl, retiradaContainer, selectConsulenteCura].forEach(
+      (el) => (el.style.display = "none")
+    );
     theadEl.innerHTML = "";
     tbodyEl.innerHTML = "";
-    showMessage('Carregando dados...', '');
-
+    showMessage("Carregando dados...", "");
+  
     try {
       const res = await fetch(RELATORIO_CURA_URL, {
         method: "POST",
@@ -321,18 +351,29 @@ window.addEventListener("DOMContentLoaded", () => {
       });
       if (!res.ok) throw new Error(res.statusText);
       const todos = await res.json();
-
-      if (!Array.isArray(todos) || todos.length === 0) {
-        showMessage("Nenhum registro retornado.", "error");
+  
+      const dadosFiltrados = todos.filter(item => item.Cura !== "Não");
+  
+      const todosCamposNulos = dadosFiltrados.length === 0 || dadosFiltrados.every(item =>
+        (!item.Data || item.Data == null) &&
+        (!item.Consulente || item.Consulente == null) &&
+        (!item.Telefone || item.Telefone == null)
+      );
+  
+      if (dadosFiltrados.length === 0 || todosCamposNulos) {
+        showMessage("Nenhum registro em aberto encontrado.", "error");
         return;
       }
-
-      dadosOriginais = todos;
+  
+      dadosOriginais = dadosFiltrados;
       criarFiltros({});
       montarTabela(dadosOriginais, {});
       popularChecklistRetirada();
       populateTipoCuraOptions();
-
+  
+      popularConsulenteCura();
+      selectConsulenteCura.style.display = "inline-block";
+  
       showMessage("Dados carregados com sucesso.", "success");
       filtrosEl.style.display = "block";
       btnFiltrar.style.display = "inline-block";
@@ -465,11 +506,30 @@ window.addEventListener("DOMContentLoaded", () => {
 
       const status = evt.target.value;
       const labelText = evt.target.parentElement.textContent.trim();
-      const consulente = filtroIniCons.value.trim();
+      const consulenteInput = filtroIniCons.value.trim();
+      const consulenteSelecionado = selectConsulenteCura
+        ? selectConsulenteCura.value.trim()
+        : "";
       const cura = selectTipoCura.value;
 
       // atualiza texto do botão
       dropbtnCura.textContent = labelText;
+
+      // Validação: se busca sem nome, precisa selecionar o consulente na lista
+      if (!buscaPorNome && !consulenteSelecionado) {
+        showStatusCuraMessage(
+          "Selecione o Consulente para atualizar o status.",
+          "error"
+        );
+        dropbtnCura.textContent = "Selecione o Status";
+        dropdownCuraContent
+          .querySelectorAll("input[type=checkbox]")
+          .forEach((c) => (c.checked = false));
+        return;
+      }
+
+      // Determinar qual nome de consulente usar no payload
+      const consulente = buscaPorNome ? consulenteInput : consulenteSelecionado;
 
       if (!cura) {
         showStatusCuraMessage("Selecione o Tipo de Cura.", "error");
@@ -505,6 +565,7 @@ window.addEventListener("DOMContentLoaded", () => {
           dropdownCuraContent
             .querySelectorAll("input[type=checkbox]")
             .forEach((c) => (c.checked = false));
+          if (selectConsulenteCura) selectConsulenteCura.value = "";
         }, 5000);
       } catch (err) {
         showStatusCuraMessage(`Erro ao atualizar: ${err.message}`, "error");
