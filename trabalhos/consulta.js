@@ -101,8 +101,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // remove campo Cura e guarda originais
-      dadosOriginais = dados.map(({ Cura, ...rest }) => rest);
+      dadosOriginais = dados.map(({ Cura, Ebó, ...rest }) => rest);
 
       populateFilters(dadosOriginais);
       montarTabela(dadosOriginais);
@@ -123,7 +122,6 @@ document.addEventListener("DOMContentLoaded", () => {
       { key: "Consulente", label: "Consulente" },
       { key: "Descarrego", label: "Descarrego" },
       { key: "Sacudimento", label: "Sacudimento" },
-      { key: "Ebó", label: "Ebó" },
       { key: "Limpeza de Flor de Omolu", label: "Limpeza de Flor de Omolu" },
       { key: "Saída de Fogo", label: "Saída de Fogo" },
     ];
@@ -167,30 +165,25 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function montarTabela(data, filtros = {}) {
-    // filtra se deve incluir “Feito” ou não
     const incluirFeitos = pegarFeitosCheckbox.checked;
     const filtrado = data.filter((item) => {
       if (!incluirFeitos && item.Status === "Feito") return false;
       return Object.entries(filtros).every(([f, v]) => !v || item[f] === v);
     });
 
-    // se não há linhas, esconde tabela e botão de atualizar
     if (!filtrado.length) {
       tabelaContainer.style.display = "none";
       btnRefresh.style.display = "none";
       return;
     }
 
-    // caso haja dados, mostra botão e tabela
     btnRefresh.style.display = "inline-block";
     tabelaContainer.innerHTML = "";
     tabelaContainer.style.display = "block";
 
-    // monta colunas (incluindo “Status” caso não exista)
-    const colunas = Object.keys(filtrado[0]);
+    let colunas = Object.keys(filtrado[0]).filter(c => c !== "Ebó");
     if (!colunas.includes("Status")) colunas.push("Status");
 
-    // cabeçalho
     const table = document.createElement("table");
     const thead = document.createElement("thead");
     const trHead = document.createElement("tr");
@@ -199,7 +192,6 @@ document.addEventListener("DOMContentLoaded", () => {
       th.textContent = c;
       trHead.appendChild(th);
     });
-    // adiciona colunas de checkbox
     ["Feito", "Não Compareceu"].forEach((txt) => {
       const th = document.createElement("th");
       th.textContent = txt;
@@ -208,7 +200,6 @@ document.addEventListener("DOMContentLoaded", () => {
     thead.appendChild(trHead);
     table.appendChild(thead);
 
-    // corpo
     const tbody = document.createElement("tbody");
     filtrado.forEach((item) => {
       const tr = document.createElement("tr");
@@ -217,16 +208,12 @@ document.addEventListener("DOMContentLoaded", () => {
         td.textContent = item[c] ?? "";
         tr.appendChild(td);
       });
-      // checkbox “Feito”
       const cbFeito = document.createElement("input");
       cbFeito.type = "checkbox";
       cbFeito.classList.add("cb-feito");
-      // checkbox “Não Compareceu”
       const cbNao = document.createElement("input");
       cbNao.type = "checkbox";
       cbNao.classList.add("cb-nao");
-
-      // guarda dados no dataset
       [cbFeito, cbNao].forEach((cb) => {
         cb.dataset.date = item.Data;
         cb.dataset.nome = item.Consulente;
@@ -242,7 +229,6 @@ document.addEventListener("DOMContentLoaded", () => {
       tbody.appendChild(tr);
     });
     table.appendChild(tbody);
-
     tabelaContainer.appendChild(table);
   }
 

@@ -113,19 +113,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       });
 
-      // Alterna o estado da dropdown clicada
       container.classList.toggle("open");
       const isOpen = container.classList.contains("open");
       btn.setAttribute("aria-expanded", isOpen);
     });
   });
 
-  // Previne fechamento ao clicar nos itens
   document
     .querySelectorAll(".dropdown-content")
     .forEach((c) => c.addEventListener("click", (e) => e.stopPropagation()));
 
-  // Fecha tudo ao clicar fora ou apertar ESC
   document.addEventListener("click", () =>
     dropdowns.forEach(({ container, btn }) => {
       container.classList.remove("open");
@@ -159,7 +156,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const telefoneRaw = telefoneInput.value.replace(/\D/g, "");
     const dataConsulta = dateInput.value;
 
-    // validações básicas
     if (!nome && !telefoneRaw) {
       return showMessage("Por favor preencha nome e telefone", "error");
     }
@@ -173,13 +169,11 @@ document.addEventListener("DOMContentLoaded", () => {
       return showMessage("Por favor selecione a data da consulta.", "error");
     }
 
-    // validação sub-dropdowns
     const erroSubDropdown = validarSubDropdowns();
     if (erroSubDropdown) {
       return showMessage(erroSubDropdown, "error");
     }
 
-    // coleta todos os checkboxes marcados
     const trabalhos = Array.from(
       document.querySelectorAll(
         '#trabalhos-section input[type="checkbox"]:checked'
@@ -190,7 +184,6 @@ document.addEventListener("DOMContentLoaded", () => {
       return showMessage("Selecione ao menos um tipo de trabalho.", "error");
     }
 
-    // monta payload
     const payload = {
       nome,
       telefone: telefoneRaw,
@@ -216,7 +209,6 @@ document.addEventListener("DOMContentLoaded", () => {
         document
           .querySelectorAll('#trabalhos-section input[type="checkbox"]')
           .forEach((cb) => (cb.checked = false));
-        // fecha e re‐oculta sub‐menus
         dropdowns.forEach(({ container, btn, toggleOn }) => {
           container.classList.remove("open");
           btn.setAttribute("aria-expanded", false);

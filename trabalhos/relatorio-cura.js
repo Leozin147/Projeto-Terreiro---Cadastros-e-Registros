@@ -32,11 +32,9 @@ window.addEventListener("DOMContentLoaded", () => {
   const dropdownCuraContent = document.getElementById("status-cura");
   const msgStatusCura = document.getElementById("status-cura-message");
 
-  // — Inicializa dropdown de “Atualizar Status da Cura” fechado —
   dropdownCuraContent.style.display = "none";
   dropbtnCura.setAttribute("aria-expanded", "false");
 
-  // — Campos de filtro extras —
   const filterFieldsCura = [
     { slug: "agua", label: "Água" },
     { slug: "cha", label: "Chá" },
@@ -51,7 +49,7 @@ window.addEventListener("DOMContentLoaded", () => {
   ];
   let dadosOriginais = [];
 
-  // — Esconde tudo no início —
+  // Esconde elementos iniciais
   [
     msgEl,
     filtrosEl,
@@ -64,7 +62,7 @@ window.addEventListener("DOMContentLoaded", () => {
     if (el) el.style.display = "none";
   });
 
-  // — Funções de UI —
+  // — Helpers de UI —
   function showMessage(text, type = "error") {
     msgEl.textContent = text;
     msgEl.className = `message-cura ${type}`;
@@ -98,6 +96,7 @@ window.addEventListener("DOMContentLoaded", () => {
     return name.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }
 
+  // Popula o select de Tipo de Cura com base em dadosOriginais
   function populateTipoCuraOptions() {
     selectTipoCura.innerHTML = "";
     const defaultOpt = document.createElement("option");
@@ -117,6 +116,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Cria selects de filtro para cada campo de filterFieldsCura
   function criarFiltros(filtrosAtivos = {}) {
     filtrosEl.innerHTML = "";
     filtrosEl.classList.add("filtros-container");
@@ -164,6 +164,7 @@ window.addEventListener("DOMContentLoaded", () => {
     btnReset.style.display = "inline-block";
   }
 
+  // Monta cabeçalho e linhas da tabela de resultados
   function montarTabela(data, filtros = {}) {
     theadEl.innerHTML = "";
     tbodyEl.innerHTML = "";
@@ -178,9 +179,9 @@ window.addEventListener("DOMContentLoaded", () => {
     ];
     const colsFlags = filterFieldsCura.map((f) => f.slug);
     const paymentCol = ["pagamento_cura"];
-    const statusCol = ["status_cura"];
-    const cols = [...colsFixas, ...colsFlags, ...statusCol, ...paymentCol];
+    const cols = [...colsFixas, ...colsFlags, ...paymentCol];
 
+    // Cabeçalho
     const trHead = document.createElement("tr");
     cols.forEach((col) => {
       const th = document.createElement("th");
@@ -192,6 +193,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
     theadEl.appendChild(trHead);
 
+    // Filtra e popula linhas
     const filtrado = data.filter((item) =>
       Object.entries(filtros).every(([k, v]) => !v || item[k] === v)
     );
@@ -202,20 +204,19 @@ window.addEventListener("DOMContentLoaded", () => {
 
     filtrado.forEach((item) => {
       const tr = document.createElement("tr");
-      [...colsFixas, ...colsFlags, ...statusCol, ...paymentCol].forEach(
-        (col) => {
-          const td = document.createElement("td");
-          td.textContent = item[col] ?? "";
-          if (colsFlags.includes(col)) td.style.textAlign = "left";
-          tr.appendChild(td);
-        }
-      );
+      cols.forEach((col) => {
+        const td = document.createElement("td");
+        td.textContent = item[col] ?? "";
+        if (colsFlags.includes(col)) td.style.textAlign = "left";
+        tr.appendChild(td);
+      });
       tbodyEl.appendChild(tr);
     });
 
     containerTbl.style.display = "block";
   }
 
+  // Monta checklist de itens para retirada
   function popularChecklistRetirada() {
     if (!checklistRetirada) return;
     checklistRetirada.innerHTML = "";
@@ -238,76 +239,120 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // — Função principal de busca —
-async function buscarDados(consulente, pegarFeitos) {
-  [ filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl, retiradaContainer ]
-    .forEach(el => el.style.display = 'none');
-  theadEl.innerHTML = '';
-  tbodyEl.innerHTML = '';
-  showMessage('Buscando dados...', '');
+  // Função genérica de busca por nome
+  async function buscarDados(consulente, pegarFeitos) {
+    [filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl, retiradaContainer]
+      .forEach((el) => (el.style.display = "none"));
+    theadEl.innerHTML = "";
+    tbodyEl.innerHTML = "";
+    showMessage("Buscando dados...", "");
 
-  try {
-    const res  = await fetch(RELATORIO_CURA_URL, {
-      method:  'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body:    JSON.stringify({ consulente, pegarFeitos })
-    });
-    if (!res.ok) throw new Error(res.statusText);
-    const todos = await res.json();
+    try {
+      const res = await fetch(RELATORIO_CURA_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ consulente, pegarFeitos }),
+      });
+      if (!res.ok) throw new Error(res.statusText);
+      const todos = await res.json();
 
-    // Se todos os campos de cada item forem null ou vazios, exibe mensagem e retorna
-    if (Array.isArray(todos) && todos.length > 0 &&
-        todos.every(item =>
-          Object.values(item).every(v => v === null || v === '')
-        )) {
-      showMessage('Nenhum registro encontrado para esse consulente.', 'error');
-      return;
+      if (
+        Array.isArray(todos) &&
+        todos.length > 0 &&
+        todos.every((item) =>
+          Object.values(item).every((v) => v === null || v === "")
+        )
+      ) {
+        showMessage(
+          "Nenhum registro encontrado para esse consulente.",
+          "error"
+        );
+        return;
+      }
+
+      if (!Array.isArray(todos) || todos.length === 0) {
+        showMessage("Nenhum registro retornado.", "error");
+        return;
+      }
+
+      const dadosFiltrados = todos.filter(
+        (item) => pegarFeitos || !item.status_cura.startsWith("Finalizada")
+      );
+      if (dadosFiltrados.length === 0) {
+        const msg = pegarFeitos
+          ? "Nenhum registro encontrado."
+          : "Todas as curas desse consulente já estão finalizadas.";
+        showMessage(msg, "error");
+        return;
+      }
+
+      dadosOriginais = dadosFiltrados;
+      criarFiltros({});
+      montarTabela(dadosOriginais, {});
+      popularChecklistRetirada();
+      populateTipoCuraOptions();
+
+      showMessage("Dados carregados com sucesso.", "success");
+      filtrosEl.style.display = "block";
+      btnFiltrar.style.display = "inline-block";
+      btnReset.style.display = "none";
+      btnRefresh.style.display = "inline-block";
+      containerTbl.style.display = "block";
+      retiradaContainer.style.display = "block";
+    } catch (err) {
+      console.error(err);
+      showMessage(`Erro ao buscar dados: ${err.message}`, "error");
     }
-
-    if (!Array.isArray(todos) || todos.length === 0) {
-      showMessage('Nenhum registro retornado.', 'error');
-      return;
-    }
-
-    const dadosFiltrados = todos.filter(
-      item => pegarFeitos || !item.status_cura.startsWith('Finalizada')
-    );
-    if (dadosFiltrados.length === 0) {
-      const msg = pegarFeitos
-                ? 'Nenhum registro encontrado.'
-                : 'Todas as curas desse consulente já estão finalizadas.';
-      showMessage(msg, 'error');
-      return;
-    }
-
-    dadosOriginais = dadosFiltrados;
-    criarFiltros({});
-    montarTabela(dadosOriginais, {});
-    popularChecklistRetirada();
-    populateTipoCuraOptions();
-
-    showMessage('Dados carregados com sucesso.', 'success');
-    filtrosEl.style.display         = 'block';
-    btnFiltrar.style.display        = 'inline-block';
-    btnReset.style.display          = 'none';
-    btnRefresh.style.display        = 'inline-block';
-    containerTbl.style.display      = 'block';
-    retiradaContainer.style.display = 'block';
-
-  } catch (err) {
-    console.error(err);
-    showMessage(`Erro ao buscar dados: ${err.message}`, 'error');
   }
-}
 
-  // — Listeners principais —
+  // Função para buscar e montar tabela ao enviar status "Em andamento"
+  async function buscarStatusEmAndamento() {
+    [filtrosEl, btnFiltrar, btnReset, btnRefresh, containerTbl, retiradaContainer]
+      .forEach((el) => (el.style.display = "none"));
+    theadEl.innerHTML = "";
+    tbodyEl.innerHTML = "";
+    showMessage('Carregando dados...', '');
+
+    try {
+      const res = await fetch(RELATORIO_CURA_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "Em andamento" }),
+      });
+      if (!res.ok) throw new Error(res.statusText);
+      const todos = await res.json();
+
+      if (!Array.isArray(todos) || todos.length === 0) {
+        showMessage("Nenhum registro retornado.", "error");
+        return;
+      }
+
+      dadosOriginais = todos;
+      criarFiltros({});
+      montarTabela(dadosOriginais, {});
+      popularChecklistRetirada();
+      populateTipoCuraOptions();
+
+      showMessage("Dados carregados com sucesso.", "success");
+      filtrosEl.style.display = "block";
+      btnFiltrar.style.display = "inline-block";
+      btnReset.style.display = "none";
+      btnRefresh.style.display = "inline-block";
+      containerTbl.style.display = "block";
+      retiradaContainer.style.display = "block";
+    } catch (err) {
+      console.error(err);
+      showMessage(`Erro ao enviar status ou carregar dados: ${err.message}`, "error");
+    }
+  }
+
   btnBuscar.addEventListener("click", () => {
     const nome = filtroIniCons.value.trim();
     if (!nome) {
-      showMessage("Digite o nome do consulente.", "error");
-      return;
+      buscarStatusEmAndamento();
+    } else {
+      buscarDados(nome, pegarFeitosCb.checked);
     }
-    buscarDados(nome, pegarFeitosCb.checked); 
   });
 
   btnFiltrar.addEventListener("click", () => {

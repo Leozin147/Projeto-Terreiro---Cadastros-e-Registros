@@ -338,6 +338,9 @@
           >
             Selecione Tipo de Cura
           </button>
+          <select id="consulente-cura" class="dropbtn-consulente-retirada-cura">
+            <option value="">Consulente</option>
+          </select>
           <div class="dropdown-content">
             <label
               ><input type="checkbox" value="Cura Ori 1" /> Cura Ori 1</label
@@ -531,16 +534,13 @@
               <th>Telefone</th>
               <th>Descarrego</th>
               <th>Sacudimento</th>
-              <th>Ebó</th>
               <th>Limpeza de Flor de Omolu</th>
               <th>Saída de Fogo</th>
-              <!-- Novas colunas de Feito e Não Compareceu -->
               <th>Feito</th>
               <th>Não Compareceu</th>
             </tr>
           </thead>
           <tbody>
-            <!-- Linhas de dados serão geradas dinamicamente pelo JS -->
           </tbody>
         </table>
       </div>
@@ -814,7 +814,7 @@
           </label>
         </div>
         <button id="btn-buscar-relatorio-ebo">Buscar</button>
-        <div id="relatorio-ebo-message" class="message-ebo"></div>
+        <div id="status-ebo-message" class="status-ebo-message"></div>
 
         <button
           id="btn-refresh-ebo"
@@ -823,8 +823,8 @@
         >
           Atualizar Tabela
         </button>
-        <div id="retirada-container" class="retirada-container">
-          <h4>Pagamento:</h4>
+        <div id="status-ebo-container" class="status-ebo-container">
+          <h4>Status</h4>
           <label
             for="tipo-ebo"
             style="
@@ -836,6 +836,9 @@
           >
           </label>
           <div class="dropdown-ebo-retirada">
+            <select id="consulente-ebo" class="dropbtn-consulente-retirada">
+              <option value="">Consulente</option>
+            </select>
             <select id="tipo-ebo" class="dropbtn-ebo-retirada">
               <option value="">Tipo do Ebó</option>
             </select>
@@ -877,15 +880,9 @@
         </div>
       </div>
 
-      <div id="relatorio-ebo-tabela-container" style="margin-top: 20px">
+      <div id="relatorio-ebo-tabela-container" class = "relatorio-ebo-tabela">
         <table>
           <thead>
-            <tr>
-              <th>Data</th>
-              <th>Consulente</th>
-              <th>Ebo</th>
-              <th>Status Ebó</th>
-            </tr>
           </thead>
           <tbody>
           </tbody>

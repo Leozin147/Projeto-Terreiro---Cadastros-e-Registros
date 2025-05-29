@@ -1066,7 +1066,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 /* Seção de Ebó */
 
-/* Botão de status Ebó */
 .dropbtn-status-ebo {
   width: 100%;
   padding: 12px 14px;
@@ -1077,15 +1076,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #fff;
   cursor: pointer;
   display: inline-block;
+  margin-bottom: 100px !important;
 }
 
-/* Container principal */
 #relatorio-ebo-section {
   padding: 20px;
   background-color: #f5f7fa;
 }
 
-/* Card do relatório */
 #relatorio-ebo-section .relatorio-ebo-card {
   max-width: 500px;
   margin: 0 auto 40px;
@@ -1095,6 +1093,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   margin-top: -20px;
   justify-content: space-around;
+  font-weight: bold;
 }
 
 /* Títulos */
@@ -1111,7 +1110,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #c62828;
 }
 
-/* Container de filtros iniciais */
 #relatorio-ebo-section .data-container-ebo {
   display: flex;
   flex-direction: column;
@@ -1119,7 +1117,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-bottom: 20px;
 }
 
-/* Inputs de texto/data */
 #relatorio-ebo-section .relatorio-ebo-card input[type="text"],
 #relatorio-ebo-section .relatorio-ebo-card input[type="date"] {
   width: 100%;
@@ -1136,7 +1133,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border-color: #007bff;
 }
 
-/* Label do checkbox “Pegar feitos” */
 #relatorio-ebo-section
   .relatorio-ebo-card
   label[for="checkbox-pegar-feitos-ebo"] {
@@ -1145,7 +1141,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   gap: 10px;
 }
 
-/* Botões Buscar e Atualizar */
 #relatorio-ebo-section button#btn-buscar-relatorio-ebo,
 #relatorio-ebo-section button#btn-refresh-ebo {
   width: 100%;
@@ -1238,14 +1233,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: relative;
 }
 .dropdown-ebo-retirada::after {
-  content: "▼";
-  position: absolute;
-  top: 20px;
-  right: 1em;
-  transform: translateY(-50%);
-  pointer-events: none;
-  font-size: 0.9em;
-  color: #fff;
+  content: "▼" !important;
+  position: absolute !important;
+  top: 20px !important; 
+  right: 1em !important;
+  transform: translateY(-50%) !important;
+  pointer-events: none !important;
+  font-size: 0.9em !important;
+  color: #fff !important;
 }
 .dropdown-ebo-retirada .dropdown-content-ebo {
   display: none;
@@ -1298,4 +1293,46 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 #status-ebo-message.error {
   color: #dc3545;
+}
+
+.relatorio-ebo-tabela {
+  text-align: center !important;
+  justify-content: center;
+}
+
+.status-ebo-container {
+  display: none;
+}
+
+#relatorio-ebo-section .status-ebo-container h4 {
+
+  margin-bottom: -30px;
+  margin-top: 10px;
+}
+
+.dropdown-ebo-retirada .dropbtn-consulente-retirada {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 12px;
+  padding-right: 2em;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  margin-bottom: 10px;
+}
+.dropbtn-consulente-retirada::after {
+  content: "▼";
+  position: absolute;
+  right: 1em;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.9em;
+  color: #fff;
 }
