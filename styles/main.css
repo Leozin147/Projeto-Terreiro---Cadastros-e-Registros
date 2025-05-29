@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -13,18 +14,136 @@ body {
 }
 
 #menu_opt {
-  display: flex;
-  justify-content: center;
-  gap: 20px;
-  margin: 30px 0;
-  visibility: visible; 
-  padding-bottom: 15px; 
-  margin-bottom: 50px; 
-  margin-top: 80px;
+  width: 100% !important;
+  display: flex !important;
+  justify-content: space-around;
+  gap: 20px !important;
+  margin: 30px 0 !important;
+  visibility: visible !important;
+  padding-bottom: 15px !important;
+  margin-bottom: 50px !important;
+  margin-top: 80px !important;
+}
 
+@media only screen and (max-width: 1200px) {
+  #menu_opt {
+    position: absolute;
+    top: 110px;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    z-index: 100;
+  }
+
+  .card {
+    margin-top: 300px !important;
+    position: relative;
+    z-index: 1;
+  }
+
+  #menu_opt_button {
+    font-size: 16px;
+    text-align: center;
+    padding: 8px 16px;
+  }
+  #relatorio-cura-section .relatorio-cura-card {
+    margin-top: 230px !important;
+    position: relative;
+    z-index: 1;
+  }
+
+.trabalho-data-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px;     /* ajusta conforme seu layout */
+  box-sizing: border-box;
+}
+
+.trabalho-data-container input[type="date"] {
+  appearance: none;
+  width: 100%;
+  padding: 0.6em 2.5em 0.6em 1em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+  .trabalho-data-container input[type="date"]::placeholder {
+    color: #999;
+    opacity: 1;
+  }
+
+  .trabalho-data-container::before {
+  content: "dd/mm/yyyy";
+  position: absolute !important;
+  top: 60%;
+  left: 1em;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 1rem;
+  pointer-events: none;
+}
+
+.trabalho-data-container.has-value::before {
+  display: none;
+}
+
+  /*data relatorio*/
+  .data-container {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 400px !important;
+    box-sizing: border-box !important;
+  }
+
+  .data-container input[type="date"] {
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    width: 100% !important;
+    padding: 0.6em 2.5em 0.6em 1em !important;
+    border: 1px solid #ccc !important;
+    border-radius: 15px !important;
+    font-size: 1rem !important;
+    color: #000 !important;
+    background-color: #fff !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
+  }
+
+  .data-container input[type="date"]::-webkit-calendar-picker-indicator {
+    position: absolute !important;
+    top: 50% !important;
+    right: 0.8em !important;
+    width: 1.2em !important;
+    height: 1.2em !important;
+    transform: translateY(-50%) !important;
+    pointer-events: none !important;
+    opacity: 0.8 !important;
+  }
+
+  .data-container input[type="date"]::placeholder {
+    color: #999 !important;
+    opacity: 1 !important;
+  }
+
+  .data-container input[type="date"]:focus {
+    outline: none !important;
+    border-color: #888 !important;
+    box-shadow: 0 0 0 2px rgba(136, 136, 136, 0.3) !important;
+  }
 }
 
 #menu_opt button {
+  letter-spacing: 3px;
+  margin-left: 5px;
+  text-align: center;
+  width: 100%;
   background: none;
   border: none;
   padding: 10px 20px;
@@ -67,6 +186,7 @@ body > section {
   padding: 50px 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   margin-top: 60px;
+  justify-content: space-around;
 }
 
 .card h2 {
@@ -96,8 +216,6 @@ body > section {
   transition: border-color 0.2s ease;
 }
 
-
-
 .card input[type="text"]:focus {
   border-color: #007bff;
 }
@@ -124,6 +242,18 @@ body > section {
   position: relative;
   margin-bottom: 16px;
   width: 100%;
+  z-index: 2;
+}
+
+.dropdown::after {
+  content: "▼";
+  position: absolute;
+  top: 20px;
+  right: 1em;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.9em;
+  color: #fff;
 }
 
 .dropbtn {
@@ -201,7 +331,7 @@ body > section {
 
 /* container de mensagem para “trabalhos” */
 .message-trabalhos {
-  margin-top: -75px;
+  margin: 12px 0;
   font-size: 0.95rem;
   text-align: center;
   min-height: 1.2em;
@@ -228,17 +358,6 @@ body > section {
 .dropbtn {
   position: relative;
   padding-right: 2.5em;
-}
-
-.dropbtn::after {
-  content: "▼";
-  position: absolute;
-  right: 1em;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none;
-  font-size: 0.9em;
-  color: #fff;
 }
 
 .dropbtn:hover {
@@ -278,7 +397,7 @@ header {
   align-items: center;
   justify-content: center;
   gap: 15px;
-  margin-bottom: 50px; 
+  margin-bottom: 50px;
 }
 header .logo {
   height: 50px;
@@ -289,19 +408,18 @@ header .site-title {
 }
 
 #menu_opt {
-  visibility: visible; 
-  padding-bottom: 15px; 
-  margin-bottom: 50px; 
+  visibility: visible;
+  padding-bottom: 15px;
+  margin-bottom: 50px;
   margin-top: 80px;
 }
 .site-header {
-  display: flex;             
-  align-items: center;      
-  justify-content: center;   
-  gap: 1.5rem;               
-  padding: 1rem 0;           
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 1rem 0;
 }
-
 
 .site-header .logo {
   max-width: 120px;
@@ -310,11 +428,11 @@ header .site-title {
 }
 
 .site-header .site-title {
-  margin: 0;                
+  margin: 0;
   font-weight: bold;
   color: #000;
   text-shadow: 0.5px 0.5px 0.5px #000;
-  text-align: left;         
+  text-align: left;
 }
 
 .input-container-title {
@@ -355,7 +473,7 @@ header .site-title {
   font-size: 12px;
   color: #007bff;
 }
- /* Relatório de Trabalhos */
+/* Relatório de Trabalhos */
 #relatorio-section .card > div.data-container {
   max-width: 300px;
   margin: 0 auto 20px;
@@ -404,14 +522,14 @@ header .site-title {
 }
 
 #relatorio-section > #relatorio-tabela-container {
-  max-width: none;        /* permite largura 100% */
+  max-width: none; /* permite largura 100% */
   width: 100%;
   margin: 20px auto;
   padding: 20px;
   background: #f5f7fa90;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow-x: auto;       /* rolagem horizontal se necessário */
+  overflow-x: auto; /* rolagem horizontal se necessário */
   display: none;
   position: relative;
 }
@@ -419,16 +537,15 @@ header .site-title {
 #btn-refresh {
   position: top;
   left: 30px;
-  background-color: #555;
+  background-color: #000;
   color: #fff;
   border: none;
-  padding: 6px 10px;
+  padding: 10px 10px;
   border-radius: 4px;
   cursor: pointer;
   font-size: 1.2rem;
   z-index: 20;
   transition: background-color 0.3s ease;
-  margin-left: 1780px;
   margin-bottom: 10px;
 }
 
@@ -460,14 +577,11 @@ header .site-title {
   visibility: hidden;
 }
 
-
-
 /* Estilização básica da tabela */
 #relatorio-tabela-container table {
   width: 100%;
   border-collapse: collapse;
   font-size: 0.9rem;
-
 }
 
 #relatorio-tabela-container th,
@@ -476,19 +590,18 @@ header .site-title {
   border: 1px solid #000;
   text-align: center;
   font-weight: bold;
-  
 }
 
 #relatorio-tabela-container thead {
- background-color: #616161;
- color: #fff;
- font-weight: bold;
+  background-color: #616161;
+  color: #fff;
+  font-weight: bold;
 }
 
 /* === Ajustes nas colunas "Feito" e "Não Compareceu" === */
 #relatorio-tabela-container th:nth-last-child(2),
 #relatorio-tabela-container th:last-child {
-  width: 100px;              
+  width: 100px;
   text-align: center;
 }
 
@@ -513,14 +626,14 @@ header .site-title {
 .filtros-container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;  
-  gap: 16px;               
-  max-width: 400px;        
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 400px;
   margin: 0 auto 16px;
 }
 
 .filtros-container > div {
-width: 100%;
+  width: 100%;
 }
 
 .filtros-container label {
@@ -536,41 +649,36 @@ width: 100%;
   width: 100%;
   box-sizing: border-box;
 }
-.btn-aplicar-filtros{
-  display:none;
+.btn-aplicar-filtros {
+  display: none;
   margin-top: 10px;
-
 }
 
-.btn-aplicar-filtros:hover{
+.btn-aplicar-filtros:hover {
   background-color: #000 !important;
 }
 
-.btn-limpar-filtros{
-  display:none;
+.btn-limpar-filtros {
+  display: none;
   margin-top: 10px;
-
 }
 
-.btn-limpar-filtros:hover{
+.btn-limpar-filtros:hover {
   background-color: #000 !important;
 }
-
 
 .hide {
   display: none;
 }
-
 
 .sub-dropdown {
   margin-top: 0.5em;
 }
 
-
 /* === Ajustes nas colunas "Feito" e "Não Compareceu" === */
 #relatorio-tabela-container th:nth-last-child(2),
 #relatorio-tabela-container th:last-child {
-  width: 100px;              
+  width: 100px;
   text-align: center;
 }
 
@@ -595,14 +703,14 @@ width: 100%;
 .filtros-container {
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;  
-  gap: 16px;               
-  max-width: 400px;        
+  flex-wrap: wrap;
+  gap: 16px;
+  max-width: 400px;
   margin: 0 auto 16px;
 }
 
 .filtros-container > div {
-width: 100%;
+  width: 100%;
 }
 
 .filtros-container label {
@@ -618,38 +726,34 @@ width: 100%;
   width: 100%;
   box-sizing: border-box;
 }
-.btn-aplicar-filtros{
-  display:none;
+.btn-aplicar-filtros {
+  display: none;
   margin-top: 10px;
-
 }
 
-.btn-aplicar-filtros:hover{
+.btn-aplicar-filtros:hover {
   background-color: #000 !important;
 }
 
-.btn-limpar-filtros{
-  display:none;
+.btn-limpar-filtros {
+  display: none;
   margin-top: 10px;
-
 }
 
-.btn-limpar-filtros:hover{
+.btn-limpar-filtros:hover {
   background-color: #000 !important;
 }
-
 
 .hide {
   display: none;
 }
-
 
 .sub-dropdown {
   margin-top: 0.5em;
 }
 
 /* Mensagem Relatório */
-.mensagem{
+.mensagem {
   margin-top: 30px;
   font-size: 0.95rem;
   text-align: center;
@@ -658,16 +762,15 @@ width: 100%;
   opacity: 1;
 }
 
-.mensagem.success{
+.mensagem.success {
   color: #2e7d32;
   font-weight: bold;
 }
 
-.mensagem.error{
+.mensagem.error {
   color: #c62828;
   font-weight: bold;
 }
-
 
 input[type="date"] {
   appearance: auto;
@@ -683,11 +786,11 @@ input[type="date"] {
 
 /*Formatar campos de data */
 input[type="date"]::-webkit-datetime-edit {
-  padding: 0;  
+  padding: 0;
 }
 
 input[type="date"]::-webkit-datetime-edit-field-wrapper {
-  gap: 0.25em; 
+  gap: 0.25em;
 }
 
 input[type="date"]::-webkit-datetime-edit-text,
@@ -707,24 +810,45 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
-
 /* Seção Relatório de Curas */
+
+.dropbtn-status-cura {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  text-align: left;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.dropbtn {
+  position: relative;
+  padding-right: 2.5em;
+}
+
+.dropbtn:hover {
+  background-color: #000 !important;
+}
+
 #relatorio-cura-section {
   padding: 20px;
   background-color: #f5f7fa;
 }
 
-/* Card específico dentro da seção */
 #relatorio-cura-section .relatorio-cura-card {
-  max-width: 600px;
-  margin: 0 auto;
+  max-width: 500px;
+  margin: 0 auto 40px;
   background: #ffffff;
   border-radius: 8px;
-  padding: 40px 20px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 50px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  margin-top: -20px;
+  justify-content: space-around;
 }
 
-/* Títulos */
 #relatorio-cura-section .relatorio-cura-card h2 {
   font-size: 28px;
   margin-bottom: 16px;
@@ -738,7 +862,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #c62828;
 }
 
-/* Container de filtros iniciais */
 #relatorio-cura-section .relatorio-cura-card .data-container-cura {
   display: flex;
   flex-direction: column;
@@ -746,7 +869,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-bottom: 20px;
 }
 
-/* Input de texto (consulente) e checkbox */
 #relatorio-cura-section .relatorio-cura-card input[type="text"],
 #relatorio-cura-section .relatorio-cura-card input[type="date"] {
   width: 100%;
@@ -762,13 +884,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #relatorio-cura-section .relatorio-cura-card input[type="date"]:focus {
   border-color: #007bff;
 }
-#relatorio-cura-section .relatorio-cura-card label[for="checkbox-pegar-feitos-cura"] {
+#relatorio-cura-section
+  .relatorio-cura-card
+  label[for="checkbox-pegar-feitos-cura"] {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-/* Botão Buscar */
 #relatorio-cura-section .relatorio-cura-card button#btn-buscar-relatorio-cura,
 #relatorio-cura-section #btn-aplicar-filtros-cura,
 #relatorio-cura-section #btn-limpar-filtro-cura,
@@ -789,11 +912,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #relatorio-cura-section #btn-aplicar-filtros-cura:hover,
 #relatorio-cura-section #btn-limpar-filtro-cura:hover,
 #relatorio-cura-section #btn-refresh-cura:hover,
-#relatorio-cura-section .relatorio-cura-card button#btn-buscar-relatorio-cura:hover {
+#relatorio-cura-section
+  .relatorio-cura-card
+  button#btn-buscar-relatorio-cura:hover {
   background-color: #008000;
 }
 
-/* Mensagem de feedback */
 #relatorio-cura-section .relatorio-cura-card .message-cura {
   margin-top: 16px;
   font-size: 0.95rem;
@@ -807,7 +931,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #c62828;
 }
 
-/* Tabela de resultados */
 #relatorio-cura-section #relatorio-cura-tabela-container {
   margin-top: 20px;
   overflow-x: auto;
@@ -828,7 +951,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   color: #fff;
 }
 
-/* Filtros avançados */
 #relatorio-cura-section .filtros-container-cura {
   margin-top: 15px;
   gap: 12px;
@@ -859,14 +981,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   background-color: #fafafa;
 }
 
-/* Cabeçalho retirada */
 #relatorio-cura-section #retirada-container h4 {
   margin-bottom: 12px;
   color: #000;
   font-weight: bold;
 }
 
-/* Checklist retirada */
 #relatorio-cura-section #checklist-retirada {
   max-height: 150px;
   overflow-y: auto;
@@ -890,9 +1010,367 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   user-select: none;
 }
 
-/* Pequeno espaçamento entre label e input */
 #relatorio-cura-section label {
   font-weight: bold;
   margin-bottom: 4px;
   display: block;
+}
+
+.dropdown-cura-retirada {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  margin-top: -20px;
+  text-align: left;
+}
+
+.dropdown-cura-retirada .dropbtn-status-cura {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  text-align: left;
+}
+
+.dropdown-cura-retirada .dropdown-content-cura {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  padding: 8px 0;
+}
+
+/* itens do menu */
+.dropdown-cura-retirada .dropdown-content-cura label {
+  display: block;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* checkbox dentro dos labels */
+.dropdown-cura-retirada .dropdown-content-cura label input[type="checkbox"] {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* hover nos itens */
+.dropdown-cura-retirada .dropdown-content-cura label:hover {
+  background-color: #f0f2f5;
+}
+
+.dropdown-cura-retirada .dropbtn-cura-retirada {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 12px;
+  padding-right: 2em;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+}
+
+.dropdown-cura-retirada-content {
+  background-color: #fff;
+}
+
+.dropdown-cura-retirada .dropbtn-cura-retirada::-ms-expand {
+  display: none;
+}
+
+.dropdown-cura-retirada::after {
+  content: "▼";
+  position: absolute;
+  top: 20px;
+  right: 1em;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.9em;
+  color: #fff;
+}
+
+#tipo-cura-message {
+  margin-top: 6px;
+  font-size: 0.9em;
+  min-height: 1.2em;
+}
+
+#tipo-cura-message.success {
+  color: #28a745;
+}
+
+#tipo-cura-message.error {
+  color: #dc3545;
+}
+
+#status-cura-message {
+  font-size: 0.9em;
+  min-height: 1.2em;
+}
+
+#status-cura-message.success {
+  color: #28a745;
+}
+
+#status-cura-message.error {
+  color: #dc3545;
+}
+
+
+/* Seção de Ebó */
+
+/* Botão de status Ebó */
+.dropbtn-status-ebo {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  text-align: left;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  background-color: #fff;
+  cursor: pointer;
+  display: inline-block;
+}
+
+/* Container principal */
+#relatorio-ebo-section {
+  padding: 20px;
+  background-color: #f5f7fa;
+}
+
+/* Card do relatório */
+#relatorio-ebo-section .relatorio-ebo-card {
+  max-width: 500px;
+  margin: 0 auto 40px;
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 50px 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  margin-top: -20px;
+  justify-content: space-around;
+}
+
+/* Títulos */
+#relatorio-ebo-section .relatorio-ebo-card h2 {
+  font-size: 28px;
+  margin-bottom: 16px;
+  text-align: center;
+  color: #000;
+}
+#relatorio-ebo-section .relatorio-ebo-card h3 {
+  font-size: 16px;
+  margin-bottom: 12px;
+  text-align: center;
+  color: #c62828;
+}
+
+/* Container de filtros iniciais */
+#relatorio-ebo-section .data-container-ebo {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+/* Inputs de texto/data */
+#relatorio-ebo-section .relatorio-ebo-card input[type="text"],
+#relatorio-ebo-section .relatorio-ebo-card input[type="date"] {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 15px;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+#relatorio-ebo-section .relatorio-ebo-card input[type="text"]:focus,
+#relatorio-ebo-section .relatorio-ebo-card input[type="date"]:focus {
+  border-color: #007bff;
+}
+
+/* Label do checkbox “Pegar feitos” */
+#relatorio-ebo-section
+  .relatorio-ebo-card
+  label[for="checkbox-pegar-feitos-ebo"] {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botões Buscar e Atualizar */
+#relatorio-ebo-section button#btn-buscar-relatorio-ebo,
+#relatorio-ebo-section button#btn-refresh-ebo {
+  width: 100%;
+  padding: 12px;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.2s ease;
+}
+#relatorio-ebo-section button#btn-buscar-relatorio-ebo:hover,
+#relatorio-ebo-section button#btn-refresh-ebo:hover {
+  background-color: #008000;
+}
+
+/* Mensagens de status */
+#relatorio-ebo-section .relatorio-ebo-card .message-ebo {
+  margin-top: 16px;
+  font-size: 0.95rem;
+  text-align: center;
+  font-weight: bold;
+}
+#relatorio-ebo-section .relatorio-ebo-card .message-ebo.success {
+  color: #008000;
+}
+#relatorio-ebo-section .relatorio-ebo-card .message-ebo.error {
+  color: #c62828;
+}
+
+/* Container da tabela */
+#relatorio-ebo-section #relatorio-ebo-tabela-container {
+  margin-top: 20px;
+  overflow-x: auto;
+  display: none;
+}
+#relatorio-ebo-section #relatorio-ebo-tabela-container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+#relatorio-ebo-section #relatorio-ebo-tabela-container th,
+#relatorio-ebo-section #relatorio-ebo-tabela-container td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+#relatorio-ebo-section #relatorio-ebo-tabela-container thead {
+  background-color: #616161;
+  color: #fff;
+}
+
+/* Container de retirada (status Ebó) */
+#relatorio-ebo-section #retirada-container {
+  margin-top: 20px;
+  max-width: 600px;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  padding: 15px 20px;
+  background-color: #fafafa;
+  display: none;
+}
+#relatorio-ebo-section #retirada-container h4 {
+  margin-bottom: 12px;
+  color: #000;
+  font-weight: bold;
+}
+
+/* Dropdown Ebó */
+.dropdown-ebo-retirada {
+  position: relative;
+  width: 100%;
+  display: inline-block;
+  margin-top: 10px;
+  text-align: left;
+}
+.dropdown-ebo-retirada .dropbtn-ebo-retirada {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 12px;
+  padding-right: 2em;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+}
+.dropdown-ebo-retirada::after {
+  content: "▼";
+  position: absolute;
+  top: 20px;
+  right: 1em;
+  transform: translateY(-50%);
+  pointer-events: none;
+  font-size: 0.9em;
+  color: #fff;
+}
+.dropdown-ebo-retirada .dropdown-content-ebo {
+  display: none;
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  width: 100%;
+  max-height: 180px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #ccd0d5;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+  padding: 8px 0;
+}
+.dropdown-ebo-retirada .dropdown-content-ebo label {
+  display: block;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.dropdown-ebo-retirada .dropdown-content-ebo label input[type="checkbox"] {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+.dropdown-ebo-retirada .dropdown-content-ebo label:hover {
+  background-color: #f0f2f5;
+}
+
+/* Mensagens específicas */
+#tipo-ebo-message {
+  margin-top: 6px;
+  font-size: 0.9em;
+  min-height: 1.2em;
+}
+#tipo-ebo-message.success {
+  color: #28a745;
+}
+#tipo-ebo-message.error {
+  color: #dc3545;
+}
+
+#status-ebo-message {
+  font-size: 0.9em;
+  min-height: 1.2em;
+}
+#status-ebo-message.success {
+  color: #28a745;
+}
+#status-ebo-message.error {
+  color: #dc3545;
 }

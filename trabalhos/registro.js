@@ -2,8 +2,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const nomeInput = document.getElementById("trabalhos-nome");
   const telefoneInput = document.getElementById("trabalhos-telefone");
   const dateInput = document.getElementById("trabalhos-data");
-
-  // Dropdowns e botões
+  const dateContainer = document.querySelector(".trabalho-data-container");
   const btnRegistrar = document.getElementById("btn-registrar");
   const messageEl = document.getElementById("trabalhos-message");
 
@@ -43,14 +42,28 @@ document.addEventListener("DOMContentLoaded", () => {
   // Função para validar sub-dropdowns
   function validarSubDropdowns() {
     const tipos = [
-      { nome: "Cura", container: document.getElementById("dropdown-cura"), toggleOn: document.getElementById("checkbox-cura") },
-      { nome: "Ebó", container: document.getElementById("dropdown-ebo"), toggleOn: document.getElementById("checkbox-ebo") },
-      { nome: "Saída de Fogo", container: document.getElementById("dropdown-fogo"), toggleOn: document.getElementById("checkbox-fogo") },
+      {
+        nome: "Cura",
+        container: document.getElementById("dropdown-cura"),
+        toggleOn: document.getElementById("checkbox-cura"),
+      },
+      {
+        nome: "Ebó",
+        container: document.getElementById("dropdown-ebo"),
+        toggleOn: document.getElementById("checkbox-ebo"),
+      },
+      {
+        nome: "Saída de Fogo",
+        container: document.getElementById("dropdown-fogo"),
+        toggleOn: document.getElementById("checkbox-fogo"),
+      },
     ];
 
     for (const tipo of tipos) {
       if (tipo.toggleOn && tipo.toggleOn.checked) {
-        const checkboxesMarcados = tipo.container.querySelectorAll('input[type="checkbox"]:checked');
+        const checkboxesMarcados = tipo.container.querySelectorAll(
+          'input[type="checkbox"]:checked'
+        );
         if (checkboxesMarcados.length === 0) {
           return `Preencha pelo menos 1 tipo de ${tipo.nome}`;
         }
@@ -58,6 +71,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     return null;
   }
+
+  dateContainer.addEventListener("click", () => {
+    if (typeof dateInput.showPicker === "function") {
+      dateInput.showPicker();
+    } else {
+      dateInput.focus();
+      dateInput.click();
+    }
+  });
 
   // Máscara de telefone
   telefoneInput.addEventListener("input", () => {
@@ -90,9 +112,9 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // Previne fechamento ao clicar nos itens
-  document.querySelectorAll(".dropdown-content").forEach((c) =>
-    c.addEventListener("click", (e) => e.stopPropagation())
-  );
+  document
+    .querySelectorAll(".dropdown-content")
+    .forEach((c) => c.addEventListener("click", (e) => e.stopPropagation()));
 
   // Fecha tudo ao clicar fora ou apertar ESC
   document.addEventListener("click", () =>
@@ -110,14 +132,12 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // Exibe/esconde sub-dropdowns (Cura, Ebó, Fogo)
   dropdowns
     .filter((d) => d.toggleOn)
     .forEach(({ toggleOn, container }) => {
       toggleOn.addEventListener("change", (e) => {
         container.classList.toggle("hide", !e.target.checked);
         if (!e.target.checked) {
-          // limpa checks internos
           container
             .querySelectorAll('input[type="checkbox"]')
             .forEach((cb) => (cb.checked = false));
@@ -125,7 +145,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-  // Ao clicar em “Registrar Trabalho”
   btnRegistrar.addEventListener("click", () => {
     const nome = nomeInput.value.trim();
     const telefoneRaw = telefoneInput.value.replace(/\D/g, "");
@@ -201,3 +220,4 @@ document.addEventListener("DOMContentLoaded", () => {
       });
   });
 });
+

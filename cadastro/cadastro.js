@@ -1,3 +1,5 @@
+/* DESATIVADO POR ENQUANTO (26/05/2025)
+
 document.addEventListener('DOMContentLoaded', function() {
   const nameInput    = document.getElementById('cadastro-nome');
   const phoneInput   = document.getElementById('cadastro-telefone');
@@ -90,3 +92,4 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 });
+*/
