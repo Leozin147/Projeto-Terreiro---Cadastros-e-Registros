@@ -192,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
       th.textContent = c;
       trHead.appendChild(th);
     });
-    ["Feito", "Não Compareceu"].forEach((txt) => {
+    ["Chegou", "Não Compareceu"].forEach((txt) => {
       const th = document.createElement("th");
       th.textContent = txt;
       trHead.appendChild(th);
@@ -284,7 +284,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let status = null;
     if (cb.matches(".cb-feito") && cb.checked) {
-      status = "Feito";
+      status = "Chegou";
       cb.closest("tr").querySelector(".cb-nao").checked = false;
     }
     if (cb.matches(".cb-nao") && cb.checked) {
