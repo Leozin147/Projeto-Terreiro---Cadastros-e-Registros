@@ -88,6 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
       dateInput.click();
     }
   });
+  
 
   // Máscara de telefone
   telefoneInput.addEventListener("input", () => {

@@ -32,7 +32,7 @@ body {
 .wrapperDate{
   position: relative;
   z-index: 1;
-  display: flex ;
+  display: flex;
   align-items: center;
 }
 .wrapperDate>label{
@@ -43,6 +43,7 @@ body {
   color: #A9A9AC  !important;
   display: block !important;
   opacity: 0.8 !important;
+  margin-top: 1px !important;
 }
 
 .trabalho-data-container label {
@@ -57,10 +58,11 @@ body {
 #relatorio-section label[for="relatorio-data"]{
   margin-bottom: 2px !important;
 }
-}
 
+}
 .wrapperDate > label{
   opacity: 0;
+  margin-top: -30px;
 }
 
 #menu_opt button {
@@ -294,7 +296,7 @@ body > section {
 
 .trabalho-data-container label {
   display: block;
-  margin-bottom: -8px;
+  margin-bottom: 8px;
   font-weight: bold;
   color: #333;
 }
