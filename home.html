@@ -875,7 +875,7 @@
                 </label>
               </div>
             </div>
-            <div id="status-ebo-message"></div>
+            <div id="status-ebo-mensagem" class="status-ebo-mensagem"></div>
             <div id="tipo-ebo-message"></div>
           </div>
         </div>
@@ -890,19 +890,32 @@
         </table>
       </div>
     </section>
-  <section id="relatorio-presenca-section">
-    <div class="presenca-card">
-      <h2>Trabalhos Presentes</h2>
-      <div class="controls">
-        <label for="pegar-feitos">
-          <input type="checkbox" id="pegar-feitos" name="pegar-feitos">
-          Pegar feitos
-        </label>
-        <button type="button" id="buscar-trabalhos">Buscar Trabalhos</button>
-      </div>
-    </div>
-  </section>
 
+     <!-- Seção de Relatório de Presença -->
+
+<section id="relatorio-presenca-section">
+  <div class="presenca-card">
+    <h2>Trabalhos Presentes</h2>
+    <div class="controls">
+      <button type="button" id="buscar-trabalhos">Buscar Trabalhos</button>
+      <label for="pegar-feitos">
+        <input type="checkbox" id="pegar-feitos" name="pegar-feitos">
+        Pegar feitos
+      </label>
+
+
+      <select id="filtro-consulente" class="filtro-consulente" style="display:none;">
+        <option value="">Todos</option>
+      </select>
+
+      <button type="button" id="atualizar-tabela" class="btn-atualizar" style="display:none;">
+        Atualizar Tabela
+      </button>
+    </div>
+  </div>
+
+  <div id="tabela-presenca-container"></div>
+</section>
     <!-- script de menu -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
@@ -958,5 +971,6 @@
     <script src="trabalhos/consulta.js"></script>
     <script src="trabalhos/relatorio-cura.js"></script>
     <script src="trabalhos/relatorio-ebo.js"></script>
+    <script src="trabalhos/relatorio-presenca.js"></script>
   </body>
 </html>

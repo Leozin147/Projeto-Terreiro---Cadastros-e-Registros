@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
   // — URLs da API —
   const RELATORIO_EBO_URL        = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/5312c09e-e049-4aa8-8846-2752cf31294d";
-  const ATUALIZAR_STATUS_EBO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook-test/4263f55a-595c-471a-a03a-b5d92e5b4387"; 
+  const ATUALIZAR_STATUS_EBO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/4263f55a-595c-471a-a03a-b5d92e5b4387"; 
 
   // — Referências ao DOM —
   const filtroInput             = document.getElementById("filtro-inicial-consulente-ebo");
@@ -18,6 +18,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const dropdownContent         = document.getElementById("status-ceb");
   const msgStatus               = document.getElementById("status-ebo-message");
   const selectConsulenteStatus  = document.getElementById("consulente-ebo");
+  const showmensagem            = document.getElementById("status-ebo-mensagem");
 
   dropbtn.classList.add("dropbtn-ebo-retirada");
   dropbtn.classList.remove("dropbtn-status-ebo");
@@ -185,7 +186,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const consulenteSelecionado = selectConsulenteStatus.value.trim();
   
     if (!tipo) {
-      showMessage(msgStatus, "Selecione o Tipo do Ebó.", "error");
+      showMessage(showmensagem, "Selecione o Tipo do Ebó.", "error");
       evt.target.checked = false;
       return;
     }
@@ -194,7 +195,7 @@ window.addEventListener("DOMContentLoaded", () => {
     const consulenteParaEnviar = lastConsulente || consulenteSelecionado;
 
     if (!consulenteParaEnviar) {
-      showMessage(msgStatus, "Selecione o Consulente.", "error");
+      showMessage(showmensagem, "Selecione o Consulente.", "error");
       evt.target.checked = false;
       return;
     }
@@ -215,7 +216,7 @@ window.addEventListener("DOMContentLoaded", () => {
       const msg = status === "pagamento_ebo"
         ? "Status de pagamento atualizado!"
         : "Ebó finalizado com sucesso!";
-      showMessage(msgStatus, msg, "success");
+      showMessage(showmensagem, msg, "success");
   
       setTimeout(() => {
         selectTipoEbo.value = "";
