@@ -890,6 +890,18 @@
         </table>
       </div>
     </section>
+  <section id="relatorio-presenca-section">
+    <div class="presenca-card">
+      <h2>Trabalhos Presentes</h2>
+      <div class="controls">
+        <label for="pegar-feitos">
+          <input type="checkbox" id="pegar-feitos" name="pegar-feitos">
+          Pegar feitos
+        </label>
+        <button type="button" id="buscar-trabalhos">Buscar Trabalhos</button>
+      </div>
+    </div>
+  </section>
 
     <!-- script de menu -->
     <script>
@@ -900,8 +912,8 @@
           { label: "Relatório Trabalhos", sectionId: "relatorio-section" },
           { label: "Relatório de Cura", sectionId: "relatorio-cura-section" },
           { label: "Relatório de Ebós", sectionId: "relatorio-ebo-section"},
-                   /* { label: "Cadastro", sectionId: "cadastro-section" }, */
-        ];
+          { label: "Trabalhos Presentes", sectionId: "relatorio-presenca-section"}
+      ]
 
         tabs.forEach((tab) => {
           const btn = document.createElement("button");
