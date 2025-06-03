@@ -898,11 +898,11 @@
     <h2>Trabalhos Presentes</h2>
     <div class="controls">
       <button type="button" id="buscar-trabalhos">Buscar Trabalhos</button>
+      <div id="status-message"></div>
       <label for="pegar-feitos">
         <input type="checkbox" id="pegar-feitos" name="pegar-feitos">
         Pegar feitos
       </label>
-
 
       <select id="filtro-consulente" class="filtro-consulente" style="display:none;">
         <option value="">Todos</option>
@@ -911,6 +911,12 @@
       <button type="button" id="atualizar-tabela" class="btn-atualizar" style="display:none;">
         Atualizar Tabela
       </button>
+      
+      <button type="button" id="resetar-filtros" style="display:none;">
+        Resetar Filtros
+      </button>
+
+      <div id="status-atualizar-message" style="min-height:18px; margin-top: 8px; text-align: center;"></div>
     </div>
   </div>
 

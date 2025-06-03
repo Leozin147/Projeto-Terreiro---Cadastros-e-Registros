@@ -448,14 +448,14 @@ header .site-title {
 }
 
 #relatorio-section > #relatorio-tabela-container {
-  max-width: none; /* permite largura 100% */
+  max-width: none; 
   width: 100%;
   margin: 20px auto;
   padding: 20px;
   background: #f5f7fa90;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  overflow-x: auto; /* rolagem horizontal se necessário */
+  overflow-x: auto; 
   display: none;
   position: relative;
 }
@@ -503,7 +503,6 @@ header .site-title {
   visibility: hidden;
 }
 
-/* Estilização básica da tabela */
 #relatorio-tabela-container table {
   width: 100%;
   border-collapse: collapse;
@@ -524,7 +523,6 @@ header .site-title {
   font-weight: bold;
 }
 
-/* === Ajustes nas colunas "Feito" e "Não Compareceu" === */
 #relatorio-tabela-container th:nth-last-child(2),
 #relatorio-tabela-container th:last-child {
   width: 100px;
@@ -1380,12 +1378,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 #relatorio-presenca-section {
   display: flex;
-  justify-content: center !important;
-  align-items: center !important;
-  height: 100vh;
+  flex-direction: column;
+  align-items: center;
   padding: 2rem;
   background-color: #f5f5f5;
-  margin-left: 300px;
+  min-height: 100vh;
+}
+
+
+#buscar-trabalhos {
+  margin-bottom: -30px; 
 }
 
 .presenca-card {
@@ -1395,7 +1397,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   padding: 1.5rem;
   width: 100%;
   max-width: 600px;
-  margin-left: 300px;
+  margin-bottom: 2rem;
+  margin-left: 600px;
 }
 
 .presenca-card h2 {
@@ -1409,14 +1412,16 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   flex-direction: column;
   gap: 1rem;
   align-items: center;
-
+  width: 100%;
 }
 
 .presenca-card .controls label {
   display: flex;
   align-items: center;
   font-size: 1rem;
+  cursor: pointer;
 }
+
 .presenca-card .controls input[type="checkbox"] {
   margin-right: 0.5rem;
   width: 1.2rem;
@@ -1434,6 +1439,77 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   transition: background-color 0.2s ease;
   width: 100%;
 }
+
 .presenca-card .controls button:hover {
   background-color: #008000;
+}
+
+#filtro-consulente {
+  width: 100%;
+  max-width: 300px;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+#tabela-presenca-container {
+  margin-top: 20px;
+  overflow-x: auto;
+}
+
+#tabela-presenca-container table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+}
+
+#tabela-presenca-container th{
+  color: #fff;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 14px;
+}
+#tabela-presenca-container td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+#tabela-presenca-container thead {
+  background-color: #616161;
+  color: #fff;
+}
+
+.feito-checkbox {
+  display: block;
+  margin: 0 auto;
+  cursor: pointer;
+}
+
+#status-message {
+  font-size: 13px;
+  margin-top: 25px;
+  min-height: 18px;
+  text-align: center;
+}
+
+.feito-status-message {
+  font-size: 12px;
+  margin-top: 4px;
+  text-align: center;
+  
+}
+
+
+.status-success {
+  color: #1a7f37; 
+}
+
+.status-error {
+  color: #cc2b2b; 
 }
