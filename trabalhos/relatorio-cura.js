@@ -341,7 +341,7 @@ window.addEventListener("DOMContentLoaded", () => {
     );
     theadEl.innerHTML = "";
     tbodyEl.innerHTML = "";
-    showMessage("Carregando dados...", "");
+    showMessage("Buscando dados...", "");
   
     try {
       const res = await fetch(RELATORIO_CURA_URL, {

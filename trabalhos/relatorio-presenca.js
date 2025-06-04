@@ -90,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
           })
           .then(resp => resp.json())
           .then(data => {
-            // Corrigido: verifique a resposta corretamente (primeiro item do array)
             if (data[0] && data[0].status === 'Atualizado') {
               statusAtualizarMsg.textContent = 'Status atualizado com sucesso';
               statusAtualizarMsg.className = 'status-success';
@@ -102,6 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
               statusAtualizarMsg.textContent = '';
               statusAtualizarMsg.className = '';
+              checkbox.checked = false;
             }, 5000);
           })
           .catch(() => {
@@ -199,15 +199,15 @@ document.addEventListener('DOMContentLoaded', () => {
       return response.json();
     })
     .then(jsonData => {
-      if (!jsonData || jsonData.length === 0 || jsonData.every(item => !item.consulente || !item.data || item.consulente === null || item.data === null)) {
+      if (!jsonData || jsonData.length === 0 || jsonData.every(item => !item.consulente || !item.data || item.consulente === null || item.data === null || item.consulente === "" || item.data === "")) {
         currentData = [];
         currentKeys = [];
         if (status === 'buscar') {
           statusBuscarMsg.textContent = 'Nenhum trabalho presente.';
-          statusBuscarMsg.className = 'status-error'; // Mensagem de erro no status-message
+          statusBuscarMsg.className = 'status-error'; 
         } else {
           statusAtualizarMsg.textContent = 'Nenhum trabalho presente.';
-          statusAtualizarMsg.className = 'status-error'; // Mensagem de erro no status-atualizar-message
+          statusAtualizarMsg.className = 'status-error'; 
         }
       } else {
         currentData = jsonData;
@@ -216,9 +216,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       gerarTabela();
 
+
       if (status === 'buscar') {
-        statusBuscarMsg.textContent = 'Dados carregados com sucesso!';
-        statusBuscarMsg.className = 'status-success';
+        if (currentData.length > 0) {
+          statusBuscarMsg.textContent = 'Dados carregados com sucesso!';
+          statusBuscarMsg.className = 'status-success';
+        }
       } else {
         statusAtualizarMsg.textContent = 'Tabela Atualizada';
         statusAtualizarMsg.className = 'status-success';
@@ -247,6 +250,10 @@ document.addEventListener('DOMContentLoaded', () => {
         if (status === 'buscar') {
           statusBuscarMsg.textContent = '';
           statusBuscarMsg.className = '';
+          setTimeout(() => {
+            statusAtualizarMsg.textContent = '';
+            statusAtualizarMsg.className = '';
+          }, 5000);
         } else {
           statusAtualizarMsg.textContent = '';
           statusAtualizarMsg.className = '';
@@ -258,7 +265,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   btnBuscar.addEventListener('click', () => {
-    fetchData('buscar'); // Chamando o fetchData com 'buscar'
+    fetchData('buscar'); 
   });
 
   btnAtualizar.addEventListener('click', () => {
@@ -275,8 +282,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      // Atualizar a tabela
-      fetchData('atualizar'); // Chamando o fetchData com 'atualizar'
+      fetchData('atualizar'); 
     } catch (err) {
       statusAtualizarMsg.textContent = 'Erro ao atualizar tabela: ' + err.message;
       statusAtualizarMsg.className = 'status-error';

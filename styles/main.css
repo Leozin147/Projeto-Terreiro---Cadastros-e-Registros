@@ -1313,6 +1313,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 #status-ebo-message {
   font-size: 0.9em;
   min-height: 1.2em;
+  text-align: center;
 }
 #status-ebo-message.success {
   color: #28a745;
