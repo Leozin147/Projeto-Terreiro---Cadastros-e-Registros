@@ -1,16 +1,15 @@
 const webhookBuscarUrl = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/06c94d77-4683-407c-a706-9b0f6264dd87';    
-const webhookFeitoUrl  = 'https://SEU-SERVIDOR.com/webhookFeito';     
+const webhookFeitoUrl  = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29';     
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnBuscar = document.getElementById('buscar-trabalhos');
   const btnAtualizar = document.getElementById('atualizar-tabela');
   const btnResetFiltros = document.getElementById('resetar-filtros');
-  const statusBuscarMsg = document.getElementById('status-message');
-  const statusAtualizarMsg = document.getElementById('status-atualizar-message');
+  const statusBuscarMsg = document.getElementById('status-message'); // Mensagem de status para Buscar
+  const statusAtualizarMsg = document.getElementById('status-atualizar-message'); // Mensagem de status para Atualizar
   const container = document.getElementById('tabela-presenca-container');
   const filtroSelect = document.getElementById('filtro-consulente');
-  const pegarFeitos = document.getElementById('pegar-feitos');
-
+  
   let currentData = [];   
   let currentKeys = [];   
 
@@ -25,7 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     container.innerHTML = ''; 
 
     if (!Array.isArray(currentData) || currentData.length === 0) {
-      container.innerHTML = '<p>Nenhum dado encontrado.</p>';
+      statusBuscarMsg.textContent = 'Nenhum trabalho presente.';
+      statusBuscarMsg.className = 'status-error'; // Exibindo como erro
       filtroSelect.style.display = 'none';
       btnResetFiltros.style.display = 'none';
       btnAtualizar.style.display = 'none';
@@ -79,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (checkbox.checked) {
           const payloadFeito = {
             consulente: item.consulente,
-            data: item.data
+            data: item.data,
+            status: "feito"
           };
 
           fetch(webhookFeitoUrl, {
@@ -87,34 +88,31 @@ document.addEventListener('DOMContentLoaded', () => {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payloadFeito)
           })
-            .then(resp => resp.json())
-            .then(data => {
-              if (data.status === 'feito') {
-                statusAtualizarMsg.textContent = 'Status atualizado com sucesso';
-                statusAtualizarMsg.className = 'status-success';
-                setTimeout(() => {
-                  statusAtualizarMsg.textContent = '';
-                  statusAtualizarMsg.className = '';
-                }, 5000);
-              } else {
-                statusAtualizarMsg.textContent = 'Erro ao atualizar status';
-                statusAtualizarMsg.className = 'status-error';
-                checkbox.checked = false;
-                setTimeout(() => {
-                  statusAtualizarMsg.textContent = '';
-                  statusAtualizarMsg.className = '';
-                }, 5000);
-              }
-            })
-            .catch(() => {
+          .then(resp => resp.json())
+          .then(data => {
+            // Corrigido: verifique a resposta corretamente (primeiro item do array)
+            if (data[0] && data[0].status === 'Atualizado') {
+              statusAtualizarMsg.textContent = 'Status atualizado com sucesso';
+              statusAtualizarMsg.className = 'status-success';
+            } else {
               statusAtualizarMsg.textContent = 'Erro ao atualizar status';
               statusAtualizarMsg.className = 'status-error';
               checkbox.checked = false;
-              setTimeout(() => {
-                statusAtualizarMsg.textContent = '';
-                statusAtualizarMsg.className = '';
-              }, 5000);
-            });
+            }
+            setTimeout(() => {
+              statusAtualizarMsg.textContent = '';
+              statusAtualizarMsg.className = '';
+            }, 5000);
+          })
+          .catch(() => {
+            statusAtualizarMsg.textContent = 'Erro ao atualizar status';
+            statusAtualizarMsg.className = 'status-error';
+            checkbox.checked = false;
+            setTimeout(() => {
+              statusAtualizarMsg.textContent = '';
+              statusAtualizarMsg.className = '';
+            }, 5000);
+          });
         }
       });
 
@@ -145,7 +143,6 @@ document.addEventListener('DOMContentLoaded', () => {
       opt.value = nome;
       opt.textContent = nome;
       filtroSelect.appendChild(opt);
-      
     });
   }
 
@@ -178,15 +175,17 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  function fetchData() {
-    statusBuscarMsg.textContent = 'Buscando dados...';
-    statusBuscarMsg.className = ''; 
+  function fetchData(status) {
+    // Mensagens para o botão de buscar
+    if (status === 'buscar') {
+      statusBuscarMsg.textContent = 'Buscando dados...';
+      statusBuscarMsg.className = ''; 
+    } else {
+      statusAtualizarMsg.textContent = 'Atualizando tabela...';
+      statusAtualizarMsg.className = ''; 
+    }
 
     const payload = { status: 'Chegou' };
-
-    if (pegarFeitos && pegarFeitos.checked) {
-      payload.pegarFeitos = true;
-    }
 
     fetch(webhookBuscarUrl, {
       method: 'POST',
@@ -200,9 +199,16 @@ document.addEventListener('DOMContentLoaded', () => {
       return response.json();
     })
     .then(jsonData => {
-      if (!Array.isArray(jsonData) || jsonData.length === 0) {
+      if (!jsonData || jsonData.length === 0 || jsonData.every(item => !item.consulente || !item.data || item.consulente === null || item.data === null)) {
         currentData = [];
         currentKeys = [];
+        if (status === 'buscar') {
+          statusBuscarMsg.textContent = 'Nenhum trabalho presente.';
+          statusBuscarMsg.className = 'status-error'; // Mensagem de erro no status-message
+        } else {
+          statusAtualizarMsg.textContent = 'Nenhum trabalho presente.';
+          statusAtualizarMsg.className = 'status-error'; // Mensagem de erro no status-atualizar-message
+        }
       } else {
         currentData = jsonData;
         currentKeys = Object.keys(jsonData[0]);
@@ -210,22 +216,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
       gerarTabela();
 
-      statusBuscarMsg.textContent = 'Dados carregados com sucesso!';
-      statusBuscarMsg.className = 'status-success';
-      
+      if (status === 'buscar') {
+        statusBuscarMsg.textContent = 'Dados carregados com sucesso!';
+        statusBuscarMsg.className = 'status-success';
+      } else {
+        statusAtualizarMsg.textContent = 'Tabela Atualizada';
+        statusAtualizarMsg.className = 'status-success';
+      }
 
       setTimeout(() => {
-        statusBuscarMsg.textContent = '';
-        statusBuscarMsg.className = '';
+        if (status === 'buscar') {
+          statusBuscarMsg.textContent = '';
+          statusBuscarMsg.className = '';
+        } else {
+          statusAtualizarMsg.textContent = '';
+          statusAtualizarMsg.className = '';
+        }
       }, 5000);
     })
     .catch(err => {
-      statusBuscarMsg.textContent = 'Erro ao obter dados: ' + err.message;
-      statusBuscarMsg.className = 'status-error';
+      if (status === 'buscar') {
+        statusBuscarMsg.textContent = 'Erro ao obter dados: ' + err.message;
+        statusBuscarMsg.className = 'status-error';
+      } else {
+        statusAtualizarMsg.textContent = 'Erro ao atualizar tabela: ' + err.message;
+        statusAtualizarMsg.className = 'status-error';
+      }
 
       setTimeout(() => {
-        statusBuscarMsg.textContent = '';
-        statusBuscarMsg.className = '';
+        if (status === 'buscar') {
+          statusBuscarMsg.textContent = '';
+          statusBuscarMsg.className = '';
+        } else {
+          statusAtualizarMsg.textContent = '';
+          statusAtualizarMsg.className = '';
+        }
       }, 5000);
 
       console.error('Erro ao obter dados da API:', err);
@@ -233,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   btnBuscar.addEventListener('click', () => {
-    fetchData();
+    fetchData('buscar'); // Chamando o fetchData com 'buscar'
   });
 
   btnAtualizar.addEventListener('click', () => {
@@ -250,15 +275,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      gerarTabela();
-
-      statusAtualizarMsg.textContent = 'Tabela atualizada com sucesso!';
-      statusAtualizarMsg.className = 'status-success';
-
-      setTimeout(() => {
-        statusAtualizarMsg.textContent = '';
-        statusAtualizarMsg.className = '';
-      }, 5000);
+      // Atualizar a tabela
+      fetchData('atualizar'); // Chamando o fetchData com 'atualizar'
     } catch (err) {
       statusAtualizarMsg.textContent = 'Erro ao atualizar tabela: ' + err.message;
       statusAtualizarMsg.className = 'status-error';
