@@ -59,7 +59,10 @@ body {
   margin-bottom: 2px !important;
 }
 
-#relatorio-mensagem-atualizar,
+
+}
+
+
 .relatorio-mensagem-atualizar {
   display: inline-block;
   text-align: center;
@@ -68,21 +71,18 @@ body {
   border-radius: 4px;
 }
 
-#relatorio-mensagem-atualizar.success,
+
 .relatorio-mensagem-atualizar.success {
   color: #155724;
-  background-color: #d4edda;
-  border: 1px solid #c3e6cb;
 }
 
-#relatorio-mensagem-atualizar.error,
 .relatorio-mensagem-atualizar.error {
   color: #721c24;
-  background-color: #f8d7da;
-  border: 1px solid #f5c6cb;
 }
 
-}
+
+
+
 .wrapperDate > label{
   opacity: 0;
   margin-top: -30px;
@@ -1421,14 +1421,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 
 .presenca-card {
+  max-width: 500px;
+  margin: 0 auto 40px;
   background: #ffffff;
   border-radius: 8px;
+  padding: 50px 20px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-  padding: 1.5rem;
-  width: 100%;
-  max-width: 600px;
-  margin-bottom: 2rem;
-  margin-left: 600px;
+  margin-top: 60px;
+  justify-content: space-around;
 }
 
 .presenca-card h2 {
@@ -1483,6 +1483,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: 1px solid #ccc;
   font-size: 1rem;
   cursor: pointer;
+  display: none;
 }
 
 #tabela-presenca-container {

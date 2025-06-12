@@ -180,29 +180,43 @@ document.addEventListener("DOMContentLoaded", () => {
       )
     ).map((cb) => cb.value);
 
+
     if (trabalhos.length === 0) {
       return showMessage("Selecione ao menos um tipo de trabalho.", "error");
     }
 
-    const payload = {
-      nome,
-      telefone: telefoneRaw,
-      data: dataConsulta,
-      trabalhos,
-    };
 
-    fetch(
-      "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e61c7123-fb6c-4176-9d63-b32545a956fd",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      }
-    )
-      .then((res) => {
-        if (!res.ok) throw new Error(res.statusText);
+const payload = {
+  nome,
+  telefone: telefoneRaw,
+  data: dataConsulta,
+  trabalhos,
+};
+
+fetch(
+  "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e61c7123-fb6c-4176-9d63-b32545a956fd",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  }
+)
+  .then(async (res) => {
+    const data = await res.json();
+    // ajusta aqui para array e status
+    if (Array.isArray(data) && data.some(item => item.status === "descarrego_duplicado")) {
+      showMessage("Selecione apenas um tipo de descarrego", "error");
+      return data;
+    }
+    if (!res.ok) {
+      throw new Error(res.statusText);
+    }
+    return data;
+  })
+  .then((data) => {
+    if (Array.isArray(data)) {
+      if (data.some(item => item.status === "registrado")) {
         showMessage("Registro de trabalho enviado com sucesso!", "success");
-        // limpa form
         nomeInput.value = "";
         telefoneInput.value = "";
         dateInput.value = "";
@@ -214,11 +228,14 @@ document.addEventListener("DOMContentLoaded", () => {
           btn.setAttribute("aria-expanded", false);
           if (toggleOn) container.classList.add("hide");
         });
-      })
-      .catch((err) => {
-        console.error(err);
-        showMessage("Erro ao enviar o registro de trabalho.", "error");
-      });
+      }
+      return;
+    }
+  })
+  .catch((err) => {
+    console.error(err);
+    showMessage("Erro ao enviar o registro de trabalho.", "error");
+  });
   });
 });
 

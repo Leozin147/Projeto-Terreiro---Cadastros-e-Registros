@@ -1,12 +1,16 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const RELATORIO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e2bc5e4b-0ac6-4b8d-962b-67a872301a93";
-  const WEBHOOK_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29";
+  const RELATORIO_URL =
+    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e2bc5e4b-0ac6-4b8d-962b-67a872301a93";
+  const WEBHOOK_URL =
+    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29";
 
   const filtrosContainer = document.getElementById("relatorio-filtros");
   const tabelaContainer = document.getElementById("relatorio-tabela-container");
   const messageEl = document.getElementById("relatorio-message");
   const mensagem = document.getElementById("relatorio-mensagem");
-  const mensagemAtualizar = document.getElementById("relatorio-mensagem-atualizar");
+  const mensagemAtualizar = document.getElementById(
+    "relatorio-mensagem-atualizar"
+  );
   const startDate = document.getElementById("relatorio-data");
   const endDate = document.getElementById("relatorio-data-final");
   const btnBuscar = document.getElementById("btn-buscar-relatorio");
@@ -31,13 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     messageEl.className = `message ${type}`;
     messageEl.classList.remove("hide");
     setTimeout(() => messageEl.classList.add("hide"), 5000);
-  }
-
-  function showMensagem(text, type = "error") {
-    mensagem.textContent = text;
-    mensagem.className = `mensagem ${type}`;
-    mensagem.classList.remove("hide");
-    setTimeout(() => mensagem.classList.add("hide"), 5000);
   }
 
   function showMensagemAtualizar(text, type = "error") {
@@ -82,25 +79,38 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch(RELATORIO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dataSel: dataInicial, dataselend: dataFinal }),
+        body: JSON.stringify({ dataSel: dataInicial, dataselend: dataFinal,  pegarFeitos:   pegarFeitosCheckbox.checked ? "true" : "false" }),
       });
       if (!res.ok) throw new Error(res.statusText);
 
       const dados = await res.json();
-      if (!Array.isArray(dados) || !dados.length || !dados.some((item) => item.Consulente)) {
-        showMessage("Nenhum dado encontrado para o intervalo selecionado", "error");
+      if (
+        !Array.isArray(dados) ||
+        !dados.length ||
+        !dados.some((item) => item.Consulente)
+      ) {
+        showMessage(
+          "Nenhum dado encontrado para o intervalo selecionado",
+          "error"
+        );
         return;
       }
 
-      const registrosNaoFeitos = dados.filter((item) => item.Status !== "Feito");
+      const registrosNaoFeitos = dados.filter(
+        (item) => item.Status !== "Feito"
+      );
       if (!pegarFeitosCheckbox.checked && registrosNaoFeitos.length === 0) {
-        showMessage("Todos os trabalhos das datas selecionadas foram feitos", "error");
+        showMessage(
+          "Todos os trabalhos das datas selecionadas foram feitos",
+          "error"
+        );
         return;
       }
 
-      dadosOriginais = dados.map(({ Cura, Ebó, ...rest }) => rest);
+      dadosOriginais = dados.map(({ Ebó, ...rest }) => rest);
       populateFilters(dadosOriginais);
       montarTabela(dadosOriginais);
+      document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
       showMessage("Dados carregados com sucesso.", "success");
 
       dataUltimaBuscaInicial = dataInicial;
@@ -167,6 +177,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!incluirFeitos && item.Status === "Feito") return false;
       return Object.entries(filtros).every(([f, v]) => !v || item[f] === v);
     });
+    document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
 
     if (!filtrado.length) {
       tabelaContainer.style.display = "none";
@@ -189,7 +200,7 @@ document.addEventListener("DOMContentLoaded", () => {
       th.textContent = c;
       trHead.appendChild(th);
     });
-    ["Chegou", "Não Compareceu"].forEach((txt) => {
+    ["Chegou"].forEach((txt) => {
       const th = document.createElement("th");
       th.textContent = txt;
       trHead.appendChild(th);
@@ -208,10 +219,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const cbFeito = document.createElement("input");
       cbFeito.type = "checkbox";
       cbFeito.classList.add("cb-feito");
-      const cbNao = document.createElement("input");
-      cbNao.type = "checkbox";
-      cbNao.classList.add("cb-nao");
-      [cbFeito, cbNao].forEach((cb) => {
+      [cbFeito].forEach((cb) => {
         cb.dataset.date = item.Data;
         cb.dataset.nome = item.Consulente;
         cb.dataset.telefone = item.Telefone;
@@ -220,8 +228,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const tdF = document.createElement("td");
       const tdN = document.createElement("td");
       tdF.appendChild(cbFeito);
-      tdN.appendChild(cbNao);
-      tr.append(tdF, tdN);
+      tr.append(tdF);
 
       tbody.appendChild(tr);
     });
@@ -229,14 +236,9 @@ document.addEventListener("DOMContentLoaded", () => {
     tabelaContainer.appendChild(table);
   }
 
-  // — Event listeners —
-
-  // Handler do botão BUSCAR: mantém como estava (usa showMessage e showMensagem)
   btnBuscar.addEventListener("click", () => {
-    // 1) Se AMBOS os campos de data estiverem vazios → busca “pendentes”
     if (!startDate.value && !endDate.value) {
       ultimaBuscaFoiPendentes = true;
-      // limpa estado visual
       filtrosContainer.innerHTML = "";
       tabelaContainer.innerHTML = "";
       tabelaContainer.style.display = "none";
@@ -251,27 +253,37 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(RELATORIO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "Pendente" }),
+        body: JSON.stringify({ status: "Pendente",  pegarFeitos: pegarFeitosCheckbox.checked ? "true" : "false" }),
       })
         .then(async (res) => {
           if (!res.ok) throw new Error(res.statusText);
           const dados = await res.json();
 
-          if (!Array.isArray(dados) || !dados.length || !dados.some((item) => item.Consulente)) {
-            showMessage("Nenhum dado encontrado (pendente).", "error");
+          if (
+            !Array.isArray(dados) ||
+            !dados.length ||
+            !dados.some((item) => item.Consulente)
+          ) {
+            showMessage("Nenhum trabalho pendente encontrado.", "error");
             return;
           }
 
-          const registrosNaoFeitos = dados.filter((item) => item.Status !== "Feito");
+          const registrosNaoFeitos = dados.filter(
+            (item) => item.Status !== "Feito" 
+          );
           if (!pegarFeitosCheckbox.checked && registrosNaoFeitos.length === 0) {
-            showMessage("Todos os trabalhos pendentes já foram feitos.", "error");
+            showMessage(
+              "Todos os trabalhos pendentes já foram feitos.",
+              "error"
+            );
             return;
           }
 
-          dadosOriginais = dados.map(({ Cura, Ebó, ...rest }) => rest);
+          dadosOriginais = dados.map(({ Ebó, ...rest }) => rest);
           populateFilters(dadosOriginais);
           montarTabela(dadosOriginais);
           showMessage("Dados pendentes carregados com sucesso.", "success");
+          document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
         })
         .catch((err) => {
           console.error("Erro ao buscar pendentes:", err);
@@ -302,24 +314,25 @@ document.addEventListener("DOMContentLoaded", () => {
     });
     populateFilters(dadosOriginais, ativos);
     montarTabela(dadosOriginais, ativos);
+    document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
   });
 
-  // Mantém o comportamento original de RESTAURAR
   btnRestaurar.addEventListener("click", () => {
-    filtrosContainer.querySelectorAll("select").forEach((sel) => (sel.value = ""));
+    filtrosContainer
+      .querySelectorAll("select")
+      .forEach((sel) => (sel.value = ""));
     populateFilters(dadosOriginais);
     montarTabela(dadosOriginais);
+    document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
     btnRestaurar.style.display = "none";
   });
 
-  // Mantém o comportamento original do checkbox “pegar feitos”
   pegarFeitosCheckbox.addEventListener("change", () => {
     montarTabela(dadosOriginais);
+    document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
   });
 
-  // Handler do botão ATUALIZAR (refresh): envia pendentes se não houver busca anterior, ou refaz busca por datas
   btnRefresh.addEventListener("click", () => {
-    // Se não houve busca por datas, busca “pendentes”
     if (!dataUltimaBuscaInicial || !dataUltimaBuscaFinal) {
       ultimaBuscaFoiPendentes = true;
       // limpa estado visual
@@ -337,28 +350,45 @@ document.addEventListener("DOMContentLoaded", () => {
       fetch(RELATORIO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "Pendente" }),
+        body: JSON.stringify({ status: "Pendente",  pegarFeitos:   pegarFeitosCheckbox.checked ? "true" : "false" }),
       })
         .then(async (res) => {
           if (!res.ok) throw new Error(res.statusText);
           const dados = await res.json();
 
-          if (!Array.isArray(dados) || !dados.length || !dados.some((item) => item.Consulente)) {
-            showMensagemAtualizar("Nenhum dado encontrado (pendente).", "error");
+          if (
+            !Array.isArray(dados) ||
+            !dados.length ||
+            !dados.some((item) => item.Consulente)
+          ) {
+            showMensagemAtualizar(
+              "Nenhum trabalho pendente encontrado.",
+              "error"
+            );
             return;
           }
 
-          const registrosNaoFeitos = dados.filter((item) => item.Status !== "Feito");
+          const registrosNaoFeitos = dados.filter(
+            (item) => item.Status !== "Feito"
+          );
           if (!pegarFeitosCheckbox.checked && registrosNaoFeitos.length === 0) {
-            showMensagemAtualizar("Todos os trabalhos pendentes já foram feitos.", "error");
+            showMensagemAtualizar(
+              "Todos os trabalhos pendentes já foram feitos.",
+              "error"
+            );
             return;
           }
 
-          dadosOriginais = dados.map(({ Cura, Ebó, ...rest }) => rest);
+          dadosOriginais = dados.map(({ Ebó, ...rest }) => rest);
           populateFilters(dadosOriginais);
           montarTabela(dadosOriginais);
-          showMensagemAtualizar("Dados pendentes carregados com sucesso.", "success");
+          document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
+          showMensagemAtualizar(
+            "Dados pendentes carregados com sucesso.",
+            "success"
+          );
         })
+        
         .catch((err) => {
           console.error("Erro ao buscar pendentes:", err);
           showMensagemAtualizar("Falha ao buscar dados pendentes.", "error");
@@ -372,19 +402,13 @@ document.addEventListener("DOMContentLoaded", () => {
     buscarDados(dataUltimaBuscaInicial, dataUltimaBuscaFinal);
   });
 
-  // Handler para atualização de status (“Chegou” / “Não Compareceu”): envia webhook e mostra mensagem em relatorio-mensagem-atualizar
   tabelaContainer.addEventListener("change", (e) => {
     const cb = e.target;
-    if (!cb.matches(".cb-feito, .cb-nao")) return;
+    if (!cb.matches(".cb-feito")) return;
 
     let status = null;
-    if (cb.matches(".cb-feito") && cb.checked) {
+    if (cb.checked) {
       status = "Chegou";
-      cb.closest("tr").querySelector(".cb-nao").checked = false;
-    }
-    if (cb.matches(".cb-nao") && cb.checked) {
-      status = "Não Compareceu";
-      cb.closest("tr").querySelector(".cb-feito").checked = false;
     }
     if (!status) return;
 
@@ -396,10 +420,12 @@ document.addEventListener("DOMContentLoaded", () => {
         consulente: cb.dataset.nome,
         telefone: cb.dataset.telefone,
         status: status,
+        pegarFeitos:   pegarFeitosCheckbox.checked ? "true" : "false"
       }),
     })
       .then((res) => {
         if (!res.ok) throw new Error(res.statusText);
+        cb.checked = false;
         showMensagemAtualizar("Status atualizado com sucesso.", "success");
       })
       .catch((err) => {

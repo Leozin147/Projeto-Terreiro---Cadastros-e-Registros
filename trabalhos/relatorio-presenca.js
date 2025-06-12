@@ -125,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
     table.appendChild(tbody);
     container.appendChild(table);
 
-    // Mostrar controles
     filtroSelect.style.display = 'inline-block';
     btnAtualizar.style.display = 'inline-block';
     btnResetFiltros.style.display = 'inline-block';
