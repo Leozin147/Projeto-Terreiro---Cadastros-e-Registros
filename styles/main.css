@@ -819,7 +819,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-bottom: 20px;
+  margin-bottom: 05px;
 }
 
 #relatorio-cura-section .relatorio-cura-card input[type="text"],
@@ -922,6 +922,40 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   border: 1px solid #ccd0d5;
   font-size: 0.9rem;
   box-sizing: border-box;
+}
+
+#relatorio-cura-filtros label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 6px;
+}
+
+#relatorio-cura-filtros select {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg width='10' height='6' viewBox='0 0 10 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 10px 6px;
+  display: block;
+  margin-top: 4px;   
+  margin-bottom: 16px;
+}
+
+#relatorio-cura-filtros select:focus {
+  border-color: #666;
+  outline: none;
 }
 
 /* Container Retirada */
@@ -1060,8 +1094,77 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: relative;
 }
 
-.consulente-cura .dropbtn-cura-consulente::after{
+.dropdown-retirada {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.dropdown-retirada .dropbtn-retirada {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 100%;
+  padding: 12px;
+  padding-right: 2em;
+  font-size: 16px;
+  background-color: #000;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* seta para baixo (pode ser um SVG ou simplesmente a pseudo-class) */
+.dropdown-retirada .dropbtn-retirada::after {
   content: "▼";
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.7em;
+  pointer-events: none;
+}
+
+.dropdown-retirada .dropdown-content-retirada {
+  display: none;
+  position: absolute;
+  background-color: #fff;
+  min-width: 100%;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  z-index: 1000;
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 6px;
+  margin-top: 4px;
+}
+
+/* Quando a .dropdown-retirada ganhar a classe .show, mostramos o menu */
+.dropdown-retirada.show .dropdown-content-retirada {
+  display: block;
+}
+
+.dropdown-retirada .dropdown-content-retirada label {
+  display: block;
+  padding: 8px 16px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+/* checkbox dentro dos labels */
+.dropdown-retirada .dropdown-content-retirada label input[type="checkbox"] {
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* hover nos itens */
+.dropdown-retirada .dropdown-content-retirada label:hover {
+  background-color: #f0f2f5;
+}
+
+.consulente-cura .dropbtn-cura-consulente::after{
+  content: "▼" !important;
   position: absolute;
   right: 1em;
   transform: translateY(-50%);

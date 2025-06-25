@@ -7,14 +7,10 @@ document.addEventListener("DOMContentLoaded", () => {
   const filtrosContainer = document.getElementById("relatorio-filtros");
   const tabelaContainer = document.getElementById("relatorio-tabela-container");
   const messageEl = document.getElementById("relatorio-message");
-  const mensagem = document.getElementById("relatorio-mensagem");
-  const mensagemAtualizar = document.getElementById(
-    "relatorio-mensagem-atualizar"
-  );
+  const mensagemAtualizar = document.getElementById("relatorio-mensagem-atualizar");
   const startDate = document.getElementById("relatorio-data");
   const endDate = document.getElementById("relatorio-data-final");
   const btnBuscar = document.getElementById("btn-buscar-relatorio");
-  const btnFiltrar = document.getElementById("btn-aplicar-filtros");
   const btnRestaurar = document.getElementById("btn-limpar-filtro");
   const btnRefresh = document.getElementById("btn-refresh");
   const pegarFeitosCheckbox = document.getElementById("checkbox-pegar-feitos");
@@ -26,7 +22,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let ultimaBuscaFoiPendentes = false;
 
   // Esconde controles até ter dados
-  btnFiltrar.style.display = "none";
   btnRestaurar.style.display = "none";
   btnRefresh.style.display = "none";
 
@@ -44,6 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => mensagemAtualizar.classList.add("hide"), 5000);
   }
 
+  // Força abertura do datepicker em alguns navegadores
   dateInputs.forEach((input) => {
     input.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -60,7 +56,6 @@ document.addEventListener("DOMContentLoaded", () => {
     tabelaContainer.style.display = "none";
     messageEl.className = "message";
     messageEl.textContent = "";
-    btnFiltrar.style.display = "none";
     btnRestaurar.style.display = "none";
     btnRefresh.style.display = "none";
 
@@ -79,40 +74,33 @@ document.addEventListener("DOMContentLoaded", () => {
       const res = await fetch(RELATORIO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ dataSel: dataInicial, dataselend: dataFinal,  pegarFeitos:   pegarFeitosCheckbox.checked ? "true" : "false" }),
+        body: JSON.stringify({
+          dataSel: dataInicial,
+          dataselend: dataFinal,
+          pegarFeitos: pegarFeitosCheckbox.checked ? "true" : "false",
+        }),
       });
       if (!res.ok) throw new Error(res.statusText);
 
       const dados = await res.json();
-      if (
-        !Array.isArray(dados) ||
-        !dados.length ||
-        !dados.some((item) => item.Consulente)
-      ) {
-        showMessage(
-          "Nenhum dado encontrado para o intervalo selecionado",
-          "error"
-        );
+      if (!Array.isArray(dados) || !dados.length || !dados.some((i) => i.Consulente)) {
+        showMessage("Nenhum dado encontrado para o intervalo selecionado", "error");
         return;
       }
 
-      const registrosNaoFeitos = dados.filter(
-        (item) => item.Status !== "Feito"
-      );
+      const registrosNaoFeitos = dados.filter((item) => item.Status !== "Feito");
       if (!pegarFeitosCheckbox.checked && registrosNaoFeitos.length === 0) {
-        showMessage(
-          "Todos os trabalhos das datas selecionadas foram feitos",
-          "error"
-        );
+        showMessage("Todos os trabalhos das datas selecionadas foram feitos", "error");
         return;
       }
 
+      // remove campo Ebó e armazena os dados
       dadosOriginais = dados.map(({ Ebó, ...rest }) => rest);
+
       populateFilters(dadosOriginais);
       montarTabela(dadosOriginais);
-      document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
-      showMessage("Dados carregados com sucesso.", "success");
 
+      showMessage("Dados carregados com sucesso.", "success");
       dataUltimaBuscaInicial = dataInicial;
       dataUltimaBuscaFinal = dataFinal;
       startDate.value = "";
@@ -137,6 +125,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const wrapper = document.createElement("div");
       const lbl = document.createElement("label");
       lbl.textContent = label;
+
       const sel = document.createElement("select");
       sel.dataset.field = key;
       sel.innerHTML = `<option value="">Todas as respostas</option>`;
@@ -160,14 +149,29 @@ document.addEventListener("DOMContentLoaded", () => {
         opt.textContent = v;
         sel.appendChild(opt);
       });
-
       if (filtrosAtivos[key]) sel.value = filtrosAtivos[key];
+
+      // Aplica filtro imediatamente ao mudar qualquer select
+      sel.addEventListener("change", () => {
+        const novosFiltros = {};
+        let algumAtivo = false;
+        filtrosContainer.querySelectorAll("select").forEach((s) => {
+          novosFiltros[s.dataset.field] = s.value;
+          if (s.value) algumAtivo = true;
+        });
+        // Reconstrói selects (para atualizar dependências) e remonta tabela
+        populateFilters(data, novosFiltros);
+        montarTabela(data, novosFiltros);
+        // Exibe ou esconde botão Restaurar
+        btnRestaurar.style.display = algumAtivo ? "inline-block" : "none";
+      });
+
       wrapper.append(lbl, sel);
       filtrosContainer.appendChild(wrapper);
     });
 
-    btnFiltrar.style.display = "inline-block";
-    btnRestaurar.style.display = "inline-block";
+    const hasActive = Object.values(filtrosAtivos).some((v) => v);
+    btnRestaurar.style.display = hasActive ? "inline-block" : "none";
     btnRefresh.style.display = "inline-block";
   }
 
@@ -177,7 +181,6 @@ document.addEventListener("DOMContentLoaded", () => {
       if (!incluirFeitos && item.Status === "Feito") return false;
       return Object.entries(filtros).every(([f, v]) => !v || item[f] === v);
     });
-    document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
 
     if (!filtrado.length) {
       tabelaContainer.style.display = "none";
@@ -189,7 +192,7 @@ document.addEventListener("DOMContentLoaded", () => {
     tabelaContainer.innerHTML = "";
     tabelaContainer.style.display = "block";
 
-    let colunas = Object.keys(filtrado[0]).filter((c) => c !== "Ebó");
+    const colunas = Object.keys(filtrado[0]).filter((c) => c !== "Ebó");
     if (!colunas.includes("Status")) colunas.push("Status");
 
     const table = document.createElement("table");
@@ -200,11 +203,10 @@ document.addEventListener("DOMContentLoaded", () => {
       th.textContent = c;
       trHead.appendChild(th);
     });
-    ["Chegou"].forEach((txt) => {
-      const th = document.createElement("th");
-      th.textContent = txt;
-      trHead.appendChild(th);
-    });
+    // Coluna de checkbox “Chegou”
+    const thChegou = document.createElement("th");
+    thChegou.textContent = "Chegou";
+    trHead.appendChild(thChegou);
     thead.appendChild(trHead);
     table.appendChild(thead);
 
@@ -219,16 +221,13 @@ document.addEventListener("DOMContentLoaded", () => {
       const cbFeito = document.createElement("input");
       cbFeito.type = "checkbox";
       cbFeito.classList.add("cb-feito");
-      [cbFeito].forEach((cb) => {
-        cb.dataset.date = item.Data;
-        cb.dataset.nome = item.Consulente;
-        cb.dataset.telefone = item.Telefone;
-      });
+      cbFeito.dataset.date = item.Data;
+      cbFeito.dataset.nome = item.Consulente;
+      cbFeito.dataset.telefone = item.Telefone;
 
-      const tdF = document.createElement("td");
-      const tdN = document.createElement("td");
-      tdF.appendChild(cbFeito);
-      tr.append(tdF);
+      const tdCheckbox = document.createElement("td");
+      tdCheckbox.appendChild(cbFeito);
+      tr.appendChild(tdCheckbox);
 
       tbody.appendChild(tr);
     });
@@ -236,181 +235,132 @@ document.addEventListener("DOMContentLoaded", () => {
     tabelaContainer.appendChild(table);
   }
 
+  // Busca inicial (pendentes ou por datas)
   btnBuscar.addEventListener("click", () => {
     if (!startDate.value && !endDate.value) {
+      // busca pendentes
       ultimaBuscaFoiPendentes = true;
       filtrosContainer.innerHTML = "";
       tabelaContainer.innerHTML = "";
       tabelaContainer.style.display = "none";
-      messageEl.className = "message";
-      messageEl.textContent = "";
-      btnFiltrar.style.display = "none";
       btnRestaurar.style.display = "none";
       btnRefresh.style.display = "none";
 
-      showMessage("Buscando dados pendentes...", "");
-
+      showMessage("Buscando trabalhos...", "");
       fetch(RELATORIO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "Pendente",  pegarFeitos: pegarFeitosCheckbox.checked ? "true" : "false" }),
+        body: JSON.stringify({
+          status: "Pendente",
+          pegarFeitos: pegarFeitosCheckbox.checked ? "true" : "false",
+        }),
       })
-        .then(async (res) => {
+        .then((res) => {
           if (!res.ok) throw new Error(res.statusText);
-          const dados = await res.json();
-
-          if (
-            !Array.isArray(dados) ||
-            !dados.length ||
-            !dados.some((item) => item.Consulente)
-          ) {
+          return res.json();
+        })
+        .then((dados) => {
+          if (!Array.isArray(dados) || !dados.length || !dados.some((i) => i.Consulente)) {
             showMessage("Nenhum trabalho pendente encontrado.", "error");
             return;
           }
-
-          const registrosNaoFeitos = dados.filter(
-            (item) => item.Status !== "Feito" 
-          );
+          const registrosNaoFeitos = dados.filter((i) => i.Status !== "Feito");
           if (!pegarFeitosCheckbox.checked && registrosNaoFeitos.length === 0) {
-            showMessage(
-              "Todos os trabalhos pendentes já foram feitos.",
-              "error"
-            );
+            showMessage("Todos os trabalhos pendentes já foram feitos.", "error");
             return;
           }
-
           dadosOriginais = dados.map(({ Ebó, ...rest }) => rest);
           populateFilters(dadosOriginais);
           montarTabela(dadosOriginais);
-          showMessage("Dados pendentes carregados com sucesso.", "success");
-          document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
+          showMessage("Trabalhos carregados com sucesso.", "success");
         })
         .catch((err) => {
-          console.error("Erro ao buscar pendentes:", err);
-          showMessage("Falha ao buscar dados pendentes.", "error");
+          console.error(err);
+          showMessage("Falha ao buscar os trabalhos.", "error");
         });
-
       return;
     }
 
-    // 2) Se apenas UMA data estiver vazia, notifica erro e sai
+    // busca por intervalo de datas
     if (!startDate.value || !endDate.value) {
       showMessage("Selecione as datas para buscar.", "error");
       return;
     }
-
-    // 3) Se AMBAS as datas estiverem preenchidas, busca por intervalo
-    ultimaBuscaFoiPendentes = false;
     dataUltimaBuscaInicial = startDate.value;
     dataUltimaBuscaFinal = endDate.value;
     buscarDados(dataUltimaBuscaInicial, dataUltimaBuscaFinal);
   });
 
-  // Mantém o comportamento original de FILTRAR
-  btnFiltrar.addEventListener("click", () => {
-    const ativos = {};
-    filtrosContainer.querySelectorAll("select").forEach((sel) => {
-      ativos[sel.dataset.field] = sel.value;
-    });
-    populateFilters(dadosOriginais, ativos);
-    montarTabela(dadosOriginais, ativos);
-    document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
-  });
-
+  // Restaurar filtros
   btnRestaurar.addEventListener("click", () => {
-    filtrosContainer
-      .querySelectorAll("select")
-      .forEach((sel) => (sel.value = ""));
-    populateFilters(dadosOriginais);
-    montarTabela(dadosOriginais);
-    document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
+    filtrosContainer.querySelectorAll("select").forEach((sel) => (sel.value = ""));
+    populateFilters(dadosOriginais, {});
+    montarTabela(dadosOriginais, {});
+    document.querySelectorAll(".cb-feito").forEach((cb) => (cb.checked = false));
     btnRestaurar.style.display = "none";
   });
 
-  pegarFeitosCheckbox.addEventListener("change", () => {
-    montarTabela(dadosOriginais);
-    document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
-  });
-
+  // Refresh
   btnRefresh.addEventListener("click", () => {
     if (!dataUltimaBuscaInicial || !dataUltimaBuscaFinal) {
+      // refresh pendentes
       ultimaBuscaFoiPendentes = true;
-      // limpa estado visual
       filtrosContainer.innerHTML = "";
       tabelaContainer.innerHTML = "";
       tabelaContainer.style.display = "none";
-      messageEl.className = "message";
-      messageEl.textContent = "";
-      btnFiltrar.style.display = "none";
       btnRestaurar.style.display = "none";
       btnRefresh.style.display = "none";
 
-      showMensagemAtualizar("Buscando dados pendentes...", "");
-
+      showMensagemAtualizar("Buscando trabalhos pendentes...", "");
       fetch(RELATORIO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: "Pendente",  pegarFeitos:   pegarFeitosCheckbox.checked ? "true" : "false" }),
+        body: JSON.stringify({
+          status: "Pendente",
+          pegarFeitos: pegarFeitosCheckbox.checked ? "true" : "false",
+        }),
       })
-        .then(async (res) => {
+        .then((res) => {
           if (!res.ok) throw new Error(res.statusText);
-          const dados = await res.json();
-
-          if (
-            !Array.isArray(dados) ||
-            !dados.length ||
-            !dados.some((item) => item.Consulente)
-          ) {
-            showMensagemAtualizar(
-              "Nenhum trabalho pendente encontrado.",
-              "error"
-            );
+          return res.json();
+        })
+        .then((dados) => {
+          if (!Array.isArray(dados) || !dados.length || !dados.some((i) => i.Consulente)) {
+            showMensagemAtualizar("Nenhum trabalho pendente encontrado.", "error");
             return;
           }
-
-          const registrosNaoFeitos = dados.filter(
-            (item) => item.Status !== "Feito"
-          );
+          const registrosNaoFeitos = dados.filter((i) => i.Status !== "Feito");
           if (!pegarFeitosCheckbox.checked && registrosNaoFeitos.length === 0) {
-            showMensagemAtualizar(
-              "Todos os trabalhos pendentes já foram feitos.",
-              "error"
-            );
+            showMensagemAtualizar("Todos os trabalhos pendentes já foram feitos.", "error");
             return;
           }
-
           dadosOriginais = dados.map(({ Ebó, ...rest }) => rest);
           populateFilters(dadosOriginais);
           montarTabela(dadosOriginais);
-          document.querySelectorAll('.cb-feito').forEach(cb => cb.checked = false);
-          showMensagemAtualizar(
-            "Dados pendentes carregados com sucesso.",
-            "success"
-          );
+          showMensagemAtualizar("Trabalhos pendentes carregados com sucesso.", "success");
         })
-        
         .catch((err) => {
-          console.error("Erro ao buscar pendentes:", err);
+          console.error(err);
           showMensagemAtualizar("Falha ao buscar dados pendentes.", "error");
         });
-
-      return;
+    } else {
+      // refresh intervalo de datas
+      showMensagemAtualizar("Atualizando dados...", "success");
+      buscarDados(dataUltimaBuscaInicial, dataUltimaBuscaFinal);
     }
-
-    // Caso contrário, refaz busca por intervalo de datas
-    showMensagemAtualizar("Atualizando dados...", "success");
-    buscarDados(dataUltimaBuscaInicial, dataUltimaBuscaFinal);
   });
 
+  // Toggle mostrar itens feitos
+  pegarFeitosCheckbox.addEventListener("change", () => {
+    montarTabela(dadosOriginais);
+    document.querySelectorAll(".cb-feito").forEach((cb) => (cb.checked = false));
+  });
+
+  // Envio de webhook ao marcar “Chegou”
   tabelaContainer.addEventListener("change", (e) => {
     const cb = e.target;
     if (!cb.matches(".cb-feito")) return;
-
-    let status = null;
-    if (cb.checked) {
-      status = "Chegou";
-    }
-    if (!status) return;
+    if (!cb.checked) return;
 
     fetch(WEBHOOK_URL, {
       method: "POST",
@@ -419,8 +369,8 @@ document.addEventListener("DOMContentLoaded", () => {
         data: cb.dataset.date,
         consulente: cb.dataset.nome,
         telefone: cb.dataset.telefone,
-        status: status,
-        pegarFeitos:   pegarFeitosCheckbox.checked ? "true" : "false"
+        status: "Chegou",
+        pegarFeitos: pegarFeitosCheckbox.checked ? "true" : "false",
       }),
     })
       .then((res) => {
@@ -429,7 +379,7 @@ document.addEventListener("DOMContentLoaded", () => {
         showMensagemAtualizar("Status atualizado com sucesso.", "success");
       })
       .catch((err) => {
-        console.error("Erro ao enviar webhook:", err);
+        console.error(err);
         showMensagemAtualizar("Falha ao notificar o status.", "error");
       });
   });

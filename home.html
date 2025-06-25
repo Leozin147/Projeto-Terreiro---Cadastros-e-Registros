@@ -509,9 +509,6 @@
         <button id="btn-buscar-relatorio">Buscar</button>
         <div id="relatorio-message" class="message"></div>
         <div id="relatorio-filtros" class="filtros-container"></div>
-        <button id="btn-aplicar-filtros" class="btn-aplicar-filtros">
-          Filtrar
-        </button>
         <button id="btn-limpar-filtro" class="btn-limpar-filtros">
           Restaurar Filtros
         </button>
@@ -555,7 +552,6 @@
             id="filtro-inicial-consulente"
             placeholder="Digite o nome do consulente"
           />
-          <!-- checkbox “Pegar feitos” mantida -->
           <label
             style="
               display: flex;
@@ -568,126 +564,43 @@
             Pegar feitos
           </label>
         </div>
+        <div class ="checkboxPendentes">
+          <label
+            style="
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin-top: 10px;
+            "
+          >
+            <input type="checkbox" id="checkbox-pegar-pendentes-cura" />
+            Pegar Pendentes
+          </label>
+
+        </div>
+      
         <button id="btn-buscar-relatorio-cura">Buscar</button>
         <div id="relatorio-cura-message" class="message-cura"></div>
 
-        <!-- Filtros ocultos, aparecem após o relatório ser gerado -->
         <div
           id="relatorio-cura-filtros"
           class="filtros-container-cura"
           style="display: none; margin-top: 15px"
         >
-          <label>
-            Consulente:
-            <input
-              type="text"
-              id="filtro-consulente"
-              placeholder="Filtrar por consulente"
-            />
-          </label>
-          <label>
-            Tipo de Oração:
-            <input
-              type="text"
-              id="filtro-tipo-oracao"
-              placeholder="Filtrar por tipo de oração"
-            />
-          </label>
-          <label>
-            Água:
-            <input
-              type="text"
-              id="filtro-agua"
-              placeholder="Filtrar por Água"
-            />
-          </label>
-
-          <label>
-            Chá:
-            <input type="text" id="filtro-cha" placeholder="Filtrar por Chá" />
-          </label>
-
-          <label>
-            Banho:
-            <input
-              type="text"
-              id="filtro-banho"
-              placeholder="Filtrar por Banho"
-            />
-          </label>
-
-          <label>
-            Bastão:
-            <input
-              type="text"
-              id="filtro-bastao"
-              placeholder="Filtrar por Bastão"
-            />
-          </label>
-
-          <label>
-            Canjica:
-            <input
-              type="text"
-              id="filtro-canjica"
-              placeholder="Filtrar por Canjica"
-            />
-          </label>
-
-          <label>
-            Ebó Prosperidade:
-            <input
-              type="text"
-              id="filtro-ebo-prosperidade"
-              placeholder="Filtrar por Ebó Prosperidade"
-            />
-          </label>
-
-          <label>
-            Espada São Jorge:
-            <input
-              type="text"
-              id="filtro-espada-sao-jorge"
-              placeholder="Filtrar por Espada São Jorge"
-            />
-          </label>
-
-          <label>
-            Material Arreada Exu:
-            <input
-              type="text"
-              id="filtro-material-arreada-exu"
-              placeholder="Filtrar por Material Arreada Exu"
-            />
-          </label>
-
-          <label>
-            Remédio Vício:
-            <input
-              type="text"
-              id="filtro-remedio-vicio"
-              placeholder="Filtrar por Remédio Vício"
-            />
-          </label>
-
-          <label>
-            Imersão:
-            <input
-              type="text"
-              id="filtro-imersao"
-              placeholder="Filtrar por Imersão"
-            />
-          </label>
+<label>
+  Consulente:
+  <select id="filtro-consulente">
+    <option value="">Todos os consulentes</option>
+  </select>
+</label>
+<label>
+  Tipo de Oração:
+  <select id="filtro-tipo-oracao">
+    <option value="">Todos os tipos de oração</option>
+  </select>
+</label>
         </div>
 
-        <!-- Botões ocultos para resetar filtros e atualizar tabela -->
-        <button
-          id="btn-aplicar-filtros-cura"
-          class="btn-aplicar-filtros-cura"
-          style="display: none"
-        >
-          Filtrar
-        </button>
         <button
           id="btn-limpar-filtro-cura"
           class="btn-limpar-filtros-cura"
@@ -702,16 +615,26 @@
         >
           Atualizar Tabela
         </button>
-        <div id="retirada-container" class="retirada-container">
-          <h4>Retirada:</h4>
-          <label>Itens para Retirada:</label>
-          <div id="checklist-retirada" class="checklist-retirada">
-            <!-- checkboxes gerados aqui -->
-          </div>
+<div id="retirada-container" class="retirada-container">
+  <h4>Retirada:</h4>
 
-          <button id="btn-cadastrar-retirada" class="btn-cadastrar-retirada">
-            Cadastrar Retirada
-          </button>
+  <div class="dropdown-retirada">
+    <button
+      type="button"
+      class="dropbtn-retirada"
+      id="dropbtn-retirada"
+      aria-expanded="false"
+    >
+      Itens para Retirada
+    </button>
+    <div id="checklist-retirada" class="dropdown-content-retirada">
+      <label><input type="checkbox" value="agua" /> Água</label>
+      <label><input type="checkbox" value="cha" /> Chá</label>
+      <label><input type="checkbox" value="banho" /> Banho</label>
+      <label><input type="checkbox" value="bastao" /> Bastão</label>
+    </div>
+  </div>
+
           <label
             for="tipo-cura"
             style="
@@ -741,6 +664,7 @@
               <option value="">Consulente</option>
             </select>
 
+
             <div class="dropdown-cura-retirada">
               <button
                 type="button"
@@ -750,6 +674,10 @@
               >
                 Selecione o Status
               </button>
+
+                        <button id="btn-cadastrar-retirada" class="btn-cadastrar-retirada">
+            Cadastrar Retirada
+          </button>
 
               <div id="status-cura" class="dropdown-content-cura">
                 <label>
@@ -782,7 +710,6 @@
             </tr>
           </thead>
           <tbody>
-            <!-- Linhas de dados geradas dinamicamente -->
           </tbody>
         </table>
       </div>
@@ -886,7 +813,6 @@
 
   <div id="tabela-presenca-container"></div>
 </section>
-    <!-- script de menu -->
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const menuContainer = document.getElementById("menu_opt");
