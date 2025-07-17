@@ -1,7 +1,7 @@
 window.addEventListener("DOMContentLoaded", () => {
 
-  const RELATORIO_EBO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/5312c09e-e049-4aa8-8846-2752cf31294d";
-  const ATUALIZAR_STATUS_EBO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/4263f55a-595c-471a-a03a-b5d92e5b4387";
+  const RELATORIO_EBO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/relatorio_ebo";
+  const ATUALIZAR_STATUS_EBO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/atualizar_status_ebo";
 
 
   const filtroInput = document.getElementById("filtro-inicial-consulente-ebo");

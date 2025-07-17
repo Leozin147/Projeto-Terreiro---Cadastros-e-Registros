@@ -1,11 +1,11 @@
 window.addEventListener("DOMContentLoaded", () => {
   // — URLs dos webhooks —
   const RELATORIO_CURA_URL =
-    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/9efd518f-fceb-4ff5-b20a-a319eb1667e5";
+    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/relatorio_cura";
   const WEBHOOK_URL =
-    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/8f7c9bb2-1574-4a01-8b47-b0e87498ff6e";
+    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/retirada_itens";
   const ATUALIZAR_STATUS_URL =
-    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/f695bc21-047d-4efa-99e3-243eaa906b3c";
+    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook-test/atualizar_status";
 
   // — Elementos do DOM —
   const filtroIniCons = document.getElementById("filtro-inicial-consulente");
@@ -253,6 +253,7 @@ window.addEventListener("DOMContentLoaded", () => {
       "Cura",
       "data_de_inicio",
       "status_cura",
+      "presenca_cura"
     ];
     const colsFlags = filterFieldsCura.map((f) => f.slug);
     const paymentCol = ["pagamento_cura"];
