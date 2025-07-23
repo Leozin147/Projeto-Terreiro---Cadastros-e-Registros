@@ -1299,8 +1299,12 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   gap: 10px;
 }
 
-#relatorio-ebo-section button#btn-buscar-relatorio-ebo,
-#relatorio-ebo-section button#btn-refresh-ebo {
+#relatorio-ebo-section
+  button#btn-buscar-relatorio-ebo,
+#relatorio-ebo-section
+  button#btn-refresh-ebo,
+#relatorio-ebo-section
+  button#btn-limpar-filtro-ebo {
   width: 100%;
   padding: 12px;
   font-size: 16px;
@@ -1312,9 +1316,23 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   margin-top: 10px;
   transition: background-color 0.2s ease;
 }
-#relatorio-ebo-section button#btn-buscar-relatorio-ebo:hover,
-#relatorio-ebo-section button#btn-refresh-ebo:hover {
-  background-color: #008000;
+
+#relatorio-ebo-section
+  button#btn-buscar-relatorio-ebo:hover,
+#relatorio-ebo-section
+  button#btn-refresh-ebo:hover,
+#relatorio-ebo-section
+  button#btn-limpar-filtro-ebo:hover {
+  background-color: #333;
+}
+
+#relatorio-ebo-section
+  button#btn-buscar-relatorio-ebo:active,
+#relatorio-ebo-section
+  button#btn-refresh-ebo:active,
+#relatorio-ebo-section
+  button#btn-limpar-filtro-ebo:active {
+  background-color: #111;
 }
 
 /* Mensagens de status */
@@ -1367,7 +1385,41 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-weight: bold;
 }
 
-/* Dropdown Ebó */
+/* filtros ebo */ 
+
+#relatorio-ebo-filtros {
+  flex-direction: column;
+  gap: 0; 
+}
+
+#relatorio-ebo-filtros label {
+  display: block;
+  font-weight: bold;
+  margin: 15px 0 5px;
+}
+
+#relatorio-ebo-filtros select {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid #c7c7c7;
+  border-radius: 6px;
+  background: #fff
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='gray'><path d='M7 10l5 5 5-5'/></svg>")
+    no-repeat right 12px center;
+  background-size: 16px 16px;
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+#relatorio-ebo-filtros select:focus {
+  border-color: #000;
+  outline: none;
+}
+
 .dropdown-ebo-retirada {
   position: relative;
   width: 100%;
@@ -1458,11 +1510,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   font-size: 0.9em;
   min-height: 1.2em;
 }
-#status-ebo-mensagem.success {
-  color: #28a745;
+#status-ebo-message-atualizar.success{ 
+  color:#28a745; 
 }
-#status-ebo-mensagem.error {
-  color: #dc3545;
+#status-ebo-message-atualizar.error { 
+  color:#dc3545; 
 }
 
 .relatorio-ebo-tabela {
@@ -1496,6 +1548,11 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: relative;
   margin-bottom: 10px;
 }
+
+.filtros-container-ebo{
+  flex-direction: column;
+}
+
 .dropbtn-consulente-retirada::after {
   content: "▼";
   position: absolute;

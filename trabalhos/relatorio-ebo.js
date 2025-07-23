@@ -1,28 +1,33 @@
 window.addEventListener("DOMContentLoaded", () => {
-
   const RELATORIO_EBO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/relatorio_ebo";
   const ATUALIZAR_STATUS_EBO_URL = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/atualizar_status_ebo";
 
-
   const filtroInput = document.getElementById("filtro-inicial-consulente-ebo");
   const pegarFeitosCb = document.getElementById("checkbox-pegar-feitos-ebo");
+
   const btnBuscar = document.getElementById("btn-buscar-relatorio-ebo");
   const btnRefresh = document.getElementById("btn-refresh-ebo");
+  const btnLimparFiltros = document.getElementById("btn-limpar-filtro-ebo");
+
   const msgBusca = document.getElementById("status-ebo-message");
+  const msgAtualizar = document.getElementById("status-ebo-message-atualizar");
+
   const tabelaCont = document.getElementById("relatorio-ebo-tabela-container");
   const thead = tabelaCont.querySelector("thead");
   const tbody = tabelaCont.querySelector("tbody");
-  const msgBuscarAtualizar = document.getElementById ("status-ebo-message-atualizar");
+
+  const filtrosContainer = document.getElementById("relatorio-ebo-filtros");
+  const selectConsulente = document.getElementById("filtro-consulente-ebo");
+  const selectTipoEbo = document.getElementById("filtro-tipo-ebo");
 
   let allData = [];
   let lastConsulente = "";
-
 
   function showMessage(el, text, cls = "error") {
     el.textContent = text;
     el.className = cls;
     el.style.display = "block";
-    setTimeout(() => el.style.display = "none", 3000);
+    setTimeout(() => (el.style.display = "none"), 3000);
   }
 
   const COLS = [
@@ -34,26 +39,35 @@ window.addEventListener("DOMContentLoaded", () => {
     { key: "Pagamento", label: "Pagamento" }
   ];
 
+  function unique(arr) {
+    return [...new Set(arr.filter(Boolean))];
+  }
+
+  function updateSelectOptions(sel, values, placeholder, keep) {
+    sel.innerHTML = `<option value="">${placeholder}</option>`;
+    values.forEach(v => {
+      const opt = document.createElement("option");
+      opt.value = opt.textContent = v;
+      sel.appendChild(opt);
+    });
+    sel.value = values.includes(keep) ? keep : "";
+  }
+
   function renderTable(data) {
-    thead.innerHTML = ""; 
-    tbody.innerHTML = ""; 
+    thead.innerHTML = "";
+    tbody.innerHTML = "";
 
     const headRow = document.createElement("tr");
-
     COLS.forEach(col => {
       const th = document.createElement("th");
       th.textContent = col.label;
       headRow.appendChild(th);
     });
-
-    const thFeito = document.createElement("th");
-    thFeito.textContent = "Feito";
-    headRow.appendChild(thFeito);
-
-    const thPago = document.createElement("th");
-    thPago.textContent = "Pago";
-    headRow.appendChild(thPago);
-
+    ["Feito", "Pago"].forEach(lbl => {
+      const th = document.createElement("th");
+      th.textContent = lbl;
+      headRow.appendChild(th);
+    });
     thead.appendChild(headRow);
 
     data.forEach(item => {
@@ -70,29 +84,17 @@ window.addEventListener("DOMContentLoaded", () => {
         tr.appendChild(td);
       });
 
-      const tdFeito = document.createElement("td");
-      const tdPago = document.createElement("td");
-
-      tdFeito.style.textAlign = "center";  
-      tdPago.style.textAlign = "center"; 
-
-      const checkboxFeito = document.createElement("input");
-      checkboxFeito.type = "checkbox";
-      checkboxFeito.classList.add("feito-checkbox");
-      checkboxFeito.style.width = "15px"; 
-      checkboxFeito.style.height = "15px"; 
-
-      const checkboxPago = document.createElement("input");
-      checkboxPago.type = "checkbox";
-      checkboxPago.classList.add("pago-checkbox");
-      checkboxPago.style.width = "15px"; 
-      checkboxPago.style.height = "15px"; 
-
-      tdFeito.appendChild(checkboxFeito);
-      tdPago.appendChild(checkboxPago);
-
-      tr.appendChild(tdFeito);
-      tr.appendChild(tdPago);
+      ["feito-checkbox", "pago-checkbox"].forEach(cls => {
+        const td = document.createElement("td");
+        td.style.textAlign = "center";
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.classList.add(cls);
+        cb.style.width = "15px";
+        cb.style.height = "15px";
+        td.appendChild(cb);
+        tr.appendChild(td);
+      });
 
       tbody.appendChild(tr);
     });
@@ -101,81 +103,121 @@ window.addEventListener("DOMContentLoaded", () => {
     btnRefresh.style.display = "inline-block";
   }
 
-  async function fetchData(payload) {
-    [msgBusca, tabelaCont].forEach(el => el && (el.style.display = "none"));
+  function initialPopulateFilters(data) {
+    updateSelectOptions(selectConsulente, unique(data.map(d => d.Consulente)), "Todos os consulentes", "");
+    updateSelectOptions(selectTipoEbo, unique(data.map(d => d["Ebó"])), "Todos os tipos de ebó", "");
+    filtrosContainer.style.display = "flex";
+    btnLimparFiltros.style.display = "none";
+  }
+
+  function toggleBtnLimpar() {
+    btnLimparFiltros.style.display = (selectConsulente.value || selectTipoEbo.value) ? "inline-block" : "none";
+  }
+
+  function updateFiltersAndTable(trigger) {
+    const selCons = selectConsulente.value;
+    const selTipo = selectTipoEbo.value;
+
+    const filtrado = allData.filter(
+      i =>
+        (selCons ? i.Consulente === selCons : true) &&
+        (selTipo ? i["Ebó"] === selTipo : true)
+    );
+    renderTable(filtrado);
+
+    if (trigger !== "consulente") {
+      const consVals = unique(
+        allData
+          .filter(i => (selTipo ? i["Ebó"] === selTipo : true))
+          .map(i => i.Consulente)
+      );
+      updateSelectOptions(selectConsulente, consVals, "Todos os consulentes", selCons);
+    }
+
+    if (trigger !== "tipo") {
+      const tipoVals = unique(
+        allData
+          .filter(i => (selCons ? i.Consulente === selCons : true))
+          .map(i => i["Ebó"])
+      );
+      updateSelectOptions(selectTipoEbo, tipoVals, "Todos os tipos de ebó", selTipo);
+    }
+
+    toggleBtnLimpar();
+  }
+
+  selectConsulente.addEventListener("change", () => updateFiltersAndTable("consulente"));
+  selectTipoEbo.addEventListener("change", () => updateFiltersAndTable("tipo"));
+
+  btnLimparFiltros.addEventListener("click", () => {
+    selectConsulente.selectedIndex = 0;
+    selectTipoEbo.selectedIndex = 0;
+    updateFiltersAndTable("reset");
+  });
+
+  async function fetchData(payload, statusEl, loadingTxt) {
+    [msgBusca, msgAtualizar].forEach(el => (el.style.display = "none"));
+    [tabelaCont, filtrosContainer, btnRefresh, btnLimparFiltros].forEach(el => (el.style.display = "none"));
     tbody.innerHTML = "";
 
-    showMessage(msgBusca, "Buscando dados...", "");
+    showMessage(statusEl, loadingTxt, "");
     lastConsulente = filtroInput.value.trim();
+
+    const statusEbo = pegarFeitosCb.checked ? "Feito" : "Pendente";
+
+    pegarFeitosCb.checked = false; // Limpar a checkbox ao carregar os dados
 
     try {
       const res = await fetch(RELATORIO_EBO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({ ...payload, status_ebo: statusEbo })
       });
       if (!res.ok) throw new Error(res.statusText);
 
       const arr = await res.json();
       if (!Array.isArray(arr) || arr.length === 0) {
-        const msg = lastConsulente
-          ? "Nenhum registro encontrado para esse usuário."
-          : "Nenhum registro retornado.";
-        showMessage(msgBusca, msg, "error");
+        const msg = lastConsulente ? "Nenhum registro encontrado para esse usuário." : "Nenhum registro retornado.";
+        showMessage(statusEl, msg, "error");
         return;
       }
 
-      allData = arr.filter(item =>
-        Object.values(item).some(v => v !== null && v !== "")
-      );
-
+      allData = arr.filter(item => Object.values(item).some(v => v !== null && v !== ""));
       renderTable(allData);
-      showMessage(msgBusca, "Dados carregados com sucesso.", "success");
-
+      initialPopulateFilters(allData);
+      showMessage(statusEl, "Dados carregados com sucesso.", "success");
     } catch (err) {
-      console.error(err);
-      showMessage(msgBusca, `Erro ao buscar dados: ${err.message}`, "error");
-      btnRefresh.style.display = "none";
+      showMessage(statusEl, `Erro ao buscar dados: ${err.message}`, "error");
     }
   }
 
-  btnBuscar.addEventListener("click", (e) => {
+  btnBuscar.addEventListener("click", e => {
+    e.preventDefault();
+    const payload = filtroInput.value.trim()
+      ? { consulente: filtroInput.value.trim(), pegarFeitos: pegarFeitosCb.checked }
+      : { status_ebo: "Pendente", pegarFeitos: pegarFeitosCb.checked };
+    fetchData(payload, msgBusca, "Buscando dados…");
+  });
+
+  btnRefresh.addEventListener("click", e => {
     e.preventDefault();
     const payload = lastConsulente
       ? { consulente: lastConsulente, pegarFeitos: pegarFeitosCb.checked }
-      : { status_ebo: "Pendente",  pegarFeitos: pegarFeitosCb.checked };
-
-    fetchData(payload);
+      : { status_ebo: "Pendente", pegarFeitos: pegarFeitosCb.checked };
+    fetchData(payload, msgAtualizar, "Atualizando dados…");
   });
 
-  btnRefresh.addEventListener("click", (e) => {
-    e.preventDefault();
-    showMessage(msgBuscarAtualizar, "Atualizando dados...", "");
-    
-    const payload = lastConsulente
-      ? { consulente: lastConsulente, pegarFeitos: pegarFeitosCb.checked }
-      : { status_ebo: "Pendente", pegarFeitos: pegarFeitosCb.checked};
-
-    fetchData(payload);
-  });
-
-  tbody.addEventListener("change", async (e) => {
+  tbody.addEventListener("change", async e => {
     if (!e.target.matches("input[type=checkbox]")) return;
 
     const row = e.target.closest("tr");
-    const tipoEbo = row.querySelector("td:nth-child(4)").textContent; 
-    const consulente = row.querySelector("td:nth-child(2)").textContent; 
-    const data = row.querySelector("td:nth-child(1)").textContent; 
+    const tipoEbo = row.querySelector("td:nth-child(4)").textContent;
+    const consulente = row.querySelector("td:nth-child(2)").textContent;
+    const data = row.querySelector("td:nth-child(1)").textContent;
     const status = e.target.classList.contains("feito-checkbox") ? "feito" : "pagamento_ebo";
 
     try {
-      const body = {
-        Ebo: tipoEbo,
-        status,
-        Consulente: consulente,
-        Data: data
-      };
-
+      const body = { Ebo: tipoEbo, status, Consulente: consulente, Data: data };
       const resp = await fetch(ATUALIZAR_STATUS_EBO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -183,11 +225,9 @@ window.addEventListener("DOMContentLoaded", () => {
       });
       if (!resp.ok) throw new Error(resp.statusText);
 
-      showMessage(msgBusca, `Status do Ebó ${status} atualizado com sucesso!`, "success");
-
+      showMessage(msgAtualizar, `Status do Ebó ${status} atualizado com sucesso!`, "success");
     } catch (err) {
-      console.error(err);
-      showMessage(msgBusca, `Erro ao atualizar: ${err.message}`, "error");
+      showMessage(msgAtualizar, `Erro ao atualizar: ${err.message}`, "error");
     }
   });
 });

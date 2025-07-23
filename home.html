@@ -717,67 +717,83 @@
 
 
       <!-- Seção de Relatório de Ebós -->
-    <section id="relatorio-ebo-section">
-      <div class="relatorio-ebo-card">
-        <h2>Relatório de Ebós</h2>
-        <h3>Filtrar por consulente</h3>
-        <div class="data-container-ebo">
-          <label for="filtro-inicial-consulente-ebo">Consulente</label>
-          <input
-            type="text"
-            id="filtro-inicial-consulente-ebo"
-            placeholder="Digite o nome do consulente"
-          />
-          <label
-            style="
-              display: flex;
-              align-items: center;
-              gap: 10px;
-              margin-top: 10px;
-            "
+      <section id="relatorio-ebo-section">
+        <div class="relatorio-ebo-card">
+          <h2>Relatório de Ebós</h2>
+          <h3>Filtrar por consulente</h3>
+      
+          <div class="data-container-ebo">
+            <label for="filtro-inicial-consulente-ebo">Consulente</label>
+            <input
+              type="text"
+              id="filtro-inicial-consulente-ebo"
+              placeholder="Digite o nome do consulente"
+            />
+            <label style="display:flex;align-items:center;gap:10px;margin-top:10px;">
+              <input type="checkbox" id="checkbox-pegar-feitos-ebo" />
+              Pegar feitos
+            </label>
+          </div>
+      
+          <div
+            id="relatorio-ebo-filtros"
+            class="filtros-container-ebo"
+            style="display:none; margin-top:15px;"
           >
-            <input type="checkbox" id="checkbox-pegar-feitos-ebo" />
-            Pegar feitos
-          </label>
-        </div>
-        <button id="btn-buscar-relatorio-ebo">Buscar</button>
-        <div id="status-ebo-message" class="status-ebo-message"></div>
-
-        <button
-          id="btn-refresh-ebo"
-          class="btn-limpar-filtros-ebo"
-          style="display: none"
-        >
-          Atualizar Tabela
-        </button>
-        <div id="status-ebo-message-atualizar" class="status-ebo-message-atualizar"></div>
-        <div id="status-ebo-container" class="status-ebo-container">
-          <h4>Status</h4>
-          <label
-            for="tipo-ebo"
-            style="
-              margin-top: 30px;
-              display: block;
-              font-weight: bold;
-              color: #fff;
-            "
+            <label>
+              Consulente:
+              <select id="filtro-consulente-ebo">
+                <option value="">Todos os consulentes</option>
+              </select>
+            </label>
+      
+            <label>
+              Tipo de Ebó:
+              <select id="filtro-tipo-ebo">
+                <option value="">Todos os tipos de ebó</option>
+              </select>
+            </label>
+          </div>
+      
+          <button
+            id="btn-limpar-filtro-ebo"
+            class="btn-limpar-filtros-ebo"
+            style="display:none;"
           >
-          </label>
+            Restaurar Filtros
+          </button>
+      
+          <button id="btn-buscar-relatorio-ebo">Buscar</button>
+          <div id="status-ebo-message" class="status-ebo-message"></div>
+      
+          <button
+            id="btn-refresh-ebo"
+            class="btn-limpar-filtros-ebo"
+            style="display:none;"
+          >
+            Atualizar Tabela
+          </button>
+          <div id="status-ebo-message-atualizar" class="status-ebo-message-atualizar"></div>
+      
+          <div id="status-ebo-container" class="status-ebo-container">
+            <h4>Status</h4>
+            <label
+              for="tipo-ebo"
+              style="margin-top:30px;display:block;font-weight:bold;color:#fff;"
+            ></label>
             <div id="status-ebo-mensagem" class="status-ebo-mensagem"></div>
             <div id="tipo-ebo-message"></div>
           </div>
         </div>
-      </div>
-
-      <div id="relatorio-ebo-tabela-container" class = "relatorio-ebo-tabela">
-        <table>
-          <thead>
-          </thead>
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-    </section>
+      
+        <div id="relatorio-ebo-tabela-container" class="relatorio-ebo-tabela">
+          <table>
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </section>
+      
 
      <!-- Seção de Relatório de Presença -->
 
