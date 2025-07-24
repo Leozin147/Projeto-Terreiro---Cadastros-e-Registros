@@ -5,30 +5,23 @@ window.addEventListener("DOMContentLoaded", () => {
   const WEBHOOK_URL =
     "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/retirada_itens";
   const ATUALIZAR_STATUS_URL =
-    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook-test/atualizar_status";
+    "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/atualizar_status";
 
-  // — Elementos do DOM —
   const filtroIniCons = document.getElementById("filtro-inicial-consulente");
   const pegarFeitosCb = document.getElementById("checkbox-pegar-feitos-cura");
-  const pegarPendentesCb = document.getElementById(
-    "checkbox-pegar-pendentes-cura"
-  );
+  const pegarPendentesCb = document.getElementById("checkbox-pegar-pendentes-cura");
   const btnBuscar = document.getElementById("btn-buscar-relatorio-cura");
   const msgEl = document.getElementById("relatorio-cura-message");
   const filtrosEl = document.getElementById("relatorio-cura-filtros");
   const btnReset = document.getElementById("btn-limpar-filtro-cura");
   const btnRefresh = document.getElementById("btn-refresh-cura");
-  const containerTbl = document.getElementById(
-    "relatorio-cura-tabela-container"
-  );
+  const containerTbl = document.getElementById( "relatorio-cura-tabela-container");
   const theadEl = containerTbl.querySelector("thead");
   const tbodyEl = containerTbl.querySelector("tbody");
   const retiradaContainer = document.getElementById("retirada-container");
   const dropbtnRetirada = document.getElementById("dropbtn-retirada");
   const checklistRetirada = document.getElementById("checklist-retirada");
-  const btnCadastrarRetirada = document.getElementById(
-    "btn-cadastrar-retirada"
-  );
+  const btnCadastrarRetirada = document.getElementById("btn-cadastrar-retirada");
   const selectTipoCura = document.getElementById("tipo-cura");
   const msgTipoCura = document.getElementById("tipo-cura-message");
   const dropbtnCura = document.getElementById("dropbtn-cura-retirada");
@@ -38,7 +31,6 @@ window.addEventListener("DOMContentLoaded", () => {
   const selectFiltroCons = document.getElementById("filtro-consulente");
   const selectFiltroTipo = document.getElementById("filtro-tipo-oracao");
 
-  // — Inicialmente escondidos —
   checklistRetirada.style.display = "none";
   dropbtnRetirada.setAttribute("aria-expanded", "false");
   dropdownCuraContent.style.display = "none";
@@ -58,16 +50,16 @@ window.addEventListener("DOMContentLoaded", () => {
   ];
   let dadosOriginais = [];
 
-  // — Variáveis para o botão “Atualizar Tabela” —
+
   let lastSearch = {
-    type: "", // "buscarDados" | "payloadSearch"
+    type: "", 
     consulente: "",
     pegarFeitos: false,
     payload: null,
   };
 
   function populateFilterOptions(data = dadosOriginais) {
-    // Consulentes
+
     selectFiltroCons.innerHTML =
       '<option value="">Todos os consulentes</option>';
     Array.from(
@@ -81,7 +73,6 @@ window.addEventListener("DOMContentLoaded", () => {
         selectFiltroCons.appendChild(o);
       });
 
-    // Tipos de Oração
     selectFiltroTipo.innerHTML =
       '<option value="">Todos os tipos de oração</option>';
     Array.from(new Set(data.map((item) => item.Cura).filter(Boolean)))
@@ -94,12 +85,10 @@ window.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // — Atualiza as opções dos filtros dinamicamente —
   function refreshDynamicFilterOptions(currentData) {
     const selCons = selectFiltroCons.value;
     const selTipo = selectFiltroTipo.value;
 
-    // Consulentes
     selectFiltroCons.innerHTML =
       '<option value="">Todos os consulentes</option>';
     const consSet = new Set(
@@ -115,7 +104,6 @@ window.addEventListener("DOMContentLoaded", () => {
       });
     if (consSet.has(selCons)) selectFiltroCons.value = selCons;
 
-    // Tipos
     selectFiltroTipo.innerHTML =
       '<option value="">Todos os tipos de oração</option>';
     const tipoSet = new Set(currentData.map((d) => d.Cura).filter(Boolean));
@@ -130,7 +118,6 @@ window.addEventListener("DOMContentLoaded", () => {
     if (tipoSet.has(selTipo)) selectFiltroTipo.value = selTipo;
   }
 
-  // — Filtragem automática —
   function aplicarFiltros() {
     const cons = selectFiltroCons.value.trim().toLowerCase();
     const tipo = selectFiltroTipo.value.trim().toLowerCase();
@@ -157,10 +144,8 @@ window.addEventListener("DOMContentLoaded", () => {
     btnReset.style.display = "none";
   });
 
-  // Flag de busca por nome
   let buscaPorNome = false;
 
-  // Esconde elementos iniciais
   [
     msgEl,
     filtrosEl,
@@ -173,7 +158,6 @@ window.addEventListener("DOMContentLoaded", () => {
     if (el) el.style.display = "none";
   });
 
-  // — Helpers de UI —
   function showMessage(text, type = "error") {
     msgEl.textContent = text;
     msgEl.className = `message-cura ${type}`;
@@ -204,7 +188,6 @@ window.addEventListener("DOMContentLoaded", () => {
     return name.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }
 
-  // — Popula select Tipo de Cura —
   function populateTipoCuraOptions() {
     selectTipoCura.innerHTML = "";
     const defaultOpt = document.createElement("option");
@@ -224,7 +207,6 @@ window.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // — Popula select Consulente —
   function popularConsulenteCura() {
     if (!selectConsulenteCura) return;
     selectConsulenteCura.innerHTML = '<option value="">Consulente</option>';
@@ -241,7 +223,6 @@ window.addEventListener("DOMContentLoaded", () => {
       });
   }
 
-  // — Monta a tabela —
   function montarTabela(data) {
     theadEl.innerHTML = "";
     tbodyEl.innerHTML = "";
@@ -259,7 +240,6 @@ window.addEventListener("DOMContentLoaded", () => {
     const paymentCol = ["pagamento_cura"];
     const cols = [...colsFixas, ...colsFlags, ...paymentCol];
 
-    // cabeçalho
     const trHead = document.createElement("tr");
     cols.forEach((col) => {
       const th = document.createElement("th");
@@ -271,7 +251,6 @@ window.addEventListener("DOMContentLoaded", () => {
     });
     theadEl.appendChild(trHead);
 
-    // conteúdo
     if (!data.length) {
       containerTbl.style.display = "none";
       return;
@@ -289,7 +268,6 @@ window.addEventListener("DOMContentLoaded", () => {
     containerTbl.style.display = "block";
   }
 
-  // — Popula checklist de Retirada —
   function popularChecklistRetirada() {
     if (!checklistRetirada) return;
     checklistRetirada.innerHTML = "";
@@ -312,21 +290,18 @@ window.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // — Dropdown de Itens para Retirada —
   dropbtnRetirada.addEventListener("click", (e) => {
     e.stopPropagation();
     const aberto = dropbtnRetirada.getAttribute("aria-expanded") === "true";
     dropbtnRetirada.setAttribute("aria-expanded", String(!aberto));
     checklistRetirada.style.display = aberto ? "none" : "block";
   });
-  // Evita que clique dentro do checklist feche o dropdown
   checklistRetirada.addEventListener("click", (e) => e.stopPropagation());
   document.addEventListener("click", () => {
     dropbtnRetirada.setAttribute("aria-expanded", "false");
     checklistRetirada.style.display = "none";
   });
 
-  // — Função principal de busca simples (por nome + feitos) —
   async function buscarDados(consulente, pegarFeitos) {
     buscaPorNome = !!consulente;
     [
@@ -529,7 +504,6 @@ window.addEventListener("DOMContentLoaded", () => {
   });
   dropdownCuraContent.querySelectorAll("input[type=checkbox]").forEach((cb) => {
     cb.addEventListener("change", async (evt) => {
-      // só um checked por vez
       dropdownCuraContent
         .querySelectorAll("input[type=checkbox]")
         .forEach((c) => {
@@ -589,7 +563,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
         showStatusCuraMessage(msg, "success");
 
-        // reset após confirmação
         setTimeout(() => {
           selectTipoCura.value = "";
           dropbtnCura.textContent = "Selecione o Status";
@@ -600,11 +573,10 @@ window.addEventListener("DOMContentLoaded", () => {
         }, 5000);
       } catch (err) {
         showStatusCuraMessage(`Erro ao atualizar: ${err.message}`, "error");
-      }
+      } 
     });
-  });
+  }); 
 
-  // — Cadastro de Retirada —
   if (btnCadastrarRetirada) {
     btnCadastrarRetirada.addEventListener("click", () => {
       const consulente = buscaPorNome
@@ -728,7 +700,7 @@ dropdownCuraContent.querySelectorAll("input[type=checkbox]").forEach((cb) => {
       return;
     }
 
-    try {
+    /*try {
       const res = await fetch(ATUALIZAR_STATUS_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -757,6 +729,6 @@ dropdownCuraContent.querySelectorAll("input[type=checkbox]").forEach((cb) => {
       }, 5000);
     } catch (err) {
       showStatusCuraMessage(`Erro ao atualizar: ${err.message}`, "error");
-    }
+    } */
   });
 });
