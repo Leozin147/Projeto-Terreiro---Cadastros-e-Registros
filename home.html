@@ -801,38 +801,51 @@
 
      <!-- Seção de Relatório de Presença -->
 
-<section id="relatorio-presenca-section">
-  <div class="presenca-card">
-    <h2>Trabalhos Presentes</h2>
-    <div class="controls">
-      <button type="button" id="buscar-trabalhos">Buscar Trabalhos</button>
-      <div id="status-message"></div>
-
-        <div class="filtro-consulente" id="filtro-consulente">
+     <section id="relatorio-presenca-section">
+      <div class="presenca-card">
+        <h2>Trabalhos Presentes</h2>
+        <div class="controls">
+          <button type="button" id="buscar-trabalhos">Buscar Trabalhos</button>
+          <div id="status-message"></div>
+    
+          <div
+            id="relatorio-presenca-filtros"
+            class="filtros-container-presenca"
+            style="display:none;"
+          >
+            <label>
+              Consulente:
+              <select id="filtro-consulente-presença">
+                <option value="">Todos os consulentes</option>
+              </select>
+            </label>
+      
+          </div>
+    
           <button
             type="button"
-            class="filtro-consulente"
-            id="filtro-consulente"
-            aria-expanded="false"
+            id="resetar-filtros"
+            class="btn-resetar-filtros"
+            style="display:none;"
           >
-            Selecione os Trabalhos
-        </button>
+            Resetar Filtros
+          </button>
+    
+          <button type="button" id="atualizar-tabela" class="btn-atualizar" style="display:none;">
+            Atualizar Tabela
+          </button>
+    
+          <div id="status-atualizar-message" style="min-height:18px; margin-top: 8px; text-align: center;"></div>
         </div>
+      </div>
+    
+      <div id="tabela-presenca-container"></div>
+    </section>
+    
+    
 
-      <button type="button" id="atualizar-tabela" class="btn-atualizar" style="display:none;">
-        Atualizar Tabela
-      </button>
-      
-      <button type="button" id="resetar-filtros" style="display:none;">
-        Resetar Filtros
-      </button>
 
-      <div id="status-atualizar-message" style="min-height:18px; margin-top: 8px; text-align: center;"></div>
-    </div>
-  </div>
 
-  <div id="tabela-presenca-container"></div>
-</section>
     <script>
       document.addEventListener("DOMContentLoaded", function () {
         const menuContainer = document.getElementById("menu_opt");

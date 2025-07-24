@@ -585,6 +585,17 @@ header .site-title {
   margin: 0 auto 16px;
 }
 
+
+#filtro-consulente-select {
+  padding: 8px;
+  font-size: 14px;
+  margin-top: 5px;
+  width: 100%;
+  max-width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
 .filtros-container > div {
   width: 100%;
 }
@@ -1551,6 +1562,32 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 
 .filtros-container-ebo{
   flex-direction: column;
+  width: 100%;
+}
+
+#relatorio-presenca-filtros {
+  display: inline-block; 
+  width: 100%; 
+}
+
+#relatorio-presenca-filtros label {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #333; 
+  display: inline-block; 
+  margin-bottom: 10px; 
+  width: 100%;
+}
+
+#filtro-consulente-presença {
+  width: 100%; 
+  padding: 8px; 
+  font-size: 14px;
+  border-radius: 4px; 
+  background-color: #fff; 
+  box-sizing: border-box; 
+  outline: none; 
+  cursor: pointer; 
 }
 
 .dropbtn-consulente-retirada::after {

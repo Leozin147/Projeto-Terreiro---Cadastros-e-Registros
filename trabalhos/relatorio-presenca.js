@@ -5,10 +5,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const btnBuscar = document.getElementById('buscar-trabalhos');
   const btnAtualizar = document.getElementById('atualizar-tabela');
   const btnResetFiltros = document.getElementById('resetar-filtros');
-  const statusBuscarMsg = document.getElementById('status-message'); // Mensagem de status para Buscar
-  const statusAtualizarMsg = document.getElementById('status-atualizar-message'); // Mensagem de status para Atualizar
+  const statusBuscarMsg = document.getElementById('status-message'); 
+  const statusAtualizarMsg = document.getElementById('status-atualizar-message'); 
   const container = document.getElementById('tabela-presenca-container');
-  const filtroSelect = document.getElementById('filtro-consulente');
+  const filtroSelect = document.getElementById('filtro-consulente-presença');
+  const filtrosContainer = document.getElementById('relatorio-presenca-filtros');
   
   let currentData = [];   
   let currentKeys = [];   
@@ -25,18 +26,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!Array.isArray(currentData) || currentData.length === 0) {
       statusBuscarMsg.textContent = 'Nenhum trabalho presente.';
-      statusBuscarMsg.className = 'status-error'; // Exibindo como erro
-      filtroSelect.style.display = 'none';
-      btnResetFiltros.style.display = 'none';
-      btnAtualizar.style.display = 'none';
+      statusBuscarMsg.className = 'status-error'; 
+      
+      // Ajustando o estilo do filtro e botões para esconder
+      filtroSelect.style.display = 'none'; 
+      filtrosContainer.style.display = 'none';
+      btnResetFiltros.style.display = 'none'; 
+      btnAtualizar.style.display = 'none'; 
       return;
     }
 
+    // Exibir tabela
     const table = document.createElement('table');
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
-
-    // Cabeçalhos
+    
     currentKeys.forEach(key => {
       const th = document.createElement('th');
       th.textContent = beautifyHeader(key);
@@ -125,27 +129,31 @@ document.addEventListener('DOMContentLoaded', () => {
     table.appendChild(tbody);
     container.appendChild(table);
 
-    filtroSelect.style.display = 'inline-block';
+    // Exibir filtros e botões após gerar a tabela
+    filtrosContainer.style.display = 'flex'; // Alterado para 'flex' para garantir que seja visível
+    filtroSelect.style.display = 'inline-block'; // Garantir que o filtro seja mostrado
     btnAtualizar.style.display = 'inline-block';
     btnResetFiltros.style.display = 'inline-block';
 
-    populaFiltro();
+    populaFiltro(); 
   }
 
   function populaFiltro() {
-    // Obter nomes únicos e ordenar
-    const nomesUnicos = Array.from(new Set(currentData.map(item => item.consulente))).sort();
+    // Checar se os dados estão disponíveis antes de gerar o filtro
+    if (currentData.length > 0) {
+      // Usando a chave 'consulente' para gerar as opções do filtro
+      const nomesUnicos = Array.from(new Set(currentData.map(item => item.consulente))).sort();
 
-    filtroSelect.innerHTML = '<option value="">Todos</option>';
-    nomesUnicos.forEach(nome => {
-      const opt = document.createElement('option');
-      opt.value = nome;
-      opt.textContent = nome;
-      filtroSelect.appendChild(opt);
-    });
+      filtroSelect.innerHTML = '<option value="">Todos os consulentes</option>';
+      nomesUnicos.forEach(nome => {
+        const opt = document.createElement('option');
+        opt.value = nome;
+        opt.textContent = nome;
+        filtroSelect.appendChild(opt);
+      });
+    }
   }
 
-  // Filtrar linhas da tabela pelo filtro selecionado
   filtroSelect.addEventListener('change', () => {
     const valorSelecionado = filtroSelect.value;
     const tbody = container.querySelector('tbody');
@@ -161,9 +169,14 @@ document.addEventListener('DOMContentLoaded', () => {
         tr.style.display = 'none';
       }
     });
+
+    if (valorSelecionado) {
+      btnResetFiltros.style.display = 'inline-block';
+    } else {
+      btnResetFiltros.style.display = 'none';
+    }
   });
 
-  // Resetar filtros — limpar filtro e mostrar todas as linhas
   btnResetFiltros.addEventListener('click', () => {
     filtroSelect.value = '';
     const tbody = container.querySelector('tbody');
@@ -172,10 +185,10 @@ document.addEventListener('DOMContentLoaded', () => {
     Array.from(tbody.rows).forEach(tr => {
       tr.style.display = '';
     });
+    btnResetFiltros.style.display = 'none';
   });
 
   function fetchData(status) {
-    // Mensagens para o botão de buscar
     if (status === 'buscar') {
       statusBuscarMsg.textContent = 'Buscando dados...';
       statusBuscarMsg.className = ''; 
@@ -213,8 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
         currentKeys = Object.keys(jsonData[0]);
       }
 
-      gerarTabela();
-
+      gerarTabela(); 
 
       if (status === 'buscar') {
         if (currentData.length > 0) {
@@ -281,6 +293,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
+      // Remover a tabela antes de atualizar
+      container.innerHTML = '';
       fetchData('atualizar'); 
     } catch (err) {
       statusAtualizarMsg.textContent = 'Erro ao atualizar tabela: ' + err.message;
