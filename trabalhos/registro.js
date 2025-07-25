@@ -30,10 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
     },
   ];
 
-  // esconde mensagem
   messageEl.classList.add("hide");
 
-  // FUNÇÃO: exibe feedback
   function showMessage(text, type) {
     messageEl.textContent = text;
     messageEl.className = `message-trabalhos ${type}`;
@@ -41,13 +39,11 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => messageEl.classList.add("hide"), 5000);
   }
 
-  //esconde sub-placeholder
   dateInput.addEventListener("change", () => {
     if (dateInput.value) label.style.display = "none";
     else               label.style.display = "block";
   });
 
-  // Função para validar sub-dropdowns
   function validarSubDropdowns() {
     const tipos = [
       {
@@ -90,7 +86,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   
 
-  // Máscara de telefone
   telefoneInput.addEventListener("input", () => {
     const raw = telefoneInput.value.replace(/\D/g, "").slice(0, 11);
     let fmt;
@@ -99,13 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
     else fmt = `(${raw.slice(0, 2)}) ${raw.slice(2, 7)}-${raw.slice(7)}`;
     telefoneInput.value = fmt;
   });
-
-  // Abre/fecha dropdown
   dropdowns.forEach(({ btn, container }) => {
     btn.addEventListener("click", (e) => {
       e.stopPropagation();
 
-      // Fecha todas as dropdowns, exceto a que está sendo clicada
       dropdowns.forEach(({ container: c, btn: b }) => {
         if (c !== container) {
           c.classList.remove("open");
@@ -203,7 +195,6 @@ fetch(
 )
   .then(async (res) => {
     const data = await res.json();
-    // ajusta aqui para array e status
     if (Array.isArray(data) && data.some(item => item.status === "descarrego_duplicado")) {
       showMessage("Selecione apenas um tipo de descarrego", "error");
       return data;

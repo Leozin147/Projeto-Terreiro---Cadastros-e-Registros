@@ -129,19 +129,15 @@ document.addEventListener('DOMContentLoaded', () => {
     table.appendChild(tbody);
     container.appendChild(table);
 
-    // Exibir filtros e botões após gerar a tabela
-    filtrosContainer.style.display = 'flex'; // Alterado para 'flex' para garantir que seja visível
-    filtroSelect.style.display = 'inline-block'; // Garantir que o filtro seja mostrado
+    filtrosContainer.style.display = 'flex'; 
+    filtroSelect.style.display = 'inline-block'; 
     btnAtualizar.style.display = 'inline-block';
-    btnResetFiltros.style.display = 'inline-block';
 
     populaFiltro(); 
   }
 
   function populaFiltro() {
-    // Checar se os dados estão disponíveis antes de gerar o filtro
     if (currentData.length > 0) {
-      // Usando a chave 'consulente' para gerar as opções do filtro
       const nomesUnicos = Array.from(new Set(currentData.map(item => item.consulente))).sort();
 
       filtroSelect.innerHTML = '<option value="">Todos os consulentes</option>';
@@ -293,7 +289,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     try {
-      // Remover a tabela antes de atualizar
       container.innerHTML = '';
       fetchData('atualizar'); 
     } catch (err) {

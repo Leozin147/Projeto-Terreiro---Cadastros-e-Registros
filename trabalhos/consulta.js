@@ -21,7 +21,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let dataUltimaBuscaFinal = "";
   let ultimaBuscaFoiPendentes = false;
 
-  // Esconde controles até ter dados
   btnRestaurar.style.display = "none";
   btnRefresh.style.display = "none";
 
@@ -39,7 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
     setTimeout(() => mensagemAtualizar.classList.add("hide"), 5000);
   }
 
-  // Força abertura do datepicker em alguns navegadores
   dateInputs.forEach((input) => {
     input.addEventListener("click", (e) => {
       e.stopPropagation();
@@ -151,7 +149,6 @@ document.addEventListener("DOMContentLoaded", () => {
       });
       if (filtrosAtivos[key]) sel.value = filtrosAtivos[key];
 
-      // Aplica filtro imediatamente ao mudar qualquer select
       sel.addEventListener("change", () => {
         const novosFiltros = {};
         let algumAtivo = false;
@@ -159,10 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
           novosFiltros[s.dataset.field] = s.value;
           if (s.value) algumAtivo = true;
         });
-        // Reconstrói selects (para atualizar dependências) e remonta tabela
         populateFilters(data, novosFiltros);
         montarTabela(data, novosFiltros);
-        // Exibe ou esconde botão Restaurar
         btnRestaurar.style.display = algumAtivo ? "inline-block" : "none";
       });
 

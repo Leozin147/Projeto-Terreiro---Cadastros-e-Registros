@@ -601,16 +601,17 @@ header .site-title {
 }
 
 .filtros-container label {
-  margin-bottom: 6px;
   font-weight: bold;
+  margin-bottom: 6px;
+  display: block;
 }
 
 .filtros-container select {
+  width: 100%;
   padding: 8px 10px;
   border-radius: 6px;
   border: 1px solid #ccd0d5;
   font-size: 0.9rem;
-  width: 100%;
   box-sizing: border-box;
 }
 .btn-aplicar-filtros {
