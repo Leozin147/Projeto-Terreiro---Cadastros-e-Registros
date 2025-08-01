@@ -72,7 +72,6 @@
           </div>
         </div>
 
-        <!-- Dropdown Principal -->
         <div class="dropdown" id="dropdown-trabalhos">
           <button
             type="button"
@@ -508,7 +507,19 @@
         </div>
         <button id="btn-buscar-relatorio">Buscar</button>
         <div id="relatorio-message" class="message"></div>
-        <div id="relatorio-filtros" class="filtros-container"></div>
+        <!--<div id="relatorio-filtros" class="filtros-container"></div> -->
+        <div
+        id="relatorio-filtros"
+        class="filtros-container-cura"
+        style="display: none; margin-top: 15px"
+      >
+        <label>
+            Consulente:
+             <select id="filtro-consulente">
+              <option value="">Todos os consulentes</option>
+             </select>
+       </label>
+      </div>
         <button id="btn-limpar-filtro" class="btn-limpar-filtros">
           Restaurar Filtros
         </button>
@@ -588,18 +599,18 @@
           class="filtros-container-cura"
           style="display: none; margin-top: 15px"
         >
-<label>
-  Consulente:
-  <select id="filtro-consulente">
-    <option value="">Todos os consulentes</option>
-  </select>
-</label>
-<label>
-  Tipo de Oração:
-  <select id="filtro-tipo-oracao">
-    <option value="">Todos os tipos de oração</option>
-  </select>
-</label>
+          <label>
+              Consulente:
+               <select id="filtro-consulente">
+                <option value="">Todos os consulentes</option>
+               </select>
+         </label>
+        <label>
+            Tipo de Oração:
+             <select id="filtro-tipo-oracao">
+               <option value="">Todos os tipos de oração</option>
+             </select>
+        </label>
         </div>
 
         <button

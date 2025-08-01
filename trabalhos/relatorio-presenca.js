@@ -1,5 +1,5 @@
-const webhookBuscarUrl = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/06c94d77-4683-407c-a706-9b0f6264dd87';    
-const webhookFeitoUrl  = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/3acaa648-b5ed-428c-bab9-1209345d9c29';     
+const webhookBuscarUrl = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/relatorio_presenca';    
+const webhookFeitoUrl  = 'https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/atualizar_status_chegou_feito';     
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnBuscar = document.getElementById('buscar-trabalhos');
@@ -28,22 +28,26 @@ document.addEventListener('DOMContentLoaded', () => {
       statusBuscarMsg.textContent = 'Nenhum trabalho presente.';
       statusBuscarMsg.className = 'status-error'; 
       
-      // Ajustando o estilo do filtro e botões para esconder
       filtroSelect.style.display = 'none'; 
       filtrosContainer.style.display = 'none';
       btnResetFiltros.style.display = 'none'; 
       btnAtualizar.style.display = 'none'; 
       return;
     }
+    
 
-    // Exibir tabela
     const table = document.createElement('table');
     const thead = document.createElement('thead');
     const headerRow = document.createElement('tr');
     
-    currentKeys.forEach(key => {
+
+    const filterkeys = currentKeys.filter (filterkeys => filterkeys !== "id_atendimento");
+    
+   
+
+    filterkeys.forEach(filterkeys => {
       const th = document.createElement('th');
-      th.textContent = beautifyHeader(key);
+      th.textContent = beautifyHeader(filterkeys);
       headerRow.appendChild(th);
     });
 
@@ -59,9 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
     currentData.forEach((item) => {
       const tr = document.createElement('tr');
 
-      currentKeys.forEach(key => {
+      filterkeys.forEach(filterkeys => {
         const td = document.createElement('td');
-        td.textContent = item[key];
+        td.textContent = item[filterkeys];
         tr.appendChild(td);
       });
 
@@ -82,8 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (checkbox.checked) {
           const payloadFeito = {
-            consulente: item.consulente,
-            data: item.data,
+            id_atendimento: item.id_atendimento,
             status: "feito"
           };
 
