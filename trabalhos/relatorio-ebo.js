@@ -72,6 +72,7 @@ window.addEventListener("DOMContentLoaded", () => {
 
     data.forEach(item => {
       const tr = document.createElement("tr");
+      tr.setAttribute("id_atendimento", item.id_atendimento);
 
       COLS.forEach(col => {
         const td = document.createElement("td");
@@ -163,39 +164,60 @@ window.addEventListener("DOMContentLoaded", () => {
     showMessage(statusEl, loadingTxt, "");
     lastConsulente = filtroInput.value.trim();
 
-    const statusEbo = pegarFeitosCb.checked ? "Feito" : "Pendente";
-
-    pegarFeitosCb.checked = false; // Limpar a checkbox ao carregar os dados
-
+    pegarFeitosCb.checked = false; 
+  
     try {
       const res = await fetch(RELATORIO_EBO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...payload, status_ebo: statusEbo })
+        body: JSON.stringify({ ...payload })
       });
+    
       if (!res.ok) throw new Error(res.statusText);
-
+    
       const arr = await res.json();
+
+      
+      if (arr && arr[0] && arr[0].msg) {
+    
+        showMessage(statusEl, arr[0].msg, "error");
+        return;  
+      }
+    
       if (!Array.isArray(arr) || arr.length === 0) {
         const msg = lastConsulente ? "Nenhum registro encontrado para esse usuário." : "Nenhum registro retornado.";
         showMessage(statusEl, msg, "error");
         return;
       }
-
-      allData = arr.filter(item => Object.values(item).some(v => v !== null && v !== ""));
+    
+      const allData = arr.filter(item => Object.values(item).some(v => v !== null && v !== ""));
+      
       renderTable(allData);
       initialPopulateFilters(allData);
-      showMessage(statusEl, "Dados carregados com sucesso.", "success");
+    
+      showMessage(statusEl, "Trabalhos carregados com sucesso.", "success");
+    
+      filtroInput.value = "";
+      
     } catch (err) {
-      showMessage(statusEl, `Erro ao buscar dados: ${err.message}`, "error");
+      showMessage(statusEl, `Erro ao buscar trabalhos: ${err.message}`, "error");
     }
   }
+    
+    
 
   btnBuscar.addEventListener("click", e => {
     e.preventDefault();
-    const payload = filtroInput.value.trim()
-      ? { consulente: filtroInput.value.trim(), pegarFeitos: pegarFeitosCb.checked }
-      : { status_ebo: "Pendente", pegarFeitos: pegarFeitosCb.checked };
+    console.log(filtroInput.value);  
+    let payload;
+
+    if (filtroInput.value.trim()) {
+      payload = { consulente: filtroInput.value.trim(), pegarFeitos: pegarFeitosCb.checked };
+    } else if (pegarFeitosCb.checked === false) {
+      payload = { status_ebo: "Pendente", pegarFeitos: pegarFeitosCb.checked };
+    } else {
+      payload = { status_ebo: "Feito", pegarFeitos: pegarFeitosCb.checked}
+    }
     fetchData(payload, msgBusca, "Buscando dados…");
   });
 
@@ -215,9 +237,10 @@ window.addEventListener("DOMContentLoaded", () => {
     const consulente = row.querySelector("td:nth-child(2)").textContent;
     const data = row.querySelector("td:nth-child(1)").textContent;
     const status = e.target.classList.contains("feito-checkbox") ? "feito" : "pagamento_ebo";
+    const id_atendimento = row.getAttribute("id_atendimento");
 
     try {
-      const body = { Ebo: tipoEbo, status, Consulente: consulente, Data: data };
+      const body = { Ebo: tipoEbo, status, Consulente: consulente, Data: data, id: id_atendimento};
       const resp = await fetch(ATUALIZAR_STATUS_EBO_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -231,3 +254,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+
+

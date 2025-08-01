@@ -1,3 +1,5 @@
+const REGISTRO_TRABALHOS = "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e61c7123-fb6c-4176-9d63-b32545a956fd";
+
 document.addEventListener("DOMContentLoaded", () => {
   const nomeInput = document.getElementById("trabalhos-nome");
   const telefoneInput = document.getElementById("trabalhos-telefone");
@@ -185,8 +187,7 @@ const payload = {
   trabalhos,
 };
 
-fetch(
-  "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/e61c7123-fb6c-4176-9d63-b32545a956fd",
+fetch(REGISTRO_TRABALHOS,
   {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -207,7 +208,7 @@ fetch(
   .then((data) => {
     if (Array.isArray(data)) {
       if (data.some(item => item.status === "registrado")) {
-        showMessage("Registro de trabalho enviado com sucesso!", "success");
+        showMessage("Trabalho registrado com sucesso!", "success");
         nomeInput.value = "";
         telefoneInput.value = "";
         dateInput.value = "";
