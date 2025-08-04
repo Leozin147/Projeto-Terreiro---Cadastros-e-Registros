@@ -232,13 +232,16 @@ window.addEventListener("DOMContentLoaded", () => {
       "Consulente",
       "Telefone",
       "Cura",
-      "data_de_inicio",
-      "status_cura",
-      "presenca_cura"
+      "data_inicio",
+      "data_final"
     ];
     const colsFlags = filterFieldsCura.map((f) => f.slug);
-    const paymentCol = ["pagamento_cura"];
-    const cols = [...colsFixas, ...colsFlags, ...paymentCol];
+    const finalCols = [
+       "status_cura",
+       "pagamento_cura",
+       "presenca_cura"
+    ];
+    const cols = [...colsFixas, ...colsFlags, ...finalCols];
 
     const trHead = document.createElement("tr");
     cols.forEach((col) => {
@@ -326,16 +329,12 @@ window.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error(res.statusText);
       const todos = await res.json();
 
-      const semRegistros =
-        !Array.isArray(todos) ||
-        todos.length === 0 ||
-        todos.every((item) =>
-          Object.values(item).every((v) => v === null || v === "")
-        );
-      if (semRegistros) {
-        showMessage("Nenhum registro encontrado.", "error");
+      if (todos && todos[0] && todos[0].msg) {
+
+        showMessage(statusEl, todos[0].msg, "error");
         return;
       }
+
 
       const filtrados = todos.filter(
         (item) => pegarFeitos || !item.status_cura.startsWith("Finalizada")
@@ -397,26 +396,15 @@ window.addEventListener("DOMContentLoaded", () => {
       if (!res.ok) throw new Error(res.statusText);
       const todos = await res.json();
 
-      const semDados =
-        !Array.isArray(todos) ||
-        todos.length === 0 ||
-        todos.every((item) =>
-          Object.values(item).every((v) => v === null || v === "")
-        );
-      if (semDados) {
-        showMessage("Nenhum registro de cura é encontrado.", "error");
-        containerTbl.style.display = "none";
+    if (todos && todos[0] && todos[0].msg) {
+
+        showMessage(todos[0].msg, "error");
         return;
       }
 
       const dadosFiltrados = todos.filter(
         (item) => item.Cura && item.Cura !== "Não"
       );
-      if (!dadosFiltrados.length) {
-        showMessage("Nenhum registro de cura é encontrado.", "error");
-        containerTbl.style.display = "none";
-        return;
-      }
 
       dadosOriginais = dadosFiltrados;
       populateFilterOptions();
@@ -622,6 +610,7 @@ window.addEventListener("DOMContentLoaded", () => {
               .querySelectorAll("input[type=checkbox]")
               .forEach((c) => (c.checked = false));
             selectTipoCura.value = "";
+            selectConsulenteCura.value = "";
             dropbtnCura.textContent = "Selecione o Status";
             dropdownCuraContent
               .querySelectorAll("input[type=checkbox]")

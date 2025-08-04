@@ -67,6 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (!dataInicial) { showMessage("Por favor, selecione uma data inicial"); return; }
     if (!dataFinal)   { showMessage("Por favor, selecione uma data final");   return; }
+    if (dataFinal < dataInicial) {
+      showMessage("A data final não pode ser anterior à data inicial.");
+      return;
+    }
 
     showMessage("Buscando dados...", "info");
 
