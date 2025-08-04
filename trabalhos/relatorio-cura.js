@@ -58,65 +58,66 @@ window.addEventListener("DOMContentLoaded", () => {
     payload: null,
   };
 
-  function populateFilterOptions(data = dadosOriginais) {
+function populateFilterOptions(data = dadosOriginais) {
 
-    selectFiltroCons.innerHTML =
-      '<option value="">Todos os consulentes</option>';
-    Array.from(
-      new Set(data.map((item) => item.Consulente).filter(Boolean))
-    )
-      .sort()
-      .forEach((nome) => {
-        const o = document.createElement("option");
-        o.value = nome;
-        o.textContent = nome;
-        selectFiltroCons.appendChild(o);
-      });
+  selectFiltroCons.innerHTML =
+    '<option value="">Todos os consulentes</option>';
+  Array.from(
+    new Set(data.map((item) => item.consulente).filter(Boolean))
+  )
+    .sort()
+    .forEach((nome) => {
+      const o = document.createElement("option");
+      o.value = nome;
+      o.textContent = nome;
+      selectFiltroCons.appendChild(o);
+    });
 
-    selectFiltroTipo.innerHTML =
-      '<option value="">Todos os tipos de oração</option>';
-    Array.from(new Set(data.map((item) => item.Cura).filter(Boolean)))
-      .sort()
-      .forEach((tipo) => {
-        const o = document.createElement("option");
-        o.value = tipo;
-        o.textContent = tipo;
-        selectFiltroTipo.appendChild(o);
-      });
-  }
+  selectFiltroTipo.innerHTML =
+    '<option value="">Todos os tipos de oração</option>';
+  Array.from(new Set(data.map((item) => item.Cura).filter(Boolean)))
+    .sort()
+    .forEach((tipo) => {
+      const o = document.createElement("option");
+      o.value = tipo;
+      o.textContent = tipo;
+      selectFiltroTipo.appendChild(o);
+    });
+}
 
-  function refreshDynamicFilterOptions(currentData) {
-    const selCons = selectFiltroCons.value;
-    const selTipo = selectFiltroTipo.value;
+function refreshDynamicFilterOptions(currentData) {
+  const selCons = selectFiltroCons.value;
+  const selTipo = selectFiltroTipo.value;
 
-    selectFiltroCons.innerHTML =
-      '<option value="">Todos os consulentes</option>';
-    const consSet = new Set(
-      currentData.map((d) => d.Consulente).filter(Boolean)
-    );
-    [...consSet]
-      .sort()
-      .forEach((n) => {
-        const o = document.createElement("option");
-        o.value = n;
-        o.textContent = n;
-        selectFiltroCons.appendChild(o);
-      });
-    if (consSet.has(selCons)) selectFiltroCons.value = selCons;
+  selectFiltroCons.innerHTML =
+    '<option value="">Todos os consulentes</option>';
+  const consSet = new Set(
+    currentData.map((d) => d.Consulente).filter(Boolean) 
+  );
+  [...consSet]
+    .sort()
+    .forEach((n) => {
+      const o = document.createElement("option");
+      o.value = n;
+      o.textContent = n;
+      selectFiltroCons.appendChild(o);
+    });
+  if (consSet.has(selCons)) selectFiltroCons.value = selCons;
 
-    selectFiltroTipo.innerHTML =
-      '<option value="">Todos os tipos de oração</option>';
-    const tipoSet = new Set(currentData.map((d) => d.Cura).filter(Boolean));
-    [...tipoSet]
-      .sort()
-      .forEach((t) => {
-        const o = document.createElement("option");
-        o.value = t;
-        o.textContent = t;
-        selectFiltroTipo.appendChild(o);
-      });
-    if (tipoSet.has(selTipo)) selectFiltroTipo.value = selTipo;
-  }
+  selectFiltroTipo.innerHTML =
+    '<option value="">Todos os tipos de oração</option>';
+  const tipoSet = new Set(currentData.map((d) => d.Cura).filter(Boolean));
+  [...tipoSet]
+    .sort()
+    .forEach((t) => {
+      const o = document.createElement("option");
+      o.value = t;
+      o.textContent = t;
+      selectFiltroTipo.appendChild(o);
+    });
+  if (tipoSet.has(selTipo)) selectFiltroTipo.value = selTipo;
+}
+
 
   function aplicarFiltros() {
     const cons = selectFiltroCons.value.trim().toLowerCase();
@@ -188,7 +189,7 @@ window.addEventListener("DOMContentLoaded", () => {
     return name.replace(/_/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
   }
 
-  function populateTipoCuraOptions() {
+ /* function populateTipoCuraOptions() {
     selectTipoCura.innerHTML = "";
     const defaultOpt = document.createElement("option");
     defaultOpt.value = "";
@@ -221,7 +222,28 @@ window.addEventListener("DOMContentLoaded", () => {
         opt.textContent = nome;
         selectConsulenteCura.appendChild(opt);
       });
+  } */
+
+  function popularConsulenteCura() {
+    if (!selectConsulenteCura) return;
+    
+    selectConsulenteCura.innerHTML = '<option value="">Consulente - Tipo de Cura</option>';
+  
+    const dadosAgrupados = dadosOriginais.map((item) => ({
+      consulente: item.Consulente,
+      cura: item.Cura
+    }));
+  
+    Array.from(new Set(dadosAgrupados.map((item) => `${item.consulente} - ${item.cura}`).filter(Boolean)))
+      .sort()
+      .forEach((item) => {
+        const opt = document.createElement("option");
+        opt.value = item;
+        opt.textContent = item;
+        selectConsulenteCura.appendChild(opt);
+      });
   }
+
 
   function montarTabela(data) {
     theadEl.innerHTML = "";
@@ -236,10 +258,11 @@ window.addEventListener("DOMContentLoaded", () => {
       "data_final"
     ];
     const colsFlags = filterFieldsCura.map((f) => f.slug);
+    
     const finalCols = [
        "status_cura",
        "pagamento_cura",
-       "presenca_cura"
+       "presenca_cura",
     ];
     const cols = [...colsFixas, ...colsFlags, ...finalCols];
 
@@ -270,6 +293,7 @@ window.addEventListener("DOMContentLoaded", () => {
     });
     containerTbl.style.display = "block";
   }
+
 
   function popularChecklistRetirada() {
     if (!checklistRetirada) return;
@@ -353,11 +377,11 @@ window.addEventListener("DOMContentLoaded", () => {
       populateFilterOptions();
       montarTabela(dadosOriginais);
       popularChecklistRetirada();
-      populateTipoCuraOptions();
       if (!buscaPorNome) {
         popularConsulenteCura();
         selectConsulenteCura.style.display = "inline-block";
       }
+  
 
       filtrosEl.style.display = "block";
       btnReset.style.display = "none";
@@ -372,7 +396,6 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   }
 
-  // — Busca genérica via payload —
   async function buscarViaPayload(payload) {
     [
       msgEl,
@@ -410,7 +433,6 @@ window.addEventListener("DOMContentLoaded", () => {
       populateFilterOptions();
       montarTabela(dadosOriginais);
       popularChecklistRetirada();
-      populateTipoCuraOptions();
       popularConsulenteCura();
 
       filtrosEl.style.display = "block";
@@ -430,10 +452,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
   // — Clique no “Buscar” —
   btnBuscar.addEventListener("click", async () => {
-    const nome = filtroIniCons.value.trim();
+    let nome = filtroIniCons.value.trim();
     const pegarFeitos = pegarFeitosCb.checked;
     const pegarPend = pegarPendentesCb.checked;
     let payload = {};
+
+    /*if (pegarFeitosCb.checked && pegarPendentesCb.checked || pegarPendentesCb.checked && nome || pegarFeitosCb && nome ){
+      showMessage("Selecione apenas uma opção de busca.", "error");
+      return;
+    } */
 
     if (!nome && !pegarFeitos && !pegarPend) {
       payload.chegou = "Chegou";
@@ -466,7 +493,7 @@ window.addEventListener("DOMContentLoaded", () => {
     await buscarViaPayload(payload);
   });
 
-  // — Botão “Atualizar Tabela” —
+
   btnRefresh.addEventListener("click", async () => {
     if (!lastSearch.type) {
       showMessage("Nenhuma pesquisa para atualizar.", "error");
@@ -479,7 +506,7 @@ window.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // — Atualizar Status da Cura — (sem alterações)
+
   dropbtnCura.addEventListener("click", (e) => {
     e.stopPropagation();
     const aberto = dropbtnCura.getAttribute("aria-expanded") === "true";
@@ -504,12 +531,9 @@ window.addEventListener("DOMContentLoaded", () => {
       const consulenteSelecionado = selectConsulenteCura
         ? selectConsulenteCura.value.trim()
         : "";
-      const cura = selectTipoCura.value;
 
-      // atualiza texto do botão
       dropbtnCura.textContent = labelText;
 
-      // Validação: se busca sem nome, precisa selecionar o consulente na lista
       if (!buscaPorNome && !consulenteSelecionado) {
         showStatusCuraMessage(
           "Selecione o Consulente para atualizar o status.",
@@ -524,20 +548,11 @@ window.addEventListener("DOMContentLoaded", () => {
 
       const consulente = buscaPorNome ? consulenteInput : consulenteSelecionado;
 
-      if (!cura) {
-        showStatusCuraMessage("Selecione o Tipo de Cura.", "error");
-        dropbtnCura.textContent = "Selecione o Status";
-        dropdownCuraContent
-          .querySelectorAll("input[type=checkbox]")
-          .forEach((c) => (c.checked = false));
-        return;
-      }
-
       try {
         const res = await fetch(ATUALIZAR_STATUS_URL, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ Consulente: consulente, Cura: cura, status }),
+          body: JSON.stringify({ Consulente: consulente, status }),
         });
         if (!res.ok) throw new Error(res.statusText);
 
@@ -552,7 +567,6 @@ window.addEventListener("DOMContentLoaded", () => {
         showStatusCuraMessage(msg, "success");
 
         setTimeout(() => {
-          selectTipoCura.value = "";
           dropbtnCura.textContent = "Selecione o Status";
           dropdownCuraContent
             .querySelectorAll("input[type=checkbox]")
@@ -572,17 +586,12 @@ window.addEventListener("DOMContentLoaded", () => {
         : selectConsulenteCura
         ? selectConsulenteCura.value.trim()
         : "";
-      const tipoCuraVal = selectTipoCura.value;
       const itens = Array.from(
         checklistRetirada.querySelectorAll("input[type=checkbox]:checked")
       ).map((c) => c.value);
 
       if (!consulente) {
         showTipoCuraMessage("Selecione o Consulente.", "error");
-        return;
-      }
-      if (!tipoCuraVal) {
-        showTipoCuraMessage("Selecione o tipo de cura.", "error");
         return;
       }
       if (!itens.length) {
@@ -598,7 +607,6 @@ window.addEventListener("DOMContentLoaded", () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           Consulente: consulente,
-          TipoDeCura: tipoCuraVal,
           itensRetirados: itens,
         }),
       })
@@ -609,7 +617,6 @@ window.addEventListener("DOMContentLoaded", () => {
             checklistRetirada
               .querySelectorAll("input[type=checkbox]")
               .forEach((c) => (c.checked = false));
-            selectTipoCura.value = "";
             selectConsulenteCura.value = "";
             dropbtnCura.textContent = "Selecione o Status";
             dropdownCuraContent
@@ -627,7 +634,6 @@ window.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// — Toggle do dropdown de “Atualizar Status da Cura” —
 dropbtnCura.addEventListener("click", (e) => {
   e.stopPropagation();
   const aberto = dropbtnCura.getAttribute("aria-expanded") === "true";
@@ -635,16 +641,13 @@ dropbtnCura.addEventListener("click", (e) => {
   dropdownCuraContent.style.display = aberto ? "none" : "block";
 });
 
-// — Fecha dropdown ao clicar fora —
 document.addEventListener("click", () => {
   dropbtnCura.setAttribute("aria-expanded", "false");
   dropdownCuraContent.style.display = "none";
 });
 
-// — Listener para cada checkbox de status (seleção única + fetch) —
 dropdownCuraContent.querySelectorAll("input[type=checkbox]").forEach((cb) => {
   cb.addEventListener("change", async (evt) => {
-    // só um checked por vez
     dropdownCuraContent
       .querySelectorAll("input[type=checkbox]")
       .forEach((c) => {
@@ -659,8 +662,6 @@ dropdownCuraContent.querySelectorAll("input[type=checkbox]").forEach((cb) => {
       : "";
     const cura = selectTipoCura.value;
 
-    // atualiza texto do botão
-    dropbtnCura.textContent = labelText;
 
     // Validação: se busca sem nome, precisa selecionar o consulente na lista
     if (
@@ -671,17 +672,6 @@ dropdownCuraContent.querySelectorAll("input[type=checkbox]").forEach((cb) => {
         "Selecione o Consulente para atualizar o status.",
         "error"
       );
-      dropbtnCura.textContent = "Selecione o Status";
-      dropdownCuraContent
-        .querySelectorAll("input[type=checkbox]")
-        .forEach((c) => (c.checked = false));
-      return;
-    }
-
-    const consulente = buscaPorNome ? consulenteInput : consulenteSelecionado;
-
-    if (!cura) {
-      showStatusCuraMessage("Selecione o Tipo de Cura.", "error");
       dropbtnCura.textContent = "Selecione o Status";
       dropdownCuraContent
         .querySelectorAll("input[type=checkbox]")

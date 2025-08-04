@@ -586,7 +586,7 @@
             "
           >
             <input type="checkbox" id="checkbox-pegar-pendentes-cura" />
-            Pegar Pendentes
+            Pegar em andamento e pendentes
           </label>
 
         </div>
@@ -657,7 +657,13 @@
             "
           >
           </label>
-          <div class="dropdown-cura-retirada">
+
+          <select id="consulente-cura" class="dropbtn-cura-consulente">
+            <option value="">Consulente</option>
+          </select>
+
+
+        <!--  <div class="dropdown-cura-retirada">
             <select id="tipo-cura" class="dropbtn-cura-retirada">
               <option value="">Tipo da Cura</option>
             </select>
@@ -670,11 +676,7 @@
                 color: #fff;
               "
             >
-            </label>
-
-            <select id="consulente-cura" class="dropbtn-cura-consulente">
-              <option value="">Consulente</option>
-            </select>
+            </label> -->
 
 
             <div class="dropdown-cura-retirada">
@@ -695,10 +697,6 @@
                 <label>
                   <input type="checkbox" value="iniciar" />
                   Iniciar Cura
-                </label>
-                <label>    
-                  <input type="checkbox" value="feito-cura" />
-                  Feito
                 </label>
                 <label>
                   <input type="checkbox" value="finalizar" />
