@@ -85,36 +85,57 @@ function populateFilterOptions(data = dadosOriginais) {
 }
 
 function refreshDynamicFilterOptions(currentData) {
-  const selCons = selectFiltroCons.value;
-  const selTipo = selectFiltroTipo.value;
+  /* ---------------- guarda seleções atuais ---------------- */
+  const selConsAntes   = selectFiltroCons.value;
+  const selTipoAntes   = selectFiltroTipo.value;
+  const selConsTipoAnt = selectConsulenteCura.value;   // “Consulente - Cura”
 
-  selectFiltroCons.innerHTML =
-    '<option value="">Todos os consulentes</option>';
-  const consSet = new Set(
-    currentData.map((d) => d.Consulente).filter(Boolean) 
+  /* ----------------- monta conjuntos únicos ---------------- */
+  const consSet      = new Set();
+  const tipoSet      = new Set();
+  const consTipoSet  = new Set();   // "Maria - Libertação", por ex.
+
+  currentData.forEach(({ Consulente, Cura }) => {
+    if (Consulente) consSet.add(Consulente);
+    if (Cura)       tipoSet.add(Cura);
+    if (Consulente && Cura) consTipoSet.add(`${Consulente} - ${Cura}`);
+  });
+
+  /* --------------- helper p/ preencher um <select> ---------- */
+  const fillSelect = (selectEl, valuesSet, placeholder, prevValue) => {
+    selectEl.innerHTML = `<option value="">${placeholder}</option>`;
+    [...valuesSet]
+      .sort()
+      .forEach(v => {
+        const opt = document.createElement('option');
+        opt.value = v;
+        opt.textContent = v;
+        selectEl.appendChild(opt);
+      });
+    if (valuesSet.has(prevValue)) selectEl.value = prevValue;
+  };
+
+  /* ------------------ aplica nos três selects ---------------- */
+  fillSelect(
+    selectFiltroCons,
+    consSet,
+    'Todos os consulentes',
+    selConsAntes
   );
-  [...consSet]
-    .sort()
-    .forEach((n) => {
-      const o = document.createElement("option");
-      o.value = n;
-      o.textContent = n;
-      selectFiltroCons.appendChild(o);
-    });
-  if (consSet.has(selCons)) selectFiltroCons.value = selCons;
 
-  selectFiltroTipo.innerHTML =
-    '<option value="">Todos os tipos de oração</option>';
-  const tipoSet = new Set(currentData.map((d) => d.Cura).filter(Boolean));
-  [...tipoSet]
-    .sort()
-    .forEach((t) => {
-      const o = document.createElement("option");
-      o.value = t;
-      o.textContent = t;
-      selectFiltroTipo.appendChild(o);
-    });
-  if (tipoSet.has(selTipo)) selectFiltroTipo.value = selTipo;
+  fillSelect(
+    selectFiltroTipo,
+    tipoSet,
+    'Todos os tipos de oração',
+    selTipoAntes
+  );
+
+  fillSelect(
+    selectConsulenteCura,
+    consTipoSet,
+    'Consulente - Tipo de Cura',
+    selConsTipoAnt
+  );
 }
 
 
@@ -140,6 +161,7 @@ function refreshDynamicFilterOptions(currentData) {
     selectFiltroCons.value = "";
     selectFiltroTipo.value = "";
     populateFilterOptions();
+    popularConsulenteCura();
     montarTabela(dadosOriginais);
     btnReset.style.display = "none";
   });

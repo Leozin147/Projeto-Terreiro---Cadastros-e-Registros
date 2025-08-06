@@ -5,19 +5,15 @@ document.addEventListener("DOMContentLoaded", () => {
     "https://n8n-n8n-start.3gbv4l.easypanel.host/webhook/atualizar_status_chegou_feito";
 
   const FILTERS_DISPLAY_STYLE = "flex"; 
-
   const filtrosContainer   = document.getElementById("relatorio-filtros");
   const tabelaContainer    = document.getElementById("relatorio-tabela-container");
   const messageEl          = document.getElementById("relatorio-message");
   const mensagemAtualizar  = document.getElementById("relatorio-mensagem-atualizar");
-
   const startDate          = document.getElementById("relatorio-data");
   const endDate            = document.getElementById("relatorio-data-final");
-
   const btnBuscar          = document.getElementById("btn-buscar-relatorio");
   const btnRestaurar       = document.getElementById("btn-limpar-filtro");
   const btnRefresh         = document.getElementById("btn-refresh");
-
   const pegarFeitosCheckbox = document.getElementById("checkbox-pegar-feitos");
   const dateInputs          = document.querySelectorAll('input[type="date"]');
 
