@@ -28,7 +28,7 @@ window.addEventListener("DOMContentLoaded", () => {
   const dropdownCuraContent = document.getElementById("status-cura");
   const msgStatusCura = document.getElementById("status-cura-message");
   const selectConsulenteCura = document.getElementById("consulente-cura");
-  const selectFiltroCons = document.getElementById("filtro-consulente");
+  const selectFiltroCons = document.getElementById("filtro-consulente-oracao");
   const selectFiltroTipo = document.getElementById("filtro-tipo-oracao");
 
   checklistRetirada.style.display = "none";
@@ -60,16 +60,15 @@ window.addEventListener("DOMContentLoaded", () => {
 
 function populateFilterOptions(data = dadosOriginais) {
 
+    const nomeConsulente = Array.from(
+      new Set(data.map((item) => item.Consulente).sort())
+    );
   selectFiltroCons.innerHTML =
     '<option value="">Todos os consulentes</option>';
-  Array.from(
-    new Set(data.map((item) => item.consulente).filter(Boolean))
-  )
-    .sort()
-    .forEach((nome) => {
+    nomeConsulente.forEach((nomeConsulente) => {
       const o = document.createElement("option");
-      o.value = nome;
-      o.textContent = nome;
+      o.value = nomeConsulente;
+      o.textContent = nomeConsulente;
       selectFiltroCons.appendChild(o);
     });
 
@@ -225,7 +224,6 @@ function refreshDynamicFilterOptions(currentData) {
   } */
 
   function popularConsulenteCura() {
-    if (!selectConsulenteCura) return;
     
     selectConsulenteCura.innerHTML = '<option value="">Consulente - Tipo de Cura</option>';
   
@@ -654,13 +652,6 @@ dropdownCuraContent.querySelectorAll("input[type=checkbox]").forEach((cb) => {
         if (c !== evt.target) c.checked = false;
       });
 
-    const status = evt.target.value;
-    const labelText = evt.target.parentElement.textContent.trim();
-    const consulenteInput = filtroIniCons.value.trim();
-    const consulenteSelecionado = selectConsulenteCura
-      ? selectConsulenteCura.value.trim()
-      : "";
-    const cura = selectTipoCura.value;
 
 
     // Validação: se busca sem nome, precisa selecionar o consulente na lista

@@ -4,18 +4,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
   const filtroInput = document.getElementById("filtro-inicial-consulente-ebo");
   const pegarFeitosCb = document.getElementById("checkbox-pegar-feitos-ebo");
-
   const btnBuscar = document.getElementById("btn-buscar-relatorio-ebo");
   const btnRefresh = document.getElementById("btn-refresh-ebo");
   const btnLimparFiltros = document.getElementById("btn-limpar-filtro-ebo");
-
   const msgBusca = document.getElementById("status-ebo-message");
   const msgAtualizar = document.getElementById("status-ebo-message-atualizar");
-
   const tabelaCont = document.getElementById("relatorio-ebo-tabela-container");
   const thead = tabelaCont.querySelector("thead");
   const tbody = tabelaCont.querySelector("tbody");
-
   const filtrosContainer = document.getElementById("relatorio-ebo-filtros");
   const selectConsulente = document.getElementById("filtro-consulente-ebo");
   const selectTipoEbo = document.getElementById("filtro-tipo-ebo");
@@ -190,7 +186,7 @@ window.addEventListener("DOMContentLoaded", () => {
         return;
       }
     
-      const allData = arr.filter(item => Object.values(item).some(v => v !== null && v !== ""));
+      allData = arr.filter(item => Object.values(item).some(v => v !== null && v !== ""));
       
       renderTable(allData);
       initialPopulateFilters(allData);
