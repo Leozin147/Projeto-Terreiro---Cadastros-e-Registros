@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Sistema CEUNSC</title>
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/login.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <img src="https://i.ibb.co/fGrgrb7r/ancora-baba-fe.jpg" alt="Logo CEUNSC" class="login-logo">
+                <h1>Sistema de Cadastro e Trabalhos</h1>
+                <p>Faça login para acessar o sistema</p>
+            </div>
+            
+            <form id="login-form" class="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required placeholder="seu@email.com">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                
+
+                
+                <button type="submit" id="login-button" class="login-button">
+                    <span class="button-text">Entrar</span>
+                    <span class="loading-spinner" style="display: none;"></span>
+                </button>
+                
+                <div id="error-message" class="error-message" style="display: none;"></div>
+            </form>
+            
+
+        </div>
+    </div>
+
+    <script src="js/supabase-config.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html> 

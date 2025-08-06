@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+export default function Home() {
+  return (
+    <main className="p-10">
+      <h1 className="text-2xl font-bold">Bem-vindo(a)!</h1>
+       <!DOCTYPE html>
 <html lang="pt-BR">
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,17 +23,12 @@
   </head>
   <body>
     <header class="site-header">
-      <div class="header-content">
-        <img
-          src="https://i.ibb.co/fGrgrb7r/ancora-baba-fe.jpg"
-          alt="Logo CEUNSC"
-          class="logo"
-        />
-        <h1 class="site-title">Cadastro de Consulentes e Trabalhos</h1>
-      </div>
-      <div class="user-info">
-        <button id="logout-btn" class="logout-button">Sair</button>
-      </div>
+      <img
+        src="https://i.ibb.co/fGrgrb7r/ancora-baba-fe.jpg"
+        alt="Logo CEUNSC"
+        class="logo"
+      />
+      <h1 class="site-title">Cadastro de Consulentes e Trabalhos</h1>
     </header>
 
     <!-- menu de abas -->
@@ -910,8 +909,6 @@
     </script>
 
     <!-- seus JS separados -->
-    <script src="js/supabase-config.js"></script>
-    <script src="js/auth.js"></script>
     <script src="cadastro/cadastro.js"></script>
     <script src="trabalhos/registro.js"></script>
     <script src="trabalhos/consulta.js"></script>
@@ -920,3 +917,7 @@
     <script src="trabalhos/relatorio-presenca.js"></script>
   </body>
 </html>
+    </main>
+  );
+}
+

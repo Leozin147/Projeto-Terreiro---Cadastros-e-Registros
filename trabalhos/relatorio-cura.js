@@ -477,10 +477,13 @@ function refreshDynamicFilterOptions(currentData) {
     const pegarPend = pegarPendentesCb.checked;
     let payload = {};
 
-    /*if (pegarFeitosCb.checked && pegarPendentesCb.checked || pegarPendentesCb.checked && nome || pegarFeitosCb && nome ){
-      showMessage("Selecione apenas uma opção de busca.", "error");
+    // Validação: apenas uma opção de busca por vez
+    const opcoesSelecionadas = [nome, pegarFeitos, pegarPend].filter(Boolean).length;
+    
+    if (opcoesSelecionadas > 1) {
+      showMessage("Selecione apenas uma opção de busca por vez.", "error");
       return;
-    } */
+    }
 
     if (!nome && !pegarFeitos && !pegarPend) {
       payload.chegou = "Chegou";
