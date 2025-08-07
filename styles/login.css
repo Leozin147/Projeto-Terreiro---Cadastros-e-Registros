@@ -1,4 +1,3 @@
-/* Estilos para a página de login */
 .login-container {
     min-height: 100vh;
     display: flex;
@@ -82,24 +81,16 @@
 .login-button {
     width: 100%;
     padding: 12px;
-    background: #007bff;
-    color: white;
+    background: #000;
+    color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: 6px;
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
-}
-
-.login-button:hover {
-    background: #0056b3;
-}
-
-.login-button:active {
-    transform: translateY(0);
 }
 
 .login-button:disabled {
@@ -135,7 +126,6 @@
 
 
 
-/* Responsividade */
 @media (max-width: 480px) {
     .login-card {
         padding: 30px 20px;
@@ -147,6 +137,6 @@
     }
     
     .form-group input {
-        font-size: 16px; /* Evita zoom no iOS */
+        font-size: 16px; 
     }
 } 
