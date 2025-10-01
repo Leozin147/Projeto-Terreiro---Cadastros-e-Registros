@@ -55,7 +55,7 @@
     <!-- container de registro de trabalhos-->
     <section id="trabalhos-section">
       <div class="card">
-        <h2>Trabalhos</h2>
+        <h2>Registro de Trabalhos</h2>
         <div class="input-container-title">
           <input type="text" id="trabalhos-nome" placeholder=" " required />
           <label for="trabalhos-nome">Nome*</label>
@@ -66,7 +66,7 @@
         </div>
         <div class="trabalho-data-container">
           <label for="trabalhos-data">Data da Consulta</label>
-          <div id="wrapperDate" class="wrapperDate">
+          <div id="wrapperDateTrabalhos" class="wrapperDate">
             <label for="trabalhos-data">dd/mm/aaaa*</label>
           <input
             type="date"
@@ -87,10 +87,6 @@
             Selecione os Trabalhos
           </button>
           <div class="dropdown-content">
-            <label
-              ><input type="checkbox" value="Descarrego Dandalunda" />
-              Descarrego Dandalunda</label
-            >
             <label
               ><input type="checkbox" value="Descarrego" /> Descarrego</label
             >
@@ -120,7 +116,6 @@
           </div>
         </div>
 
-        <!-- Sub-Dropdown Saída de Fogo -->
         <div class="dropdown sub-dropdown hide" id="dropdown-fogo">
           <button
             type="button"
@@ -466,6 +461,58 @@
             >
           </div>
         </div>
+
+        <!-- Sub-Dropdown Pagamento Descarrego (inicialmente oculto) -->
+        <div class="dropdown sub-dropdown hide" id="dropdown-pagamento-descarrego">
+          <button
+            type="button"
+            class="dropbtn"
+            id="dropbtn-pagamento-descarrego"
+            aria-expanded="false"
+          >
+            Pagou Descarrego?
+          </button>
+          <div class="dropdown-content">
+            <label
+              ><input type="radio" name="pagamento-descarrego" value="sim" /> Sim</label
+            >
+            <label
+              ><input type="radio" name="pagamento-descarrego" value="nao" /> Não</label
+            >
+          </div>
+        </div>
+
+        <!-- Campo de Observação para Descarrego (inicialmente oculto) -->
+        <div class="input-container-title hide" id="observacao-descarrego-container">
+          <input 
+            type="text" 
+            id="observacao-descarrego" 
+            placeholder=" " 
+            maxlength="300"
+          />
+          <label for="observacao-descarrego">Observação (opcional)</label>
+        </div>
+
+        <!-- Sub-Dropdown Pagamento Flor de Omolu (inicialmente oculto) -->
+        <div class="dropdown sub-dropdown hide" id="dropdown-pagamento-flor">
+          <button
+            type="button"
+            class="dropbtn"
+            id="dropbtn-pagamento-flor"
+            aria-expanded="false"
+          >
+            Pagou Flor de Omolu?
+          </button>
+          <div class="dropdown-content">
+            <label
+              ><input type="radio" name="pagamento-flor" value="sim" /> Sim</label
+            >
+            <label
+              ><input type="radio" name="pagamento-flor" value="nao" /> Não</label
+            >
+          </div>
+        </div>
+
         <button id="btn-registrar">Registrar Trabalho</button>
         <div id="trabalhos-message" class="message-trabalhos hide"></div>
       </div>
@@ -477,8 +524,8 @@
         <h2>Relatório de Trabalhos</h2>
         <div class="data-container">
           <label for="relatorio-data">Data Inicial</label>
-            <div id="wrapperDate" class="wrapperDate">
-            <label for="trabalhos-data">dd/mm/aaaa*</label>
+            <div id="wrapperDateRelatorioInicial" class="wrapperDate">
+            <label for="relatorio-data">dd/mm/aaaa*</label>
           <input
             type="date"
             placeholder="dd/mm/yyyy"
@@ -488,8 +535,8 @@
           />
           </div>
           <label for="relatorio-data-final">Data Final</label>
-            <div id="wrapperDate" class="wrapperDate">
-            <label for="trabalhos-data">dd/mm/aaaa*</label>
+            <div id="wrapperDateRelatorioFinal" class="wrapperDate">
+            <label for="relatorio-data-final">dd/mm/aaaa*</label>
           <input
             type="date"
             placeholder="dd/mm/yyyy"

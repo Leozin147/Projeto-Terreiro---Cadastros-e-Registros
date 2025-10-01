@@ -88,6 +88,107 @@ body {
   margin-top: -30px;
 }
 
+/* Estilos para todos os dispositivos */
+.wrapperDate > label {
+  position: absolute;
+  left: 15px;
+  top: 2px;
+  z-index: 2;
+  color: #A9A9AC;
+  opacity: 0.8;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+/* Esconder label quando input tem valor */
+.wrapperDate input[type="date"]:not(:placeholder-shown) + label,
+.wrapperDate input[type="date"]:focus + label,
+.wrapperDate input[type="date"][value]:not([value=""]) + label {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+}
+
+/* Estilos específicos para iOS */
+@supports (-webkit-touch-callout: none) {
+  .wrapperDate > label {
+    position: absolute;
+    left: 15px;
+    top: 2px;
+    z-index: 2;
+    color: #A9A9AC;
+    opacity: 0.8;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+}
+
+/* Estilos APENAS para tabelas de relatórios - compactas e centralizadas */
+#relatorio-tabela-container table,
+#relatorio-cura-tabela-container table,
+#relatorio-ebo-tabela-container table,
+#tabela-presenca-container table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.05);
+  margin-top: 12px;
+  font-family: 'Lato', sans-serif;
+  font-size: 12px;
+  border: 1px solid #000;
+}
+
+#relatorio-tabela-container table thead,
+#relatorio-cura-tabela-container table thead,
+#relatorio-ebo-tabela-container table thead,
+#tabela-presenca-container table thead {
+  background: #4169e1;
+  color: white;
+}
+
+#relatorio-tabela-container table th,
+#relatorio-cura-tabela-container table th,
+#relatorio-ebo-tabela-container table th,
+#tabela-presenca-container table th {
+  padding: 6px 4px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 11px;
+  letter-spacing: 0.2px;
+  text-transform: uppercase;
+  border: 1px solid #000;
+  background: #4169e1;
+}
+
+#relatorio-tabela-container table td,
+#relatorio-cura-tabela-container table td,
+#relatorio-ebo-tabela-container table td,
+#tabela-presenca-container table td {
+  padding: 4px;
+  border: 1px solid #000;
+  font-size: 11px;
+  color: #333;
+  text-align: center;
+  transition: background-color 0.2s ease;
+  vertical-align: middle;
+}
+
+#relatorio-tabela-container table tbody tr:hover,
+#relatorio-cura-tabela-container table tbody tr:hover,
+#relatorio-ebo-tabela-container table tbody tr:hover,
+#tabela-presenca-container table tbody tr:hover {
+  background-color: #f0f4ff;
+}
+
+#relatorio-tabela-container table tbody tr:nth-child(even),
+#relatorio-cura-tabela-container table tbody tr:nth-child(even),
+#relatorio-ebo-tabela-container table tbody tr:nth-child(even),
+#tabela-presenca-container table tbody tr:nth-child(even) {
+  background-color: #f8f9fa;
+}
+
 #menu_opt button {
   letter-spacing: 3px;
   margin-left: 5px;
