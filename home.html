@@ -402,7 +402,7 @@
           </div>
         </div>
 
-        <!-- Sub-Dropdown Ebó (inicialmente oculto) -->
+        <!-- Sub-Dropdown Ebó  -->
         <div class="dropdown sub-dropdown hide" id="dropdown-ebo">
           <button
             type="button"
@@ -462,7 +462,7 @@
           </div>
         </div>
 
-        <!-- Sub-Dropdown Pagamento Descarrego (inicialmente oculto) -->
+        <!-- Sub-Dropdown pagamento-descarrego -->
         <div class="dropdown sub-dropdown hide" id="dropdown-pagamento-descarrego">
           <button
             type="button"
@@ -482,18 +482,7 @@
           </div>
         </div>
 
-        <!-- Campo de Observação para Descarrego (inicialmente oculto) -->
-        <div class="input-container-title hide" id="observacao-descarrego-container">
-          <input 
-            type="text" 
-            id="observacao-descarrego" 
-            placeholder=" " 
-            maxlength="300"
-          />
-          <label for="observacao-descarrego">Observação (opcional)</label>
-        </div>
-
-        <!-- Sub-Dropdown Pagamento Flor de Omolu (inicialmente oculto) -->
+        <!-- Sub-Dropdown Pagamento Flor de Omolu -->
         <div class="dropdown sub-dropdown hide" id="dropdown-pagamento-flor">
           <button
             type="button"
@@ -511,6 +500,68 @@
               ><input type="radio" name="pagamento-flor" value="nao" /> Não</label
             >
           </div>
+        </div>
+
+                <!-- Sub-Dropdown Pagamento Fogo -->
+        <div class="dropdown sub-dropdown hide" id="dropdown-pagamento-fogo">
+          <button
+            type="button"
+            class="dropbtn"
+            id="dropbtn-pagamento-fogo"
+            aria-expanded="false"
+          >
+            Pagou Saída de Fogo?
+          </button>
+          <div class="dropdown-content">
+            <label
+              ><input type="radio" name="pagamento-fogo" value="sim" /> Sim</label
+            >
+            <label
+              ><input type="radio" name="pagamento-fogo" value="nao" /> Não</label
+            >
+          </div>
+        </div>
+
+                        <!-- Sub-Dropdown local Fogo -->
+        <div class="dropdown sub-dropdown hide" id="dropdown-local-fogo">
+          <button
+            type="button"
+            class="dropbtn"
+            id="dropbtn-local-fogo"
+            aria-expanded="false"
+          >
+            Qual o local do fogo?
+          </button>
+          <div class="dropdown-content">
+            <label
+              ><input type="radio" name="local-fogo" value="terreiro" /> Terreiro</label
+            >
+            <label
+              ><input type="radio" name="local-fogo" value="residencia" /> Residência</label
+            >
+          </div>
+        </div>
+
+                <!-- Campo de Observação para Descarrego -->
+        <div class="input-container-title hide" id="observacao-descarrego-container">
+          <input 
+            type="text" 
+            id="observacao-descarrego" 
+            placeholder=" " 
+            maxlength="300"
+          />
+          <label for="observacao-descarrego">Observação (opcional)</label>
+        </div>
+
+                <!-- Campo de para inserir preto velho -->
+        <div class="input-container-title hide" id="velho-consulta-container">
+          <input 
+            type="text" 
+            id="velho-consulta" 
+            placeholder=" " 
+            maxlength="300"
+          />
+          <label for="velho-consulta">Insira o preto velho que deu a consulta</label>
         </div>
 
         <button id="btn-registrar">Registrar Trabalho</button>

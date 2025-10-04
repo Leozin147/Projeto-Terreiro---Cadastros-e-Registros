@@ -249,10 +249,10 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .catch(err => {
       if (status === 'buscar') {
-        statusBuscarMsg.textContent = 'Erro ao obter dados: ' + err.message;
+        statusBuscarMsg.textContent = 'Nenhum trabalho presente encontrado.';
         statusBuscarMsg.className = 'status-error';
       } else {
-        statusAtualizarMsg.textContent = 'Erro ao atualizar tabela: ' + err.message;
+        statusAtualizarMsg.textContent = 'Nenhum trabalho presente encontrado.';
         statusAtualizarMsg.className = 'status-error';
       }
 
@@ -295,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
       container.innerHTML = '';
       fetchData('atualizar'); 
     } catch (err) {
-      statusAtualizarMsg.textContent = 'Erro ao atualizar tabela: ' + err.message;
+      statusAtualizarMsg.textContent = 'Nenhum trabalho presente.';
       statusAtualizarMsg.className = 'status-error';
 
       setTimeout(() => {

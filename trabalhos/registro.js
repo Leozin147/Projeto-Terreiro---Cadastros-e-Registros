@@ -7,13 +7,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const dateContainer = document.querySelector(".trabalho-data-container");
   const btnRegistrar = document.getElementById("btn-registrar");
   const messageEl = document.getElementById("trabalhos-message");
-  // Configurar todos os campos de data
   const dateFields = [
     { input: document.getElementById("trabalhos-data"), wrapper: document.getElementById("wrapperDateTrabalhos") },
     { input: document.getElementById("relatorio-data"), wrapper: document.getElementById("wrapperDateRelatorioInicial") },
     { input: document.getElementById("relatorio-data-final"), wrapper: document.getElementById("wrapperDateRelatorioFinal") }
   ];
-
   const dropdowns = [
     {
       btn: document.getElementById("dropbtn-trabalhos"),
@@ -32,7 +30,6 @@ document.addEventListener("DOMContentLoaded", () => {
     {
       btn: document.getElementById("dropbtn-fogo"),
       container: document.getElementById("dropdown-fogo"),
-      toggleOn: document.getElementById("checkbox-fogo"),
     },
     {
       btn: document.getElementById("dropbtn-pagamento-descarrego"),
@@ -44,6 +41,14 @@ document.addEventListener("DOMContentLoaded", () => {
       container: document.getElementById("dropdown-pagamento-flor"),
       toggleOn: document.querySelector('input[value="Limpeza de flor de omolu"]'),
     },
+    {
+      btn: document.getElementById("dropbtn-pagamento-fogo"),
+      container: document.getElementById("dropdown-pagamento-fogo"),
+    },
+    {
+      btn: document.getElementById("dropbtn-local-fogo"),
+      container: document.getElementById("dropdown-local-fogo"),
+    }
   ];
 
   messageEl.classList.add("hide");
@@ -56,34 +61,43 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function resetForm() {
-    // Limpar campos principais
     nomeInput.value = "";
     telefoneInput.value = "";
     dateInput.value = "";
     
-    // Limpar todos os checkboxes e radio buttons
     document.querySelectorAll('#trabalhos-section input[type="checkbox"]').forEach(cb => cb.checked = false);
     document.querySelectorAll('#trabalhos-section input[type="radio"]').forEach(rb => rb.checked = false);
     
-    // Limpar e ocultar campo de observação
     const observacaoInput = document.getElementById("observacao-descarrego");
     const observacaoContainer = document.getElementById("observacao-descarrego-container");
     if (observacaoInput) observacaoInput.value = "";
     if (observacaoContainer) observacaoContainer.classList.add("hide");
     
-    // Resetar dropdowns
     dropdowns.forEach(({ container, btn, toggleOn }) => {
       container.classList.remove("open");
       btn.setAttribute("aria-expanded", false);
       if (toggleOn) container.classList.add("hide");
     });
     
-    // Resetar labels de data
     dateFields.forEach(({ input, wrapper }) => {
       if (input && wrapper) {
         const label = wrapper.querySelector("label");
         if (label) label.style.display = "block";
       }
+    });
+    // Esconder e limpar sub-dropdowns relacionados a fogo
+    const dropdownLocalFogo = document.getElementById('dropdown-local-fogo');
+    const dropdownPagamentoFogo = document.getElementById('dropdown-pagamento-fogo');
+    const dropdownFogo = document.getElementById('dropdown-fogo');
+    [dropdownLocalFogo, dropdownPagamentoFogo, dropdownFogo].forEach(d => {
+      if (!d) return;
+      d.classList.add('hide');
+      d.classList.remove('open');
+      d.querySelectorAll('input').forEach(i => {
+        if (i.type === 'checkbox' || i.type === 'radio') i.checked = false;
+        else if (i.tagName === 'SELECT') i.value = '';
+        else if (i.type === 'text') i.value = '';
+      });
     });
   }
 
@@ -196,14 +210,24 @@ document.addEventListener("DOMContentLoaded", () => {
       { nome: "Saída de Fogo", container: document.getElementById("dropdown-fogo"), toggleOn: document.getElementById("checkbox-fogo") },
     ];
 
-    for (const tipo of subDropdowns) {
-      if (tipo.toggleOn?.checked) {
-        const checkboxesMarcados = tipo.container.querySelectorAll('input[type="checkbox"]:checked');
-        if (checkboxesMarcados.length === 0) {
-          return `Preencha pelo menos 1 tipo de ${tipo.nome}`;
+      for (const tipo of subDropdowns) {
+        if (tipo.toggleOn?.checked) {
+          // Para Saída de Fogo: só validar se o local selecionado for 'terreiro'
+          if (tipo.nome === "Saída de Fogo") {
+            const dropdownLocal = document.getElementById('dropdown-local-fogo');
+            const selectedLocal = dropdownLocal?.querySelector('input[name="local-fogo"]:checked')?.value;
+            if (selectedLocal !== 'terreiro') {
+              // se não for terreiro (ex: residência ou não selecionado), ignorar a validação
+              continue;
+            }
+          }
+
+          const checkboxesMarcados = tipo.container?.querySelectorAll('input[type="checkbox"]:checked') || [];
+          if (checkboxesMarcados.length === 0) {
+            return `Preencha pelo menos 1 tipo de ${tipo.nome}`;
+          }
         }
       }
-    }
 
     // Validar dropdowns de pagamento
     const pagamentos = [
@@ -217,6 +241,27 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!radioSelecionado) {
           return `Selecione se pagou ${pagamento.nome}`;
         }
+      }
+    }
+
+    // Se o local do fogo for 'terreiro', pagamento-fogo também é obrigatório
+    const dropdownLocal = document.getElementById('dropdown-local-fogo');
+    const selectedLocalFogo = dropdownLocal?.querySelector('input[name="local-fogo"]:checked')?.value;
+    if (selectedLocalFogo === 'terreiro') {
+      const pagamentoFogoContainer = document.getElementById('dropdown-pagamento-fogo');
+      const pagoFogoSelecionado = pagamentoFogoContainer?.querySelector('input[name="pagamento-fogo"]:checked');
+      if (!pagoFogoSelecionado) {
+        return 'Selecione se pagou Saída de Fogo';
+      }
+    }
+
+    // Se o campo velho-consulta estiver visível/mostrado, torná-lo obrigatório
+    const velhoContainer = document.getElementById('velho-consulta-container');
+    if (velhoContainer && !velhoContainer.classList.contains('hide')) {
+      const velhoInput = document.getElementById('velho-consulta');
+      const valorVelho = velhoInput ? (velhoInput.value || '').trim() : '';
+      if (!valorVelho) {
+        return 'Por favor informe o preto velho que deu a consulta.';
       }
     }
 
@@ -302,23 +347,112 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
 
-  // Adicionar listener para checkbox de Descarrego
-  const checkboxDescarrego = document.querySelector('input[value="Descarrego"]');
-  if (checkboxDescarrego) {
-    checkboxDescarrego.addEventListener('change', (e) => {
-      const observacaoContainer = document.getElementById("observacao-descarrego-container");
-      if (observacaoContainer) {
-        if (e.target.checked) {
-          observacaoContainer.classList.remove("hide");
-        } else {
+  const trabalhosCheckboxes = document.querySelectorAll('#dropdown-trabalhos input[type="checkbox"]');
+  const observacaoContainer = document.getElementById("observacao-descarrego-container");
+  const velhoContainer = document.getElementById("velho-consulta-container");
+  if (trabalhosCheckboxes && trabalhosCheckboxes.length > 0 && (observacaoContainer || velhoContainer)) {
+    const updateObservacaoVisibility = () => {
+      const anyChecked = Array.from(trabalhosCheckboxes).some(cb => cb.checked);
+      if (anyChecked) {
+        if (observacaoContainer) observacaoContainer.classList.remove("hide");
+        if (velhoContainer) velhoContainer.classList.remove("hide");
+      } else {
+        if (observacaoContainer) {
           observacaoContainer.classList.add("hide");
-          // Limpar campo de observação quando desmarcado
           const observacaoInput = document.getElementById("observacao-descarrego");
           if (observacaoInput) observacaoInput.value = "";
         }
+        if (velhoContainer) {
+          velhoContainer.classList.add("hide");
+          const velhoInput = document.getElementById("velho-consulta");
+          if (velhoInput) velhoInput.value = "";
+        }
+      }
+    };
+
+    trabalhosCheckboxes.forEach(cb => cb.addEventListener('change', updateObservacaoVisibility));
+
+    updateObservacaoVisibility();
+  }
+
+  (function setupSaidaFogoFlow() {
+    const checkboxSaidaFogo = Array.from(trabalhosCheckboxes).find(cb => cb.value === 'Saída de Fogo');
+    const dropdownLocal = document.getElementById('dropdown-local-fogo');
+    const btnLocal = document.getElementById('dropbtn-local-fogo');
+    const dropdownPagamentoFogo = document.getElementById('dropdown-pagamento-fogo');
+    const btnPagamentoFogo = document.getElementById('dropbtn-pagamento-fogo');
+    const dropdownTiposFogo = document.getElementById('dropdown-fogo');
+    const btnTiposFogo = document.getElementById('dropbtn-fogo');
+
+    if (!checkboxSaidaFogo) return;
+
+    const hideAllAfterLocal = () => {
+      if (dropdownPagamentoFogo) {
+        dropdownPagamentoFogo.classList.add('hide');
+        dropdownPagamentoFogo.classList.remove('open');
+        if (btnPagamentoFogo) btnPagamentoFogo.setAttribute('aria-expanded', 'false');
+        dropdownPagamentoFogo.querySelectorAll('input').forEach(i => i.checked = false);
+      }
+      if (dropdownTiposFogo) {
+        dropdownTiposFogo.classList.add('hide');
+        dropdownTiposFogo.classList.remove('open');
+        if (btnTiposFogo) btnTiposFogo.setAttribute('aria-expanded', 'false');
+        dropdownTiposFogo.querySelectorAll('input').forEach(i => i.checked = false);
+      }
+    };
+
+    checkboxSaidaFogo.addEventListener('change', (e) => {
+      if (e.target.checked) {
+        if (dropdownLocal) {
+          dropdownLocal.classList.remove('hide');
+        }
+      } else {
+        if (dropdownLocal) {
+          dropdownLocal.classList.add('hide');
+          dropdownLocal.classList.remove('open');
+          if (btnLocal) btnLocal.setAttribute('aria-expanded', 'false');
+          dropdownLocal.querySelectorAll('input').forEach(i => i.checked = false);
+        }
+        hideAllAfterLocal();
       }
     });
-  }
+
+    if (dropdownLocal) {
+      dropdownLocal.querySelectorAll('input[name="local-fogo"]').forEach(radio => {
+        radio.addEventListener('change', (ev) => {
+          const val = ev.target.value;
+          if (val === 'terreiro') {
+            if (dropdownPagamentoFogo) {
+              dropdownPagamentoFogo.classList.remove('hide');
+            }
+            if (dropdownTiposFogo) {
+              dropdownTiposFogo.classList.remove('hide');
+            }
+          } else {
+            hideAllAfterLocal();
+          }
+        });
+      });
+    }
+
+    if (dropdownPagamentoFogo) {
+      dropdownPagamentoFogo.querySelectorAll('input[name="pagamento-fogo"]').forEach(r => {
+        r.addEventListener('change', (ev) => {
+          const selectedLocal = dropdownLocal?.querySelector('input[name="local-fogo"]:checked')?.value;
+          if (selectedLocal === 'terreiro') {
+            if (dropdownTiposFogo) {
+              dropdownTiposFogo.classList.remove('hide');
+            }
+          }
+        });
+      });
+    }
+
+    if (!checkboxSaidaFogo.checked) {
+      if (dropdownLocal) dropdownLocal.classList.add('hide');
+      hideAllAfterLocal();
+    }
+  })();
 
   btnRegistrar.addEventListener("click", () => {
     const nome = nomeInput.value.trim();
@@ -355,7 +489,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // Coletar dados de pagamento e observação
     const getPagamentoValue = (containerId) => {
       const container = document.getElementById(containerId);
       return container && !container.classList.contains("hide") 
@@ -375,7 +508,18 @@ document.addEventListener("DOMContentLoaded", () => {
       trabalhos,
       pagamentoDescarrego: getPagamentoValue("dropdown-pagamento-descarrego"),
       pagamentoFlor: getPagamentoValue("dropdown-pagamento-flor"),
-      observacaoDescarrego: observacaoValue,
+      observacao: observacaoValue,
+      pagamentoFogo: getPagamentoValue("dropdown-pagamento-fogo"),
+      localFogo: (() => {
+        const container = document.getElementById("dropdown-local-fogo");
+        return container && !container.classList.contains("hide")
+          ? container.querySelector('input[name="local-fogo"]:checked')?.value || null
+          : null;
+      })(),
+      preto_velho: (() => {
+        const input = document.getElementById("velho-consulta");
+        return input && !input.closest('.hide') ? input.value.trim() || null : null;
+      })(),
     };
 
 fetch(REGISTRO_TRABALHOS,
@@ -386,16 +530,22 @@ fetch(REGISTRO_TRABALHOS,
   }
 )
   .then(async (res) => {
-    if (!res.ok) {
-      throw new Error(res.statusText);
+
+    let data = null;
+    try {
+      data = await res.clone().json().catch(() => null);
+    } catch (e) {
+      data = null;
     }
-    return await res.json();
-  })
-  .then((data) => {
-    if (Array.isArray(data) && data.some(item => item.status === "registrado")) {
-      showMessage("Trabalho registrado com sucesso!", "success");
-      resetForm();
+
+    if (res.status === 200) {
+        showMessage("Trabalho registrado com sucesso!", "success");
+        resetForm();
+      return data;
     }
+
+    const texto = await res.text().catch(() => res.statusText || `Status ${res.status}`);
+    throw new Error(texto || res.statusText || `HTTP ${res.status}`);
   })
   .catch((err) => {
     console.error(err);
