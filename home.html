@@ -533,16 +533,12 @@
             Qual o local do fogo?
           </button>
           <div class="dropdown-content">
-            <label
-              ><input type="radio" name="local-fogo" value="terreiro" /> Terreiro</label
-            >
-            <label
-              ><input type="radio" name="local-fogo" value="residencia" /> Residência</label
-            >
+            <label><input type="checkbox" value="terreiro" /> Terreiro</label>
+            <label><input type="checkbox" value="residencia" /> Residência</label>
+            <label><input type="checkbox" value="comercio" /> Comércio</label>
           </div>
         </div>
 
-                <!-- Campo de Observação para Descarrego -->
         <div class="input-container-title hide" id="observacao-descarrego-container">
           <input 
             type="text" 
@@ -553,7 +549,6 @@
           <label for="observacao-descarrego">Observação (opcional)</label>
         </div>
 
-                <!-- Campo de para inserir preto velho -->
         <div class="input-container-title hide" id="velho-consulta-container">
           <input 
             type="text" 
@@ -564,12 +559,21 @@
           <label for="velho-consulta">Insira o preto velho que deu a consulta</label>
         </div>
 
+                <div class="input-container-title hide" id="endereco-fogo-container">
+                  <input
+                    type="text"
+                    id="endereco-fogo"
+                    placeholder=" "
+                    maxlength="300"
+                  />
+                  <label for="endereco-fogo">Endereço</label>
+                </div>
+
         <button id="btn-registrar">Registrar Trabalho</button>
         <div id="trabalhos-message" class="message-trabalhos hide"></div>
       </div>
     </section>
 
-    <!-- Seção de Relatório de Trabalhos -->
     <section id="relatorio-section">
       <div class="card">
         <h2>Relatório de Trabalhos</h2>

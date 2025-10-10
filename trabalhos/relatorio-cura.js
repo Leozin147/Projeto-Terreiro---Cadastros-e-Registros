@@ -85,15 +85,12 @@ function populateFilterOptions(data = dadosOriginais) {
 }
 
 function refreshDynamicFilterOptions(currentData) {
-  /* ---------------- guarda seleções atuais ---------------- */
   const selConsAntes   = selectFiltroCons.value;
   const selTipoAntes   = selectFiltroTipo.value;
-  const selConsTipoAnt = selectConsulenteCura.value;   // “Consulente - Cura”
-
-  /* ----------------- monta conjuntos únicos ---------------- */
+  const selConsTipoAnt = selectConsulenteCura.value;   
   const consSet      = new Set();
   const tipoSet      = new Set();
-  const consTipoSet  = new Set();   // "Maria - Libertação", por ex.
+  const consTipoSet  = new Set();   
 
   currentData.forEach(({ Consulente, Cura }) => {
     if (Consulente) consSet.add(Consulente);
@@ -101,7 +98,6 @@ function refreshDynamicFilterOptions(currentData) {
     if (Consulente && Cura) consTipoSet.add(`${Consulente} - ${Cura}`);
   });
 
-  /* --------------- helper p/ preencher um <select> ---------- */
   const fillSelect = (selectEl, valuesSet, placeholder, prevValue) => {
     selectEl.innerHTML = `<option value="">${placeholder}</option>`;
     [...valuesSet]
@@ -115,7 +111,6 @@ function refreshDynamicFilterOptions(currentData) {
     if (valuesSet.has(prevValue)) selectEl.value = prevValue;
   };
 
-  /* ------------------ aplica nos três selects ---------------- */
   fillSelect(
     selectFiltroCons,
     consSet,
@@ -280,9 +275,9 @@ function refreshDynamicFilterOptions(currentData) {
     const colsFlags = filterFieldsCura.map((f) => f.slug);
     
     const finalCols = [
+       "observação",
        "status_cura",
        "pagamento_cura",
-       "presenca_cura",
     ];
     const cols = [...colsFixas, ...colsFlags, ...finalCols];
 

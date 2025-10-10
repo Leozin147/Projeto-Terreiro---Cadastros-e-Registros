@@ -210,7 +210,40 @@ document.addEventListener('DOMContentLoaded', () => {
       return response.json();
     })
     .then(jsonData => {
-      if (!jsonData || jsonData.length === 0 || jsonData.every(item => !item.consulente || !item.data || item.consulente === null || item.data === null || item.consulente === "" || item.data === "")) {
+      // Caso a API retorne explicitamente que não há trabalhos presentes,
+      // resetar a tela de presença para o estado inicial
+  // Detect both forms: single object { msg: 'sem_trabalhos_presentes' }
+  // or an array like [{ msg: 'sem_trabalhos_presentes' }, ...]
+  const isSemTrabalhosObj = jsonData && typeof jsonData === 'object' && jsonData.msg === 'sem_trabalhos_presentes';
+  const isSemTrabalhosArray = Array.isArray(jsonData) && jsonData.length > 0 && jsonData.every(it => it && it.msg === 'sem_trabalhos_presentes');
+  if (isSemTrabalhosObj || isSemTrabalhosArray) {
+        currentData = [];
+        currentKeys = [];
+        container.innerHTML = '';
+
+        // esconder filtros, botão de atualizar e reset de filtros
+        if (filtrosContainer) filtrosContainer.style.display = 'none';
+        if (filtroSelect) filtroSelect.style.display = 'none';
+        if (btnResetFiltros) btnResetFiltros.style.display = 'none';
+        if (btnAtualizar) btnAtualizar.style.display = 'none';
+
+        // limpar select
+        if (filtroSelect) filtroSelect.innerHTML = '';
+
+        // mostrar mensagem apropriada dependendo do contexto
+        if (status === 'buscar') {
+          statusBuscarMsg.textContent = 'Nenhum trabalho presente.';
+          statusBuscarMsg.className = 'status-error';
+        } else {
+          statusAtualizarMsg.textContent = 'Nenhum trabalho presente.';
+          statusAtualizarMsg.className = 'status-error';
+        }
+
+        // encerrar aqui
+        return;
+      }
+      // Consider response empty only when it's falsy, empty array, or every item has no meaningful values
+      if (!jsonData || jsonData.length === 0) {
         currentData = [];
         currentKeys = [];
         if (status === 'buscar') {
@@ -221,8 +254,24 @@ document.addEventListener('DOMContentLoaded', () => {
           statusAtualizarMsg.className = 'status-error'; 
         }
       } else {
-        currentData = jsonData;
-        currentKeys = Object.keys(jsonData[0]);
+        const hasMeaningful = jsonData.some(item =>
+          Object.values(item).some(v => v !== null && v !== undefined && String(v).trim() !== '')
+        );
+
+        if (!hasMeaningful) {
+          currentData = [];
+          currentKeys = [];
+          if (status === 'buscar') {
+            statusBuscarMsg.textContent = 'Nenhum trabalho presente.';
+            statusBuscarMsg.className = 'status-error'; 
+          } else {
+            statusAtualizarMsg.textContent = 'Nenhum trabalho presente.';
+            statusAtualizarMsg.className = 'status-error'; 
+          }
+        } else {
+          currentData = jsonData;
+          currentKeys = Object.keys(jsonData[0] || {});
+        }
       }
 
       gerarTabela(); 
