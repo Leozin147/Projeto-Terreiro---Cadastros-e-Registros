@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acesso ao Sistema</title>
+    <!-- Tailwind via CDN para estilização rápida e moderna -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .loading-spinner {
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-radius: 50%;
+            border-top: 3px solid #fff;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://esm.sh/react@^19.2.3",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
+    "react/": "https://esm.sh/react@^19.2.3/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-white min-h-screen flex flex-col items-center justify-center px-4">
+
+    <div class="w-full max-w-[360px] space-y-8">
+        <!-- Logo e Cabeçalho -->
+        <div class="flex flex-col items-center">
+            <img 
+                src="https://i.ibb.co/fGrgrb7r/ancora-baba-fe.jpg" 
+                alt="Logo Âncora" 
+                class="w-28 h-28 rounded-full object-cover shadow-md mb-6 border border-slate-100"
+            >
+            <h1 class="text-xl font-semibold text-slate-800 tracking-tight text-center">
+                Acesse sua conta
+            </h1>
+        </div>
+
+        <!-- Formulário de Login -->
+        <form id="loginForm" class="mt-8 space-y-4">
+            <div class="space-y-3">
+                <input
+                    id="username"
+                    name="username"
+                    type="text"
+                    required
+                    class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 sm:text-sm transition-all text-slate-700"
+                    placeholder="Usuário"
+                >
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    required
+                    class="block w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900/5 focus:border-slate-400 sm:text-sm transition-all text-slate-700"
+                    placeholder="Senha"
+                >
+            </div>
+
+            <!-- Mensagem de Erro -->
+            <div id="errorMessage" class="hidden py-2 text-center">
+                <p class="text-sm text-red-600 font-medium">Usuário ou senha incorretos</p>
+            </div>
+
+            <div class="pt-2">
+                <button
+                    id="submitBtn"
+                    type="submit"
+                    class="w-full flex justify-center items-center py-3 px-4 border border-transparent text-sm font-bold rounded-xl text-white bg-slate-900 hover:bg-slate-800 focus:outline-none transition-all"
+                >
+                    <span id="btnText">ENTRAR</span>
+                    <div id="btnLoader" class="hidden loading-spinner"></div>
+                </button>
+            </div>
+        </form>
+
+        <p class="text-center text-[10px] text-slate-400 uppercase tracking-widest pt-8">
+            Sistema de Gestão Interna
+        </p>
+    </div>
+
+    <!-- Script de Lógica Vanilla JS -->
+    <script src="js/login.js"></script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>

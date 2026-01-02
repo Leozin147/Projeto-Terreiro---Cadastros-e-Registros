@@ -1,0 +1,14 @@
+
+/* Estilos globais para o sistema legado */
+body {
+    margin: 0;
+    padding: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Garante que o input não tenha sombras estranhas em iOS */
+input {
+    appearance: none;
+    -webkit-appearance: none;
+}
