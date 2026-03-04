@@ -501,6 +501,19 @@ document.addEventListener("DOMContentLoaded", () => {
       return showMessage(erroSubDropdown, "error");
     }
 
+    // Recuperar dados da sessão do usuário logado
+    let usuarioLogado = null;
+    let loginTime = null;
+    try {
+      const session = JSON.parse(sessionStorage.getItem('user_session'));
+      if (session) {
+        usuarioLogado = session.user || null;
+        loginTime = session.loginTime || null;
+      }
+    } catch (e) {
+      console.error('Erro ao recuperar sessão:', e);
+    }
+
   const selectedMain = Array.from(document.querySelectorAll('#dropdown-trabalhos input[type="checkbox"]:checked')).map(cb => cb.value);
     const trabalhosSet = [];
 
@@ -565,6 +578,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const input = document.getElementById("velho-consulta");
         return input && !input.closest('.hide') ? input.value.trim() || null : null;
       })(),
+      usuarioLogado,
+      loginTime,
     };
 
     const dropdownLocal = document.getElementById('dropdown-local-fogo');
